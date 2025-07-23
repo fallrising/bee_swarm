@@ -1,147 +1,147 @@
-# GitHub Actions 工作流程修復記錄
+# GitHub Actions Workflow Fixes Record
 
-## 問題描述
+## Problem Description
 
-GitHub Actions 工作流程 `ai-team-workflow.yml` 中引用了多個 Python 腳本文件，但這些文件在 `scripts/` 目錄中不存在，導致工作流程執行失敗。
+The GitHub Actions workflow `ai-team-workflow.yml` references multiple Python script files, but these files don't exist in the `scripts/` directory, causing workflow execution failures.
 
-錯誤訊息示例：
+Error message example:
 ```
 python: can't open file '/home/runner/work/bee_swarm/bee_swarm/scripts/update_documentation.py': [Errno 2] No such file or directory
 ```
 
-## 修復內容
+## Fix Content
 
-### 1. 創建 Mock 版本的腳本文件
+### 1. Create Mock Version Script Files
 
-由於目前還沒有真正的業務邏輯，所有腳本都改為 **Mock 版本**，只模擬執行過程而不執行實際的業務操作。
+Since there's no real business logic yet, all scripts have been converted to **Mock versions** that simulate execution processes without performing actual business operations.
 
-創建了以下 7 個 Python 腳本文件：
+Created the following 7 Python script files:
 
-#### `scripts/check_pending_tasks.py` (Mock 版本)
-- **功能**: 模擬檢查待處理任務
-- **Mock 特性**:
-  - 使用預設的 mock 數據（3個待處理任務）
-  - 記錄詳細的執行日誌
-  - 設置環境變量供後續步驟使用
-  - 不依賴外部 API 調用
+#### `scripts/check_pending_tasks.py` (Mock Version)
+- **Function**: Simulate checking pending tasks
+- **Mock Features**:
+  - Use preset mock data (3 pending tasks)
+  - Record detailed execution logs
+  - Set environment variables for subsequent steps
+  - No dependency on external API calls
 
-#### `scripts/trigger_ai_containers.py` (Mock 版本)
-- **功能**: 模擬觸發 AI 容器
-- **Mock 特性**:
-  - 模擬容器狀態檢查（健康狀態、運行容器數、資源使用）
-  - 模擬網絡延遲和觸發過程
-  - 設置執行結果環境變量
-  - 不依賴 Cloudflare Tunnel
+#### `scripts/trigger_ai_containers.py` (Mock Version)
+- **Function**: Simulate triggering AI containers
+- **Mock Features**:
+  - Simulate container status checks (health status, running containers, resource usage)
+  - Simulate network delays and trigger processes
+  - Set execution result environment variables
+  - No dependency on Cloudflare Tunnel
 
-#### `scripts/notify_role_assignment.py` (Mock 版本)
-- **功能**: 模擬通知角色分配
-- **Mock 特性**:
-  - 使用預設的 mock Issue 數據
-  - 模擬通知和評論添加過程
-  - 記錄詳細的分配信息
-  - 不依賴 GitHub API
+#### `scripts/notify_role_assignment.py` (Mock Version)
+- **Function**: Simulate notifying role assignments
+- **Mock Features**:
+  - Use preset mock Issue data
+  - Simulate notification and comment addition processes
+  - Record detailed assignment information
+  - No dependency on GitHub API
 
-#### `scripts/handle_pr_events.py` (Mock 版本)
-- **功能**: 模擬處理 Pull Request 事件
-- **Mock 特性**:
-  - 模擬不同類型的 PR 事件（opened, synchronize, closed）
-  - 顯示 mock 文件變更信息
-  - 模擬通知和評論過程
-  - 不依賴 GitHub API
+#### `scripts/handle_pr_events.py` (Mock Version)
+- **Function**: Simulate handling Pull Request events
+- **Mock Features**:
+  - Simulate different types of PR events (opened, synchronize, closed)
+  - Display mock file change information
+  - Simulate notification and comment processes
+  - No dependency on GitHub API
 
-#### `scripts/check_system_health.py` (Mock 版本)
-- **功能**: 模擬檢查系統健康狀態
-- **Mock 特性**:
-  - 模擬檢查 Prometheus、Grafana、GitHub API
-  - 顯示 mock 健康狀態和指標
-  - 模擬 Slack 通知發送
-  - 不依賴外部服務
+#### `scripts/check_system_health.py` (Mock Version)
+- **Function**: Simulate checking system health status
+- **Mock Features**:
+  - Simulate checking Prometheus, Grafana, GitHub API
+  - Display mock health status and metrics
+  - Simulate Slack notification sending
+  - No dependency on external services
 
-#### `scripts/create_backup.py` (Mock 版本)
-- **功能**: 模擬創建系統備份
-- **Mock 特性**:
-  - 模擬備份 GitHub 數據（Issues, PRs, Commits, Releases）
-  - 模擬備份本地文件
-  - 模擬上傳到 S3 過程
-  - 不依賴 AWS 服務
+#### `scripts/create_backup.py` (Mock Version)
+- **Function**: Simulate creating system backups
+- **Mock Features**:
+  - Simulate backing up GitHub data (Issues, PRs, Commits, Releases)
+  - Simulate backing up local files
+  - Simulate S3 upload process
+  - No dependency on AWS services
 
-#### `scripts/update_documentation.py` (Mock 版本)
-- **功能**: 模擬更新項目文檔
-- **Mock 特性**:
-  - 使用 mock 項目統計數據
-  - 模擬更新 README.md、CHANGELOG.md
-  - 創建文檔索引
-  - 不依賴 GitHub API
+#### `scripts/update_documentation.py` (Mock Version)
+- **Function**: Simulate updating project documentation
+- **Mock Features**:
+  - Use mock project statistics data
+  - Simulate updating README.md, CHANGELOG.md
+  - Create documentation index
+  - No dependency on GitHub API
 
-### 2. 簡化工作流程配置
+### 2. Simplify Workflow Configuration
 
-#### 移除不必要的依賴
-- 移除了 `pyyaml`、`prometheus_client`、`boto3`、`markdown` 等依賴
-- 所有腳本只依賴標準庫和 `requests`（雖然 mock 版本不使用）
-- 簡化了環境變量要求
+#### Remove Unnecessary Dependencies
+- Removed dependencies like `pyyaml`, `prometheus_client`, `boto3`, `markdown`
+- All scripts only depend on standard library and `requests` (though mock versions don't use it)
+- Simplified environment variable requirements
 
-#### 修復腳本錯誤
-- 修復了 `trigger_ai_containers.py` 中的 `os.time.time()` 錯誤
-- 移除了未使用的導入語句
-- 統一了錯誤處理和日誌格式
+#### Fix Script Errors
+- Fixed `os.time.time()` error in `trigger_ai_containers.py`
+- Removed unused import statements
+- Unified error handling and log formats
 
-### 3. Mock 腳本特性
+### 3. Mock Script Features
 
-所有 Mock 腳本都具備以下特性：
+All Mock scripts have the following features:
 
-#### 模擬執行
-- 使用預設的 mock 數據
-- 模擬真實的執行時間和過程
-- 提供詳細的執行日誌
-- 不依賴外部服務或 API
+#### Simulated Execution
+- Use preset mock data
+- Simulate real execution time and processes
+- Provide detailed execution logs
+- No dependency on external services or APIs
 
-#### 錯誤處理
-- 完整的異常捕獲和處理
-- 適當的錯誤日誌記錄
-- 正確的退出碼設置
+#### Error Handling
+- Complete exception capture and handling
+- Appropriate error log recording
+- Correct exit code setting
 
-#### 日誌記錄
-- 統一的日誌格式
-- 詳細的執行過程記錄
-- 使用 emoji 增強可讀性
-- 錯誤和警告信息記錄
+#### Log Recording
+- Unified log format
+- Detailed execution process recording
+- Use emojis to enhance readability
+- Error and warning message recording
 
-#### 環境變量
-- 檢查可選的環境變量
-- 設置執行結果環境變量
-- 支持 GitHub Actions 環境
-- 提供默認值
+#### Environment Variables
+- Check optional environment variables
+- Set execution result environment variables
+- Support GitHub Actions environment
+- Provide default values
 
-#### 代碼質量
-- 簡潔的代碼結構
-- 清晰的文檔字符串
-- 模塊化設計
-- 可讀性強的代碼
+#### Code Quality
+- Clean code structure
+- Clear docstrings
+- Modular design
+- Readable code
 
-### 4. 測試驗證
+### 4. Test Verification
 
-創建了 `scripts/test_scripts.py` 測試腳本：
-- 驗證所有腳本的語法正確性
-- 模擬 GitHub Actions 環境
-- 提供測試結果摘要
+Created `scripts/test_scripts.py` test script:
+- Verify syntax correctness of all scripts
+- Simulate GitHub Actions environment
+- Provide test result summary
 
-測試結果：所有 7 個 Mock 腳本都通過了語法檢查 ✅
+Test Results: All 7 Mock scripts passed syntax checks ✅
 
-## 使用說明
+## Usage Instructions
 
-### 環境變量配置
+### Environment Variable Configuration
 
-Mock 版本對環境變量的要求大大降低：
+Mock version greatly reduces environment variable requirements:
 
-#### 可選變量（有默認值）
-- `GITHUB_REPOSITORY`: 倉庫名稱（默認: 'test/repo'）
-- `ISSUE_NUMBER`: Issue 編號（默認: '123'）
-- `ASSIGNEE`: 被分配者（默認: 'ai-developer'）
-- `PR_NUMBER`: PR 編號（默認: '456'）
-- `PR_ACTION`: PR 動作（默認: 'opened'）
+#### Optional Variables (with default values)
+- `GITHUB_REPOSITORY`: Repository name (default: 'test/repo')
+- `ISSUE_NUMBER`: Issue number (default: '123')
+- `ASSIGNEE`: Assignee (default: 'ai-developer')
+- `PR_NUMBER`: PR number (default: '456')
+- `PR_ACTION`: PR action (default: 'opened')
 
-#### 不再需要的變量
-- `GITHUB_TOKEN`（Mock 版本不使用）
+#### No Longer Required Variables
+- `GITHUB_TOKEN` (Mock version doesn't use)
 - `CLOUDFLARE_TUNNEL_URL`
 - `PROMETHEUS_URL`
 - `GRAFANA_URL`
@@ -150,51 +150,51 @@ Mock 版本對環境變量的要求大大降低：
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 
-### 工作流程觸發
+### Workflow Triggers
 
-工作流程會在以下情況下觸發：
-- 每 30 分鐘的定時觸發
-- Issues 事件（創建、分配、標籤、關閉）
-- Pull Request 事件（創建、更新、審查請求、關閉）
-- 手動觸發
-- 外部觸發
+Workflow will trigger in the following cases:
+- Every 30 minutes scheduled trigger
+- Issues events (create, assign, label, close)
+- Pull Request events (create, update, review request, close)
+- Manual trigger
+- External trigger
 
-## Mock 模式的優勢
+## Mock Mode Advantages
 
-1. **快速部署**: 不需要配置複雜的外部服務
-2. **穩定運行**: 不依賴外部 API 的可用性
-3. **易於調試**: 所有數據都是預設的，便於測試
-4. **成本節約**: 不需要 AWS、Cloudflare 等付費服務
-5. **開發友好**: 可以專注於工作流程邏輯，而不是外部集成
+1. **Quick Deployment**: No need to configure complex external services
+2. **Stable Operation**: No dependency on external API availability
+3. **Easy Debugging**: All data is preset, easy for testing
+4. **Cost Saving**: No need for paid services like AWS, Cloudflare
+5. **Development Friendly**: Can focus on workflow logic instead of external integrations
 
-## 注意事項
+## Notes
 
-1. **權限設置**: 確保腳本文件有執行權限
-2. **依賴管理**: 工作流程只安裝 `requests` 包
-3. **錯誤處理**: Mock 腳本設計為優雅地處理錯誤
-4. **日誌記錄**: 所有操作都會記錄詳細的日誌，便於調試
-5. **Mock 數據**: 所有數據都是預設的，不代表真實項目狀態
+1. **Permission Settings**: Ensure script files have execution permissions
+2. **Dependency Management**: Workflow only installs `requests` package
+3. **Error Handling**: Mock scripts are designed to handle errors gracefully
+4. **Log Recording**: All operations record detailed logs for debugging
+5. **Mock Data**: All data is preset and doesn't represent real project status
 
-## 後續改進建議
+## Future Improvement Suggestions
 
-1. **真實集成**: 當需要真實功能時，可以逐步替換 mock 實現
-2. **配置管理**: 將 mock 數據集中管理，便於修改
-3. **單元測試**: 為每個腳本添加單元測試
-4. **監控告警**: 添加更詳細的監控和告警機制
-5. **文檔完善**: 為每個腳本添加更詳細的使用文檔
+1. **Real Integration**: When real functionality is needed, gradually replace mock implementations
+2. **Configuration Management**: Centralize mock data management for easy modification
+3. **Unit Testing**: Add unit tests for each script
+4. **Monitoring Alerts**: Add more detailed monitoring and alert mechanisms
+5. **Documentation Completion**: Add more detailed usage documentation for each script
 
-## 轉換為真實版本
+## Converting to Real Version
 
-當需要轉換為真實版本時，需要：
+When converting to real version, need to:
 
-1. **恢復依賴**: 添加必要的 Python 包依賴
-2. **配置服務**: 設置真實的外部服務配置
-3. **替換實現**: 將 mock 數據替換為真實 API 調用
-4. **錯誤處理**: 增強錯誤處理和重試機制
-5. **測試驗證**: 添加集成測試
+1. **Restore Dependencies**: Add necessary Python package dependencies
+2. **Configure Services**: Set up real external service configurations
+3. **Replace Implementation**: Replace mock data with real API calls
+4. **Error Handling**: Enhance error handling and retry mechanisms
+5. **Test Verification**: Add integration tests
 
 ---
 
-*修復時間: 2025-07-23*
-*修復者: AI Assistant*
-*版本: Mock 版本* 
+*Fix Time: 2025-07-23*
+*Fixed By: AI Assistant*
+*Version: Mock Version* 
