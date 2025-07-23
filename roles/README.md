@@ -1,269 +1,269 @@
-# Bee Swarm AI 角色系統
+# Bee Swarm AI Role System
 
-## 概述
+## Overview
 
-Bee Swarm AI 是一個基於 AI 團隊協作的自動化工作流程系統。本目錄包含了系統中所有 AI 角色的定義、配置和實現。
+Bee Swarm AI is an AI team collaboration automated workflow system. This directory contains the definitions, configurations, and implementations of all AI roles in the system.
 
-## 角色架構
+## Role Architecture
 
-### 角色列表
+### Role List
 
-| 角色 | 資料夾 | 主要職責 | 技術棧 |
-|------|--------|----------|--------|
-| **產品經理** | `product_manager/` | 需求管理、產品規劃、項目協調 | 項目管理工具、AI 工具 |
-| **項目管理師** | `project_manager/` | 項目規劃、進度管理、資源協調 | 項目管理工具、協作工具、AI 工具 |
-| **後端開發者** | `backend_developer/` | API 設計、數據庫設計、業務邏輯 | Python/Node.js/Go、數據庫、雲服務 |
-| **前端開發者** | `frontend_developer/` | UI 開發、用戶體驗、前端架構 | React/Vue/Angular、CSS、構建工具 |
-| **QA 工程師** | `qa_engineer/` | 測試計劃、自動化測試、質量保證 | 測試框架、自動化工具、監控工具 |
-| **DevOps 工程師** | `devops_engineer/` | 基礎設施、CI/CD、監控運維 | 容器化、雲平台、監控工具 |
-| **安卓開發者** | `android_developer/` | Android 應用開發、移動端開發 | Kotlin/Java、Android SDK、AI 工具 |
-| **iOS 開發者** | `ios_developer/` | iOS 應用開發、移動端開發 | Swift/Objective-C、iOS SDK、AI 工具 |
-| **Unity 開發者** | `unity_developer/` | 遊戲開發、3D 應用、互動體驗 | C#、Unity Engine、AI 工具 |
-| **視覺設計師** | `visual_designer/` | UI/UX 設計、品牌設計、設計系統 | 設計工具、前端技術、AI 工具 |
-| **數據工程師** | `data_engineer/` | 數據基礎設施、數據管道、數據質量 | 大數據技術、Python/SQL、數據平台 |
+| Role | Folder | Primary Responsibilities | Tech Stack |
+|------|--------|------------------------|------------|
+| **Product Manager** | `product_manager/` | Requirement management, product planning, project coordination | Project management tools, AI tools |
+| **Project Manager** | `project_manager/` | Project planning, progress management, resource coordination | Project management tools, collaboration tools, AI tools |
+| **Backend Developer** | `backend_developer/` | API design, database design, business logic | Python/Node.js/Go, databases, cloud services |
+| **Frontend Developer** | `frontend_developer/` | UI development, user experience, frontend architecture | React/Vue/Angular, CSS, build tools |
+| **QA Engineer** | `qa_engineer/` | Test planning, automated testing, quality assurance | Testing frameworks, automation tools, monitoring tools |
+| **DevOps Engineer** | `devops_engineer/` | Infrastructure, CI/CD, monitoring operations | Containerization, cloud platforms, monitoring tools |
+| **Android Developer** | `android_developer/` | Android app development, mobile development | Kotlin/Java, Android SDK, AI tools |
+| **iOS Developer** | `ios_developer/` | iOS app development, mobile development | Swift/Objective-C, iOS SDK, AI tools |
+| **Unity Developer** | `unity_developer/` | Game development, 3D applications, interactive experiences | C#, Unity Engine, AI tools |
+| **Visual Designer** | `visual_designer/` | UI/UX design, brand design, design systems | Design tools, frontend technologies, AI tools |
+| **Data Engineer** | `data_engineer/` | Data infrastructure, data pipelines, data quality | Big data technologies, Python/SQL, data platforms |
 
-### 目錄結構
+### Directory Structure
 
 ```
 roles/
 ├── product_manager/
-│   ├── Dockerfile          # 產品經理容器配置
-│   └── prompt.md           # 產品經理角色說明書
+│   ├── Dockerfile          # Product manager container configuration
+│   └── prompt.md           # Product manager role specification
 ├── project_manager/
-│   ├── Dockerfile          # 項目管理師容器配置
-│   └── prompt.md           # 項目管理師角色說明書
+│   ├── Dockerfile          # Project manager container configuration
+│   └── prompt.md           # Project manager role specification
 ├── backend_developer/
-│   ├── Dockerfile          # 後端開發者容器配置
-│   └── prompt.md           # 後端開發者角色說明書
+│   ├── Dockerfile          # Backend developer container configuration
+│   └── prompt.md           # Backend developer role specification
 ├── frontend_developer/
-│   ├── Dockerfile          # 前端開發者容器配置
-│   └── prompt.md           # 前端開發者角色說明書
+│   ├── Dockerfile          # Frontend developer container configuration
+│   └── prompt.md           # Frontend developer role specification
 ├── qa_engineer/
-│   ├── Dockerfile          # QA 工程師容器配置
-│   └── prompt.md           # QA 工程師角色說明書
+│   ├── Dockerfile          # QA engineer container configuration
+│   └── prompt.md           # QA engineer role specification
 ├── devops_engineer/
-│   ├── Dockerfile          # DevOps 工程師容器配置
-│   └── prompt.md           # DevOps 工程師角色說明書
+│   ├── Dockerfile          # DevOps engineer container configuration
+│   └── prompt.md           # DevOps engineer role specification
 ├── android_developer/
-│   ├── Dockerfile          # 安卓開發者容器配置
-│   └── prompt.md           # 安卓開發者角色說明書
+│   ├── Dockerfile          # Android developer container configuration
+│   └── prompt.md           # Android developer role specification
 ├── ios_developer/
-│   ├── Dockerfile          # iOS 開發者容器配置
-│   └── prompt.md           # iOS 開發者角色說明書
+│   ├── Dockerfile          # iOS developer container configuration
+│   └── prompt.md           # iOS developer role specification
 ├── unity_developer/
-│   ├── Dockerfile          # Unity 開發者容器配置
-│   └── prompt.md           # Unity 開發者角色說明書
+│   ├── Dockerfile          # Unity developer container configuration
+│   └── prompt.md           # Unity developer role specification
 ├── visual_designer/
-│   ├── Dockerfile          # 視覺設計師容器配置
-│   └── prompt.md           # 視覺設計師角色說明書
+│   ├── Dockerfile          # Visual designer container configuration
+│   └── prompt.md           # Visual designer role specification
 ├── data_engineer/
-│   ├── Dockerfile          # 數據工程師容器配置
-│   └── prompt.md           # 數據工程師角色說明書
-└── README.md               # 本文件
+│   ├── Dockerfile          # Data engineer container configuration
+│   └── prompt.md           # Data engineer role specification
+└── README.md               # This file
 ```
 
-## 角色說明書格式
+## Role Specification Format
 
-每個角色的 `prompt.md` 文件都遵循統一的格式，包含以下章節：
+Each role's `prompt.md` file follows a unified format containing the following sections:
 
-### 1. 角色身份與背景
-- 角色定位和核心價值觀
-- 專業背景和技能要求
+### 1. Role Identity and Background
+- Role positioning and core values
+- Professional background and skill requirements
 
-### 2. 主要職責與工作範圍
-- 詳細的職責描述
-- 工作範圍和邊界
+### 2. Primary Responsibilities and Scope
+- Detailed responsibility descriptions
+- Work scope and boundaries
 
-### 3. 工作方法與流程
-- 工作流程圖（Mermaid）
-- 日常工作和開發原則
+### 3. Work Methods and Processes
+- Workflow diagrams (Mermaid)
+- Daily work and development principles
 
-### 4. 與其他角色的合作模式
-- 與各角色的協作方式
-- 溝通和協調機制
+### 4. Collaboration Patterns with Other Roles
+- Collaboration methods with various roles
+- Communication and coordination mechanisms
 
-### 5. 輸入與輸出定義
-- 接收的輸入內容
-- 產出的輸出內容
+### 5. Input and Output Definitions
+- Received input content
+- Produced output content
 
-### 6. 工具使用規範
-- 必備工具和 AI 工具
-- 工具使用原則
+### 6. Tool Usage Standards
+- Essential tools and AI tools
+- Tool usage principles
 
-### 7. 代碼與文檔規範
-- 代碼規範和文檔標準
-- 質量要求
+### 7. Code and Documentation Standards
+- Code standards and documentation requirements
+- Quality requirements
 
-### 8. 技術棧與框架
-- 主要技術棧
-- 相關框架和工具
+### 8. Technology Stack and Frameworks
+- Primary technology stack
+- Related frameworks and tools
 
-### 9. 性能與標準
-- 性能指標
-- 質量標準
+### 9. Performance and Standards
+- Performance metrics
+- Quality standards
 
-### 10. 溝通與報告機制
-- 日常溝通方式
-- 報告和反饋機制
+### 10. Communication and Reporting Mechanisms
+- Daily communication methods
+- Reporting and feedback mechanisms
 
-### 11. 持續學習與改進
-- 技能提升計劃
-- 流程改進方法
+### 11. Continuous Learning and Improvement
+- Skill enhancement plans
+- Process improvement methods
 
-## Dockerfile 配置
+## Dockerfile Configuration
 
-每個角色的 Dockerfile 都基於 `vnc-llm-cli:latest` 鏡像，包含：
+Each role's Dockerfile is based on the `vnc-llm-cli:latest` image and includes:
 
-### 基礎配置
-- 工作目錄設置
-- 用戶創建和權限設置
-- 環境變量配置
+### Basic Configuration
+- Working directory setup
+- User creation and permission settings
+- Environment variable configuration
 
-### 工具安裝
-- 系統工具和開發工具
-- 特定角色的專業工具
-- AI 工具集成
+### Tool Installation
+- System tools and development tools
+- Role-specific professional tools
+- AI tool integration
 
-### 依賴管理
-- Python 依賴包
-- Node.js 包管理
-- 其他語言工具
+### Dependency Management
+- Python dependency packages
+- Node.js package management
+- Other language tools
 
-### 工作空間
-- 角色專用目錄結構
-- 腳本和配置文件
-- 數據和日誌目錄
+### Workspace
+- Role-specific directory structure
+- Scripts and configuration files
+- Data and log directories
 
-## 角色協作模式
+## Role Collaboration Model
 
-### 工作流程
+### Workflow
 ```mermaid
 graph TD
-    A[產品經理] --> B[需求分析]
-    B --> C[項目管理師]
-    C --> D[任務分解]
-    D --> E[視覺設計]
-    D --> F[後端開發]
-    D --> G[前端開發]
-    D --> H[移動開發]
-    D --> I[遊戲開發]
-    D --> J[數據工程]
-    E --> K[設計交付]
-    F --> L[API 集成]
+    A[Product Manager] --> B[Requirement Analysis]
+    B --> C[Project Manager]
+    C --> D[Task Breakdown]
+    D --> E[Visual Design]
+    D --> F[Backend Development]
+    D --> G[Frontend Development]
+    D --> H[Mobile Development]
+    D --> I[Game Development]
+    D --> J[Data Engineering]
+    E --> K[Design Delivery]
+    F --> L[API Integration]
     G --> L
-    H --> M[移動端集成]
-    I --> N[遊戲測試]
-    J --> O[數據管道]
-    K --> P[UI 實現]
-    L --> Q[全端集成]
+    H --> M[Mobile Integration]
+    I --> N[Game Testing]
+    J --> O[Data Pipeline]
+    K --> P[UI Implementation]
+    L --> Q[Full-stack Integration]
     M --> Q
     P --> Q
-    O --> R[數據分析]
-    Q --> S[QA 測試]
+    O --> R[Data Analysis]
+    Q --> S[QA Testing]
     N --> S
-    R --> T[數據報告]
-    S --> U[DevOps 部署]
-    U --> V[監控驗證]
+    R --> T[Data Reports]
+    S --> U[DevOps Deployment]
+    U --> V[Monitoring Verification]
     T --> V
-    V --> W[用戶反饋]
+    V --> W[User Feedback]
     W --> A
 ```
 
-### 溝通機制
-- **即時溝通**：使用 Slack/Teams 進行即時協作
-- **文檔協作**：使用 Notion/Confluence 進行文檔管理
-- **代碼協作**：使用 GitHub 進行代碼管理和審查
-- **項目管理**：使用 Jira/Trello 進行任務管理
+### Communication Mechanisms
+- **Real-time Communication**: Use Slack/Teams for real-time collaboration
+- **Document Collaboration**: Use Notion/Confluence for document management
+- **Code Collaboration**: Use GitHub for code management and review
+- **Project Management**: Use Jira/Trello for task management
 
-## 部署配置
+## Deployment Configuration
 
-### 環境變量
-每個角色都需要配置以下環境變量：
+### Environment Variables
+Each role requires configuration of the following environment variables:
 
 ```bash
-# 角色身份
+# Role Identity
 ROLE_NAME=role_name
 ROLE_ID=role_id
 ROLE_TYPE=role_type
 
-# GitHub 配置
+# GitHub Configuration
 GITHUB_USERNAME=github_username
 GITHUB_TOKEN=github_token
 
-# 系統配置
+# System Configuration
 COORDINATOR_URL=coordinator_url
 REDIS_URL=redis_url
 
-# VNC 配置
+# VNC Configuration
 VNC_PASSWORD=vnc_password
 TTYD_PASSWORD=ttyd_password
 
-# AI 工具
+# AI Tools
 AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
 ```
 
-### 端口配置
-- **VNC 端口**：6080 (noVNC)
-- **終端端口**：7681 (ttyd)
-- **API 端口**：8000 (FastAPI)
+### Port Configuration
+- **VNC Port**: 6080 (noVNC)
+- **Terminal Port**: 7681 (ttyd)
+- **API Port**: 8000 (FastAPI)
 
-### 資源限制
-- **內存限制**：2-4GB
-- **CPU 限制**：1-2 核心
-- **存儲空間**：10-20GB
+### Resource Limits
+- **Memory Limit**: 2-4GB
+- **CPU Limit**: 1-2 cores
+- **Storage Space**: 10-20GB
 
-## 監控與維護
+## Monitoring and Maintenance
 
-### 健康檢查
-- 定期檢查角色容器狀態
-- 監控資源使用情況
-- 檢查服務可用性
+### Health Checks
+- Regularly check role container status
+- Monitor resource usage
+- Check service availability
 
-### 日誌管理
-- 集中收集各角色日誌
-- 設置日誌輪轉和清理
-- 配置日誌監控和告警
+### Log Management
+- Centralized collection of role logs
+- Set up log rotation and cleanup
+- Configure log monitoring and alerts
 
-### 備份策略
-- 定期備份角色配置
-- 備份重要數據和文檔
-- 測試恢復流程
+### Backup Strategy
+- Regular backup of role configurations
+- Backup important data and documents
+- Test recovery procedures
 
-## 擴展與自定義
+## Extension and Customization
 
-### 添加新角色
-1. 創建角色資料夾
-2. 編寫 Dockerfile
-3. 創建角色說明書
-4. 更新 docker-compose.yml
-5. 配置環境變量
+### Adding New Roles
+1. Create role folder
+2. Write Dockerfile
+3. Create role specification
+4. Update docker-compose.yml
+5. Configure environment variables
 
-### 自定義配置
-- 修改 Dockerfile 添加特定工具
-- 更新 prompt.md 調整角色職責
-- 配置自定義環境變量
-- 添加角色專用腳本
+### Custom Configuration
+- Modify Dockerfile to add specific tools
+- Update prompt.md to adjust role responsibilities
+- Configure custom environment variables
+- Add role-specific scripts
 
-## 最佳實踐
+## Best Practices
 
-### 角色設計
-- 明確角色邊界和職責
-- 保持角色間的平衡
-- 考慮角色間的依賴關係
-- 設計清晰的溝通機制
+### Role Design
+- Clear role boundaries and responsibilities
+- Maintain balance between roles
+- Consider dependencies between roles
+- Design clear communication mechanisms
 
-### 技術實現
-- 使用容器化部署
-- 實現自動化配置
-- 建立監控和告警
-- 保持代碼和文檔同步
+### Technical Implementation
+- Use containerized deployment
+- Implement automated configuration
+- Establish monitoring and alerts
+- Keep code and documentation synchronized
 
-### 運維管理
-- 定期更新和維護
-- 監控系統性能
-- 及時處理問題
-- 持續改進流程
+### Operations Management
+- Regular updates and maintenance
+- Monitor system performance
+- Address issues promptly
+- Continuous process improvement
 
 ---
 
-*此文檔是 Bee Swarm AI 角色系統的總覽，詳細的角色說明請參考各角色的 prompt.md 文件。* 
+*This document is an overview of the Bee Swarm AI role system. For detailed role specifications, please refer to each role's prompt.md file.* 
