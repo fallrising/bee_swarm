@@ -1,179 +1,181 @@
-# 🐝 **Bee Swarm - AI Automated Development Team System**
+# Bee Swarm
 
-## 📋 **Project Overview**
+一個基於 AI 團隊協作的自動化工作流程系統。
 
-Bee Swarm is an AI development team collaboration system based on **single VPS single role** architecture, using **GitHub as the central data source** to achieve completely asynchronous AI-driven software development workflow. Each VPS runs a dedicated AI role container, built on the [VNC Lab](https://github.com/fallrising/vnc_lab) project.
+## 📊 項目狀態
 
-### 🎯 **Core Concepts**
-- **Single VPS Single Role**: Each VPS runs only one AI role container, ensuring resource isolation and stability
-- **Based on VNC Lab**: Uses VNC desktop environment with pre-installed AI tools, supporting multiple AI programming assistants
-- **GitHub-Driven Collaboration**: All information exchange through GitHub features (Issues, Projects, Comments, Labels)
-- **Asynchronous Collaboration Mode**: Roles collaborate asynchronously by periodically scanning GitHub status
-- **Intelligent Task Scheduling**: Automatically assign tasks based on role workload and skills
+**最後更新時間**: 2025-07-23 22:59:08
 
-### 🏗️ **System Architecture**
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        GitHub Platform                          │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │   Issues    │ │  Projects   │ │  Comments   │ │   Labels    │ │
-│  │  (Tasks)    │ │  (Kanban)   │ │ (Communication)│ │ (Categories) │ │
-│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                 System Coordinator (Coordinator)                │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │ Task Scheduler│ │ State Manager│ │ GitHub Sync│ │ Communication│ │
-│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-                                │
-                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                VPS Cluster (Single VPS Single Role)             │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │   VPS-01    │ │   VPS-02    │ │   VPS-03    │ │   VPS-04    │ │
-│  │ Product Mgr │ │ Backend Dev │ │ Frontend Dev│ │ QA Engineer │ │
-│  │ PM-01       │ │ Backend-01  │ │ Frontend-01 │ │ QA-01       │ │
-│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
-│  ┌─────────────┐                                                 │
-│  │   VPS-05    │                                                 │
-│  │ DevOps Eng  │                                                 │
-│  │ DevOps-01   │                                                 │
-│  └─────────────┘                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
+### 倉庫信息
+- **星標數**: 42 ⭐
+- **分支數**: 15 🍴
+- **開放 Issues**: 3 📝
+- **開放 Pull Requests**: 2 🔄
+- **最後更新**: 2025-07-23T10:30:00Z
 
-### 🖥️ **VPS Deployment Architecture**
-```
-Each VPS contains:
-├── Role Container (Based on VNC Lab)
-│   ├── noVNC Desktop Environment
-│   ├── AI Tools Integration (Gemini CLI, Claude Code, Rovo Dev, Cursor)
-│   ├── Web Terminal (ttyd)
-│   └── Firefox Browser
-├── Infrastructure Services
-│   ├── Redis (Message Queue)
-│   ├── PostgreSQL (State Database)
-│   ├── Prometheus (Monitoring)
-│   └── Grafana (Visualization)
-└── System Coordinator (Optional, usually deployed independently)
+### 最近活動
+#### 最近提交
+- `abc123` feat: 添加新功能模塊 (2025-07-23)
+- `def456` fix: 修復登錄問題 (2025-07-22)
+- `ghi789` docs: 更新文檔 (2025-07-21)
+
+#### 開放 Issues
+- #1 實現用戶認證功能
+- #2 修復登錄頁面 bug
+- #3 添加數據庫連接池
+
+#### 開放 Pull Requests
+- #1 添加新功能特性
+- #2 修復 UI 問題
+
+## 🚀 快速開始
+
+### 前置要求
+
+- Python 3.11+
+- Docker 和 Docker Compose
+- GitHub 帳戶
+
+### 安裝
+
+1. 克隆倉庫：
+```bash
+git clone https://github.com/your-username/bee_swarm.git
+cd bee_swarm
 ```
 
-## 🚀 **Quick Start**
-
-### Requirements
-- Docker 20.10+
-- At least 4GB available memory per VPS
-- GitHub account and Personal Access Token
-- Python 3.9+
-
-### Installation Steps
-
-1. **Clone the project**
-   ```bash
-   git clone https://github.com/your-org/bee-swarm.git
-   cd bee-swarm
-   ```
-
-2. **Configure environment variables**
-   ```bash
-   cp env.example .env
-   # Edit .env file to configure GitHub tokens, etc.
-   ```
-
-3. **Build VNC Lab base image**
-   ```bash
-   # Build base image based on VNC Lab
-   cd roles/base
-   docker build -t vnc-llm-cli .
-   ```
-
-4. **Start single role VPS**
-   ```bash
-   # Start Product Manager VPS
-   docker-compose up pm-01
-   
-   # Start Backend Developer VPS
-   docker-compose up backend-01
-   ```
-
-5. **Configure GitHub repository**
-   - Create GitHub Projects kanban board
-   - Set up Labels (task types, priorities, skill requirements)
-   - Configure role GitHub accounts
-
-## 📚 **Documentation Structure**
-
-- `docs/level1/` - System overview documentation
-- `docs/level2/` - Role pool management documentation
-- `docs/level3/` - GitHub collaboration workflow documentation
-- `docs/level4/` - Task scheduling system documentation
-- `docs/level5/` - Implementation details documentation
-
-## 🛠️ **Technology Stack**
-
-- **Containerization**: Docker + VNC Lab + noVNC
-- **System Coordination**: Python + FastAPI + Redis
-- **GitHub Integration**: PyGithub + GitHub API
-- **Task Scheduling**: Celery + Redis
-- **State Management**: SQLAlchemy + PostgreSQL
-- **AI Tools**: Gemini CLI, Claude Code, Rovo Dev, Cursor
-- **Monitoring**: Prometheus + Grafana
-
-## 🔄 **Workflow**
-
-### Requirements Release Process
-```
-Human User → GitHub Issues → System Coordinator → Task Analysis → Role Assignment
+2. 複製環境變量文件：
+```bash
+cp env.example .env
 ```
 
-### Task Execution Process
-```
-Role Receives Task → Updates Status → Executes Development → Creates PR → Code Review → Merge & Deploy
-```
-
-### Collaboration Communication Process
-```
-Inter-Role Communication → GitHub Comments → Status Sync → Progress Update → Task Completion
+3. 啟動服務：
+```bash
+docker-compose up -d
 ```
 
-## 🖥️ **VPS Access Information**
+## 📋 功能特性
 
-### Role VNC Access
-- **Product Manager**: `http://vps-01:6080` (VNC Password: Set in environment variables)
-- **Backend Developer**: `http://vps-02:6080` (VNC Password: Set in environment variables)
-- **Frontend Developer**: `http://vps-03:6080` (VNC Password: Set in environment variables)
-- **QA Engineer**: `http://vps-04:6080` (VNC Password: Set in environment variables)
-- **DevOps Engineer**: `http://vps-05:6080` (VNC Password: Set in environment variables)
+### 🤖 AI 團隊協作
+- 自動任務分配和通知
+- 智能工作流程管理
+- 實時狀態監控
 
-### Web Terminal Access
-- **Product Manager**: `http://vps-01:7680` (Terminal Password: Set in environment variables)
-- **Backend Developer**: `http://vps-02:7681` (Terminal Password: Set in environment variables)
-- **Frontend Developer**: `http://vps-03:7682` (Terminal Password: Set in environment variables)
-- **QA Engineer**: `http://vps-04:7683` (Terminal Password: Set in environment variables)
-- **DevOps Engineer**: `http://vps-05:7684` (Terminal Password: Set in environment variables)
+### 🔄 自動化工作流程
+- GitHub Actions 集成
+- 定時任務執行
+- 事件驅動觸發
 
-### Management Interfaces
-- **System Coordinator**: `http://coordinator:8000`
-- **API Documentation**: `http://coordinator:8000/docs`
-- **Celery Monitoring**: `http://coordinator:5555`
-- **Prometheus**: `http://vps-01:9090`
-- **Grafana**: `http://vps-01:3000` (admin/admin)
+### 📊 系統監控
+- 健康狀態檢查
+- 性能指標監控
+- 自動備份
 
-## 📄 **License**
+### 📚 文檔管理
+- 自動文檔更新
+- 版本控制集成
+- 項目狀態追蹤
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) file for details.
+## 🏗️ 系統架構
 
-## 🤝 **Contributing**
+```
+bee_swarm/
+├── coordinator/          # 協調器服務
+├── roles/               # AI 角色定義
+├── scripts/             # 工作流程腳本
+├── docs/                # 項目文檔
+└── .github/workflows/   # GitHub Actions
+```
 
-Welcome to submit Issues and Pull Requests to improve this project!
+## 🔧 配置
 
-## 📞 **Contact**
+### 環境變量
 
-For questions or suggestions, please contact us through:
-- Submit an Issue
-- Send email
-- Join discussions
+創建 `.env` 文件並配置以下變量：
+
+```bash
+# GitHub 配置
+GITHUB_TOKEN=your_github_token
+GITHUB_REPOSITORY=your_username/bee_swarm
+
+# 可選配置（Mock 版本不需要）
+CLOUDFLARE_TUNNEL_URL=your_tunnel_url
+PROMETHEUS_URL=your_prometheus_url
+GRAFANA_URL=your_grafana_url
+SLACK_WEBHOOK_URL=your_slack_webhook
+```
+
+### GitHub Secrets
+
+在 GitHub 倉庫設置中添加以下 Secrets：
+
+- `GITHUB_TOKEN`: GitHub API 訪問令牌
+- `CLOUDFLARE_TUNNEL_URL`: Cloudflare Tunnel URL（可選）
+- `PROMETHEUS_URL`: Prometheus 服務 URL（可選）
+- `GRAFANA_URL`: Grafana 服務 URL（可選）
+- `SLACK_WEBHOOK_URL`: Slack Webhook URL（可選）
+
+## 🧪 Mock 模式
+
+目前所有腳本都運行在 **Mock 模式** 下，這意味著：
+
+- ✅ 不需要配置複雜的外部服務
+- ✅ 工作流程可以立即運行
+- ✅ 所有數據都是預設的 mock 數據
+- ✅ 便於開發和測試
+
+### Mock 腳本列表
+
+- `check_pending_tasks.py` - 檢查待處理任務
+- `trigger_ai_containers.py` - 觸發 AI 容器
+- `notify_role_assignment.py` - 通知角色分配
+- `handle_pr_events.py` - 處理 PR 事件
+- `check_system_health.py` - 檢查系統健康狀態
+- `create_backup.py` - 創建系統備份
+- `update_documentation.py` - 更新項目文檔
+
+### 測試 Mock 腳本
+
+```bash
+# 測試所有腳本
+python3 scripts/test_scripts.py
+
+# 測試單個腳本
+python3 scripts/check_pending_tasks.py
+```
+
+## 📖 文檔
+
+詳細文檔請查看 [docs/](docs/) 目錄：
+
+- [系統概述](docs/level1/system-overview.md)
+- [角色系統](docs/level2/role-system.md)
+- [工作流程系統](docs/level3/workflow-system.md)
+- [通信協議](docs/level4/communication-protocol.md)
+- [實現詳情](docs/level5/implementation-details.md)
+- [工作流程修復記錄](docs/workflow-fixes.md)
+
+## 🤝 貢獻
+
+1. Fork 本項目
+2. 創建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 開啟 Pull Request
+
+## 📄 許可證
+
+本項目採用 MIT 許可證 - 查看 [LICENSE](LICENSE) 文件了解詳情。
+
+## 🆘 支持
+
+如果您遇到問題或有建議，請：
+
+1. 查看 [Issues](../../issues) 頁面
+2. 創建新的 Issue
+3. 聯繫維護團隊
+
+---
+
+*此項目由 AI 團隊自動維護*
 
