@@ -1,200 +1,114 @@
-# GitHub Actions Workflow Fixes Record
+# GitHub Workflow 修复总结
 
-## Problem Description
+## 修复概述
 
-The GitHub Actions workflow `ai-team-workflow.yml` references multiple Python script files, but these files don't exist in the `scripts/` directory, causing workflow execution failures.
+本次修复解决了 GitHub Workflow 文件中可能导致运行失败的问题，确保所有 workflow 都能在 mock 模式下正常运行。
 
-Error message example:
+## 修复的问题
+
+### 1. 缺少监控配置文件
+**问题**: `ai-trigger.yml` 和 `test.yml` 引用了不存在的监控配置文件
+**解决方案**: 
+- 创建了 `monitoring/` 目录结构
+- 添加了 `prometheus.yml` 配置文件
+- 添加了 Grafana 数据源和仪表板配置
+
+### 2. 环境变量依赖
+**问题**: 脚本依赖多个环境变量，但在 workflow 中没有设置
+**解决方案**:
+- 在 workflow 中添加了环境变量设置步骤
+- 为所有脚本步骤添加了必要的环境变量
+
+### 3. Docker Compose 配置验证失败
+**问题**: `test.yml` 中的 Docker Compose 验证会失败
+**解决方案**:
+- 添加了监控配置文件检查
+- 改进了 Docker Compose 验证逻辑
+
+## 修复的文件
+
+### 新增文件
+- `monitoring/prometheus.yml` - Prometheus 监控配置
+- `monitoring/grafana/datasources/datasource.yml` - Grafana 数据源配置
+- `monitoring/grafana/dashboards/dashboard.yml` - Grafana 仪表板配置
+- `monitoring/grafana/dashboards/bee-swarm-overview.json` - 系统概览仪表板
+
+### 修改的文件
+- `.github/workflows/ai-trigger.yml` - 添加环境变量，确保脚本正常运行
+- `.github/workflows/test.yml` - 添加监控配置检查，修复验证逻辑
+- `.github/workflows/deploy.yml` - 改进 mock 实现，添加更好的错误处理
+
+## 修复后的状态
+
+### ✅ ai-trigger.yml
+- **状态**: 完全修复
+- **功能**: 每30分钟自动触发 + Issue/PR 事件处理
+- **改进**: 添加了环境变量设置，所有脚本都能正常运行
+
+### ✅ test.yml  
+- **状态**: 完全修复
+- **功能**: Push 到 main/develop + PR 测试
+- **改进**: 添加了监控配置文件检查，修复了 Docker Compose 验证
+
+### ✅ deploy.yml
+- **状态**: 改进完成
+- **功能**: Push 到 main + 手动触发部署
+- **改进**: 添加了配置验证，改进了 mock 实现
+
+## 测试结果
+
+### 脚本测试
+```bash
+python3 scripts/test_scripts.py
 ```
-python: can't open file '/home/runner/work/bee_swarm/bee_swarm/scripts/update_documentation.py': [Errno 2] No such file or directory
+**结果**: 所有脚本测试通过 ✅
+
+### Docker Compose 验证
+```bash
+docker-compose config
+```
+**结果**: 配置验证通过 ✅
+
+## 环境变量设置
+
+所有 workflow 现在都包含以下 mock 环境变量：
+
+```bash
+CLOUDFLARE_TUNNEL_URL=https://mock-tunnel.example.com
+PROMETHEUS_URL=http://localhost:9090
+GRAFANA_URL=http://localhost:3000
+SLACK_WEBHOOK_URL=https://hooks.slack.com/mock
+BACKUP_S3_BUCKET=mock-bucket
+AWS_ACCESS_KEY_ID=mock-key
+AWS_SECRET_ACCESS_KEY=mock-secret
+POSTGRES_DB=bee_swarm
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
 ```
 
-## Fix Content
+## 监控配置
 
-### 1. Create Mock Version Script Files
+### Prometheus 配置
+- 监控 Docker 容器
+- 监控 Bee Swarm 服务
+- 监控 Redis 和 PostgreSQL
+- 监控 Grafana
 
-Since there's no real business logic yet, all scripts have been converted to **Mock versions** that simulate execution processes without performing actual business operations.
+### Grafana 配置
+- 配置了 Prometheus 数据源
+- 配置了 PostgreSQL 数据源
+- 创建了系统概览仪表板
 
-Created the following 7 Python script files:
+## 注意事项
 
-#### `scripts/check_pending_tasks.py` (Mock Version)
-- **Function**: Simulate checking pending tasks
-- **Mock Features**:
-  - Use preset mock data (3 pending tasks)
-  - Record detailed execution logs
-  - Set environment variables for subsequent steps
-  - No dependency on external API calls
+1. **Mock 模式**: 所有功能都使用 mock 实现，不会执行真实的部署或操作
+2. **环境变量**: 在生产环境中需要设置真实的环境变量
+3. **监控配置**: 监控配置文件已创建，但需要根据实际环境调整
+4. **脚本权限**: 所有 Python 脚本都已设置执行权限
 
-#### `scripts/trigger_ai_containers.py` (Mock Version)
-- **Function**: Simulate triggering AI containers
-- **Mock Features**:
-  - Simulate container status checks (health status, running containers, resource usage)
-  - Simulate network delays and trigger processes
-  - Set execution result environment variables
-  - No dependency on Cloudflare Tunnel
+## 后续建议
 
-#### `scripts/notify_role_assignment.py` (Mock Version)
-- **Function**: Simulate notifying role assignments
-- **Mock Features**:
-  - Use preset mock Issue data
-  - Simulate notification and comment addition processes
-  - Record detailed assignment information
-  - No dependency on GitHub API
-
-#### `scripts/handle_pr_events.py` (Mock Version)
-- **Function**: Simulate handling Pull Request events
-- **Mock Features**:
-  - Simulate different types of PR events (opened, synchronize, closed)
-  - Display mock file change information
-  - Simulate notification and comment processes
-  - No dependency on GitHub API
-
-#### `scripts/check_system_health.py` (Mock Version)
-- **Function**: Simulate checking system health status
-- **Mock Features**:
-  - Simulate checking Prometheus, Grafana, GitHub API
-  - Display mock health status and metrics
-  - Simulate Slack notification sending
-  - No dependency on external services
-
-#### `scripts/create_backup.py` (Mock Version)
-- **Function**: Simulate creating system backups
-- **Mock Features**:
-  - Simulate backing up GitHub data (Issues, PRs, Commits, Releases)
-  - Simulate backing up local files
-  - Simulate S3 upload process
-  - No dependency on AWS services
-
-#### `scripts/update_documentation.py` (Mock Version)
-- **Function**: Simulate updating project documentation
-- **Mock Features**:
-  - Use mock project statistics data
-  - Simulate updating README.md, CHANGELOG.md
-  - Create documentation index
-  - No dependency on GitHub API
-
-### 2. Simplify Workflow Configuration
-
-#### Remove Unnecessary Dependencies
-- Removed dependencies like `pyyaml`, `prometheus_client`, `boto3`, `markdown`
-- All scripts only depend on standard library and `requests` (though mock versions don't use it)
-- Simplified environment variable requirements
-
-#### Fix Script Errors
-- Fixed `os.time.time()` error in `trigger_ai_containers.py`
-- Removed unused import statements
-- Unified error handling and log formats
-
-### 3. Mock Script Features
-
-All Mock scripts have the following features:
-
-#### Simulated Execution
-- Use preset mock data
-- Simulate real execution time and processes
-- Provide detailed execution logs
-- No dependency on external services or APIs
-
-#### Error Handling
-- Complete exception capture and handling
-- Appropriate error log recording
-- Correct exit code setting
-
-#### Log Recording
-- Unified log format
-- Detailed execution process recording
-- Use emojis to enhance readability
-- Error and warning message recording
-
-#### Environment Variables
-- Check optional environment variables
-- Set execution result environment variables
-- Support GitHub Actions environment
-- Provide default values
-
-#### Code Quality
-- Clean code structure
-- Clear docstrings
-- Modular design
-- Readable code
-
-### 4. Test Verification
-
-Created `scripts/test_scripts.py` test script:
-- Verify syntax correctness of all scripts
-- Simulate GitHub Actions environment
-- Provide test result summary
-
-Test Results: All 7 Mock scripts passed syntax checks ✅
-
-## Usage Instructions
-
-### Environment Variable Configuration
-
-Mock version greatly reduces environment variable requirements:
-
-#### Optional Variables (with default values)
-- `GITHUB_REPOSITORY`: Repository name (default: 'test/repo')
-- `ISSUE_NUMBER`: Issue number (default: '123')
-- `ASSIGNEE`: Assignee (default: 'ai-developer')
-- `PR_NUMBER`: PR number (default: '456')
-- `PR_ACTION`: PR action (default: 'opened')
-
-#### No Longer Required Variables
-- `GITHUB_TOKEN` (Mock version doesn't use)
-- `CLOUDFLARE_TUNNEL_URL`
-- `PROMETHEUS_URL`
-- `GRAFANA_URL`
-- `SLACK_WEBHOOK_URL`
-- `BACKUP_S3_BUCKET`
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-
-### Workflow Triggers
-
-Workflow will trigger in the following cases:
-- Every 30 minutes scheduled trigger
-- Issues events (create, assign, label, close)
-- Pull Request events (create, update, review request, close)
-- Manual trigger
-- External trigger
-
-## Mock Mode Advantages
-
-1. **Quick Deployment**: No need to configure complex external services
-2. **Stable Operation**: No dependency on external API availability
-3. **Easy Debugging**: All data is preset, easy for testing
-4. **Cost Saving**: No need for paid services like AWS, Cloudflare
-5. **Development Friendly**: Can focus on workflow logic instead of external integrations
-
-## Notes
-
-1. **Permission Settings**: Ensure script files have execution permissions
-2. **Dependency Management**: Workflow only installs `requests` package
-3. **Error Handling**: Mock scripts are designed to handle errors gracefully
-4. **Log Recording**: All operations record detailed logs for debugging
-5. **Mock Data**: All data is preset and doesn't represent real project status
-
-## Future Improvement Suggestions
-
-1. **Real Integration**: When real functionality is needed, gradually replace mock implementations
-2. **Configuration Management**: Centralize mock data management for easy modification
-3. **Unit Testing**: Add unit tests for each script
-4. **Monitoring Alerts**: Add more detailed monitoring and alert mechanisms
-5. **Documentation Completion**: Add more detailed usage documentation for each script
-
-## Converting to Real Version
-
-When converting to real version, need to:
-
-1. **Restore Dependencies**: Add necessary Python package dependencies
-2. **Configure Services**: Set up real external service configurations
-3. **Replace Implementation**: Replace mock data with real API calls
-4. **Error Handling**: Enhance error handling and retry mechanisms
-5. **Test Verification**: Add integration tests
-
----
-
-*Fix Time: 2025-07-23*
-*Fixed By: AI Assistant*
-*Version: Mock Version* 
+1. 在生产环境中设置真实的环境变量
+2. 根据实际需求调整监控配置
+3. 添加真实的部署逻辑到 `deploy.yml`
+4. 添加更多的测试用例到 `test.yml` 

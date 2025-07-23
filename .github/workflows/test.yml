@@ -23,12 +23,36 @@ jobs:
         run: |
           pip install requests pygithub pytest
           
+      - name: Set up environment variables
+        run: |
+          echo "Setting up mock environment variables..."
+          echo "CLOUDFLARE_TUNNEL_URL=https://mock-tunnel.example.com" >> $GITHUB_ENV
+          echo "PROMETHEUS_URL=http://localhost:9090" >> $GITHUB_ENV
+          echo "GRAFANA_URL=http://localhost:3000" >> $GITHUB_ENV
+          echo "SLACK_WEBHOOK_URL=https://hooks.slack.com/mock" >> $GITHUB_ENV
+          echo "BACKUP_S3_BUCKET=mock-bucket" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY_ID=mock-key" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=mock-secret" >> $GITHUB_ENV
+          echo "POSTGRES_DB=bee_swarm" >> $GITHUB_ENV
+          echo "POSTGRES_USER=postgres" >> $GITHUB_ENV
+          echo "POSTGRES_PASSWORD=password" >> $GITHUB_ENV
+          
       - name: Run all tests
         run: |
           python scripts/test_scripts.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          CLOUDFLARE_TUNNEL_URL: ${{ env.CLOUDFLARE_TUNNEL_URL }}
+          PROMETHEUS_URL: ${{ env.PROMETHEUS_URL }}
+          GRAFANA_URL: ${{ env.GRAFANA_URL }}
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          BACKUP_S3_BUCKET: ${{ env.BACKUP_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           
       - name: Test individual scripts
         run: |
@@ -57,9 +81,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          CLOUDFLARE_TUNNEL_URL: ${{ env.CLOUDFLARE_TUNNEL_URL }}
+          PROMETHEUS_URL: ${{ env.PROMETHEUS_URL }}
+          GRAFANA_URL: ${{ env.GRAFANA_URL }}
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          BACKUP_S3_BUCKET: ${{ env.BACKUP_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           
       - name: Validate docker-compose.yml
         run: |
+          echo "Validating docker-compose.yml..."
+          # 使用 mock 环境变量进行验证
+          export POSTGRES_DB=bee_swarm
+          export POSTGRES_USER=postgres
+          export POSTGRES_PASSWORD=password
           docker-compose config
           
       - name: Check environment variables
@@ -101,5 +140,36 @@ jobs:
             echo "✅ deployment.md exists"
           else
             echo "❌ deployment.md not found"
+            exit 1
+          fi
+          
+      - name: Check monitoring configuration
+        run: |
+          echo "Checking monitoring configuration..."
+          if [ -f monitoring/prometheus.yml ]; then
+            echo "✅ prometheus.yml exists"
+          else
+            echo "❌ prometheus.yml not found"
+            exit 1
+          fi
+          
+          if [ -f monitoring/grafana/datasources/datasource.yml ]; then
+            echo "✅ grafana datasource.yml exists"
+          else
+            echo "❌ grafana datasource.yml not found"
+            exit 1
+          fi
+          
+          if [ -f monitoring/grafana/dashboards/dashboard.yml ]; then
+            echo "✅ grafana dashboard.yml exists"
+          else
+            echo "❌ grafana dashboard.yml not found"
+            exit 1
+          fi
+          
+          if [ -f monitoring/grafana/dashboards/bee-swarm-overview.json ]; then
+            echo "✅ bee-swarm-overview.json exists"
+          else
+            echo "❌ bee-swarm-overview.json not found"
             exit 1
           fi 
