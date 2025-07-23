@@ -1,334 +1,334 @@
-# 🚀 **Bee Swarm 执行计划**
-
-## 📋 **项目概述**
-
-本执行计划采用**逐步实现**的策略，从单个角色开始，逐步构建完整的AI开发团队系统。每个阶段都有明确的目标和可验证的成果。
-
-## 🎯 **执行策略**
-
-### 核心理念
-1. **单角色优先**：先让一个角色完全工作，再扩展到其他角色
-2. **功能完整**：每个角色都要能独立完成其职责范围内的任务
-3. **协作验证**：通过小项目验证角色间的协作机制
-4. **迭代优化**：基于实际使用情况不断优化和改进
-
-### 技术基础
-- **基于VNC Lab**：使用[VNC Lab](https://github.com/fallrising/vnc_lab)项目作为容器基础
-- **AI工具轮换**：每个角色可以轮换使用不同的AI编程助手
-- **GitHub驱动**：所有协作通过GitHub功能实现
-- **单VPS单角色**：确保资源隔离和稳定性
-
-## 📅 **执行阶段**
-
-### 阶段1：基础设施搭建 (1-2周)
-
-#### 目标
-建立基础的开发环境和工具链
-
-#### 任务清单
-- [ ] **1.1 环境准备**
-  - [ ] 准备5台VPS服务器
-  - [ ] 安装Docker和Docker Compose
-  - [ ] 配置网络和安全设置
-  - [ ] 设置域名和SSL证书
-
-- [ ] **1.2 VNC Lab基础镜像**
-  - [ ] 基于VNC Lab构建基础镜像
-  - [ ] 集成AI工具：Gemini CLI, Claude Code, Rovo Dev, Cursor
-  - [ ] 配置noVNC和ttyd服务
-  - [ ] 测试基础功能
-
-- [ ] **1.3 系统协调器**
-  - [ ] 部署系统协调器服务
-  - [ ] 配置GitHub API集成
-  - [ ] 设置Redis和PostgreSQL
-  - [ ] 实现基础API接口
-
-#### 验证标准
-- [ ] 能够通过浏览器访问VNC桌面
-- [ ] AI工具在终端中正常工作
-- [ ] 系统协调器API响应正常
-- [ ] GitHub API连接成功
-
-### 阶段2：产品经理角色实现 (2-3周)
-
-#### 目标
-实现一个完全可工作的产品经理AI角色
-
-#### 任务清单
-- [ ] **2.1 角色容器构建**
-  - [ ] 基于VNC Lab创建产品经理专用镜像
-  - [ ] 安装产品管理工具：Git, Pandoc, Inkscape等
-  - [ ] 配置产品经理工作环境
-  - [ ] 设置角色身份和权限
-
-- [ ] **2.2 GitHub集成**
-  - [ ] 实现GitHub Issues读取功能
-  - [ ] 实现GitHub Projects看板操作
-  - [ ] 实现GitHub Comments交互
-  - [ ] 实现Labels管理
-
-- [ ] **2.3 产品管理功能**
-  - [ ] 需求分析和拆解
-  - [ ] 任务优先级排序
-  - [ ] 项目进度跟踪
-  - [ ] 文档生成和管理
-
-- [ ] **2.4 AI工具集成**
-  - [ ] 集成Gemini CLI进行需求分析
-  - [ ] 集成Claude Code进行文档生成
-  - [ ] 实现AI工具轮换机制
-  - [ ] 优化AI工具使用效果
-
-#### 验证标准
-- [ ] 产品经理能够读取GitHub Issues
-- [ ] 能够分析需求并创建子任务
-- [ ] 能够更新项目看板状态
-- [ ] 能够生成项目文档
-- [ ] AI工具能够辅助完成产品管理任务
-
-### 阶段3：后端开发角色实现 (2-3周)
-
-#### 目标
-实现一个完全可工作的后端开发AI角色
-
-#### 任务清单
-- [ ] **3.1 角色容器构建**
-  - [ ] 基于VNC Lab创建后端开发专用镜像
-  - [ ] 安装开发工具：Git, Node.js, Python, Java等
-  - [ ] 配置开发环境：IDE, 调试工具等
-  - [ ] 设置代码仓库和版本控制
-
-- [ ] **3.2 任务处理机制**
-  - [ ] 实现任务接收和状态更新
-  - [ ] 实现代码生成和修改
-  - [ ] 实现API设计和实现
-  - [ ] 实现数据库设计和操作
-
-- [ ] **3.3 代码质量保证**
-  - [ ] 集成代码格式化工具
-  - [ ] 集成代码检查工具
-  - [ ] 集成单元测试框架
-  - [ ] 实现代码审查流程
-
-- [ ] **3.4 AI工具集成**
-  - [ ] 集成Claude Code进行代码生成
-  - [ ] 集成Rovo Dev进行代码优化
-  - [ ] 集成Cursor进行代码编辑
-  - [ ] 实现AI工具协作机制
-
-#### 验证标准
-- [ ] 后端开发能够接收和处理任务
-- [ ] 能够生成高质量的代码
-- [ ] 能够创建Pull Request
-- [ ] 能够进行代码审查
-- [ ] AI工具能够有效辅助开发
-
-### 阶段4：前端开发角色实现 (2-3周)
-
-#### 目标
-实现一个完全可工作的前端开发AI角色
-
-#### 任务清单
-- [ ] **4.1 角色容器构建**
-  - [ ] 基于VNC Lab创建前端开发专用镜像
-  - [ ] 安装前端工具：Node.js, npm, yarn等
-  - [ ] 配置前端框架：React, Vue, Angular等
-  - [ ] 设置UI设计工具
-
-- [ ] **4.2 前端开发功能**
-  - [ ] 实现组件开发
-  - [ ] 实现页面布局和样式
-  - [ ] 实现状态管理
-  - [ ] 实现API集成
-
-- [ ] **4.3 用户体验优化**
-  - [ ] 实现响应式设计
-  - [ ] 实现性能优化
-  - [ ] 实现可访问性
-  - [ ] 实现浏览器兼容性
-
-- [ ] **4.4 AI工具集成**
-  - [ ] 集成Warp进行终端操作
-  - [ ] 集成Cursor进行代码编辑
-  - [ ] 集成AI工具进行UI设计
-  - [ ] 实现设计到代码的转换
-
-#### 验证标准
-- [ ] 前端开发能够创建用户界面
-- [ ] 能够实现交互功能
-- [ ] 能够与后端API集成
-- [ ] 能够进行前端测试
-- [ ] AI工具能够辅助UI设计
-
-### 阶段5：QA工程师角色实现 (1-2周)
-
-#### 目标
-实现一个完全可工作的QA工程师AI角色
-
-#### 任务清单
-- [ ] **5.1 角色容器构建**
-  - [ ] 基于VNC Lab创建QA工程师专用镜像
-  - [ ] 安装测试工具：Playwright, Jest, Cypress等
-  - [ ] 配置测试环境
-  - [ ] 设置测试数据管理
-
-- [ ] **5.2 测试功能实现**
-  - [ ] 实现自动化测试脚本
-  - [ ] 实现功能测试
-  - [ ] 实现性能测试
-  - [ ] 实现安全测试
-
-- [ ] **5.3 测试报告和反馈**
-  - [ ] 实现测试报告生成
-  - [ ] 实现问题跟踪
-  - [ ] 实现测试覆盖率分析
-  - [ ] 实现质量指标监控
-
-- [ ] **5.4 AI工具集成**
-  - [ ] 集成AI工具进行测试用例生成
-  - [ ] 集成AI工具进行问题分析
-  - [ ] 集成AI工具进行测试优化
-  - [ ] 实现智能测试策略
-
-#### 验证标准
-- [ ] QA工程师能够执行自动化测试
-- [ ] 能够发现和报告问题
-- [ ] 能够生成测试报告
-- [ ] 能够进行质量评估
-- [ ] AI工具能够辅助测试过程
-
-### 阶段6：DevOps工程师角色实现 (1-2周)
-
-#### 目标
-实现一个完全可工作的DevOps工程师AI角色
-
-#### 任务清单
-- [ ] **6.1 角色容器构建**
-  - [ ] 基于VNC Lab创建DevOps工程师专用镜像
-  - [ ] 安装DevOps工具：Docker, Kubernetes, Terraform等
-  - [ ] 配置CI/CD环境
-  - [ ] 设置监控和日志系统
-
-- [ ] **6.2 部署和运维**
-  - [ ] 实现自动化部署
-  - [ ] 实现环境管理
-  - [ ] 实现配置管理
-  - [ ] 实现服务监控
-
-- [ ] **6.3 安全和性能**
-  - [ ] 实现安全扫描
-  - [ ] 实现性能监控
-  - [ ] 实现备份和恢复
-  - [ ] 实现灾难恢复
-
-- [ ] **6.4 AI工具集成**
-  - [ ] 集成AI工具进行部署优化
-  - [ ] 集成AI工具进行问题诊断
-  - [ ] 集成AI工具进行性能调优
-  - [ ] 实现智能运维策略
-
-#### 验证标准
-- [ ] DevOps工程师能够自动化部署
-- [ ] 能够监控系统状态
-- [ ] 能够处理运维问题
-- [ ] 能够优化系统性能
-- [ ] AI工具能够辅助运维决策
-
-### 阶段7：团队协作验证 (2-3周)
-
-#### 目标
-通过小项目验证整个团队的协作效果
-
-#### 任务清单
-- [ ] **7.1 协作机制测试**
-  - [ ] 测试角色间通信
-  - [ ] 测试任务传递流程
-  - [ ] 测试状态同步机制
-  - [ ] 测试冲突解决机制
-
-- [ ] **7.2 小项目执行**
-  - [ ] 选择一个简单的Web应用项目
-  - [ ] 从需求分析到部署的完整流程
-  - [ ] 验证每个角色的工作效果
-  - [ ] 收集反馈和改进建议
-
-- [ ] **7.3 性能优化**
-  - [ ] 优化任务调度算法
-  - [ ] 优化AI工具使用策略
-  - [ ] 优化协作流程
-  - [ ] 优化系统性能
-
-- [ ] **7.4 文档和培训**
-  - [ ] 完善系统文档
-  - [ ] 创建使用指南
-  - [ ] 录制演示视频
-  - [ ] 准备培训材料
-
-#### 验证标准
-- [ ] 团队能够协作完成项目
-- [ ] 角色间通信顺畅
-- [ ] 任务完成质量高
-- [ ] 系统运行稳定
-- [ ] 用户反馈良好
-
-## 🎯 **成功指标**
-
-### 技术指标
-- [ ] 每个角色都能独立完成其职责
-- [ ] AI工具使用效果达到预期
-- [ ] 系统响应时间 < 5秒
-- [ ] 系统可用性 > 99%
-- [ ] 代码质量达到生产标准
-
-### 业务指标
-- [ ] 项目交付时间缩短50%
-- [ ] 代码缺陷率降低30%
-- [ ] 开发成本降低40%
-- [ ] 团队协作效率提升60%
-- [ ] 用户满意度 > 90%
-
-## 📊 **风险管理**
-
-### 技术风险
-- **AI工具不稳定**：准备多个备选方案
-- **网络连接问题**：实现离线工作模式
-- **数据安全问题**：加强安全措施
-- **性能瓶颈**：持续监控和优化
-
-### 业务风险
-- **需求变更频繁**：建立变更管理流程
-- **团队接受度低**：加强培训和沟通
-- **成本超支**：严格控制预算
-- **进度延期**：建立里程碑检查点
-
-## 📈 **后续规划**
-
-### 短期目标 (3-6个月)
-- [ ] 扩展到更多角色类型
-- [ ] 支持更多项目类型
-- [ ] 优化AI工具集成
-- [ ] 提升系统性能
-
-### 中期目标 (6-12个月)
-- [ ] 支持大规模团队
-- [ ] 实现智能项目管理
-- [ ] 集成更多AI工具
-- [ ] 建立生态系统
-
-### 长期目标 (1-2年)
-- [ ] 实现完全自动化开发
-- [ ] 支持复杂项目类型
-- [ ] 建立行业标准
-- [ ] 商业化推广
-
-## 📞 **联系方式**
-
-如有问题或建议，请通过以下方式联系：
-- 提交Issue
-- 发送邮件
-- 参与讨论
+# 🚀 **Bee Swarm Execution Plan**
+
+## 📋 **Project Overview**
+
+This execution plan adopts a **step-by-step implementation** strategy, starting from a single role and gradually building a complete AI development team system. Each stage has clear objectives and verifiable outcomes.
+
+## 🎯 **Execution Strategy**
+
+### Core Philosophy
+1. **Single Role Priority**: First make one role fully functional, then expand to other roles
+2. **Complete Functionality**: Each role must be able to independently complete tasks within its responsibility scope
+3. **Collaboration Verification**: Verify inter-role collaboration mechanisms through small projects
+4. **Iterative Optimization**: Continuously optimize and improve based on actual usage
+
+### Technical Foundation
+- **Based on VNC Lab**: Use [VNC Lab](https://github.com/fallrising/vnc_lab) project as container foundation
+- **AI Tool Rotation**: Each role can rotate between different AI programming assistants
+- **GitHub-Driven**: All collaboration through GitHub features
+- **Single VPS Single Role**: Ensure resource isolation and stability
+
+## 📅 **Execution Phases**
+
+### Phase 1: Infrastructure Setup (1-2 weeks)
+
+#### Objectives
+Establish basic development environment and toolchain
+
+#### Task List
+- [ ] **1.1 Environment Preparation**
+  - [ ] Prepare 5 VPS servers
+  - [ ] Install Docker and Docker Compose
+  - [ ] Configure network and security settings
+  - [ ] Set up domain names and SSL certificates
+
+- [ ] **1.2 VNC Lab Base Image**
+  - [ ] Build base image based on VNC Lab
+  - [ ] Integrate AI tools: Gemini CLI, Claude Code, Rovo Dev, Cursor
+  - [ ] Configure noVNC and ttyd services
+  - [ ] Test basic functionality
+
+- [ ] **1.3 System Coordinator**
+  - [ ] Deploy system coordinator service
+  - [ ] Configure GitHub API integration
+  - [ ] Set up Redis and PostgreSQL
+  - [ ] Implement basic API interfaces
+
+#### Verification Criteria
+- [ ] Can access VNC desktop through browser
+- [ ] AI tools work normally in terminal
+- [ ] System coordinator API responds normally
+- [ ] GitHub API connection successful
+
+### Phase 2: Product Manager Role Implementation (2-3 weeks)
+
+#### Objectives
+Implement a fully functional Product Manager AI role
+
+#### Task List
+- [ ] **2.1 Role Container Construction**
+  - [ ] Create Product Manager specific image based on VNC Lab
+  - [ ] Install product management tools: Git, Pandoc, Inkscape, etc.
+  - [ ] Configure Product Manager work environment
+  - [ ] Set up role identity and permissions
+
+- [ ] **2.2 GitHub Integration**
+  - [ ] Implement GitHub Issues reading functionality
+  - [ ] Implement GitHub Projects kanban operations
+  - [ ] Implement GitHub Comments interaction
+  - [ ] Implement Labels management
+
+- [ ] **2.3 Product Management Functions**
+  - [ ] Requirements analysis and breakdown
+  - [ ] Task priority sorting
+  - [ ] Project progress tracking
+  - [ ] Document generation and management
+
+- [ ] **2.4 AI Tool Integration**
+  - [ ] Integrate Gemini CLI for requirements analysis
+  - [ ] Integrate Claude Code for document generation
+  - [ ] Implement AI tool rotation mechanism
+  - [ ] Optimize AI tool usage effectiveness
+
+#### Verification Criteria
+- [ ] Product Manager can read GitHub Issues
+- [ ] Can analyze requirements and create subtasks
+- [ ] Can update project kanban status
+- [ ] Can generate project documentation
+- [ ] AI tools can assist in completing product management tasks
+
+### Phase 3: Backend Developer Role Implementation (2-3 weeks)
+
+#### Objectives
+Implement a fully functional Backend Developer AI role
+
+#### Task List
+- [ ] **3.1 Role Container Construction**
+  - [ ] Create Backend Developer specific image based on VNC Lab
+  - [ ] Install development tools: Git, Node.js, Python, Java, etc.
+  - [ ] Configure development environment: IDE, debugging tools, etc.
+  - [ ] Set up code repository and version control
+
+- [ ] **3.2 Task Processing Mechanism**
+  - [ ] Implement task reception and status updates
+  - [ ] Implement code generation and modification
+  - [ ] Implement API design and implementation
+  - [ ] Implement database design and operations
+
+- [ ] **3.3 Code Quality Assurance**
+  - [ ] Integrate code formatting tools
+  - [ ] Integrate code inspection tools
+  - [ ] Integrate unit testing framework
+  - [ ] Implement code review process
+
+- [ ] **3.4 AI Tool Integration**
+  - [ ] Integrate Claude Code for code generation
+  - [ ] Integrate Rovo Dev for code optimization
+  - [ ] Integrate Cursor for code editing
+  - [ ] Implement AI tool collaboration mechanism
+
+#### Verification Criteria
+- [ ] Backend Developer can receive and process tasks
+- [ ] Can generate high-quality code
+- [ ] Can create Pull Requests
+- [ ] Can perform code reviews
+- [ ] AI tools can effectively assist development
+
+### Phase 4: Frontend Developer Role Implementation (2-3 weeks)
+
+#### Objectives
+Implement a fully functional Frontend Developer AI role
+
+#### Task List
+- [ ] **4.1 Role Container Construction**
+  - [ ] Create Frontend Developer specific image based on VNC Lab
+  - [ ] Install frontend tools: Node.js, npm, yarn, etc.
+  - [ ] Configure frontend frameworks: React, Vue, Angular, etc.
+  - [ ] Set up UI design tools
+
+- [ ] **4.2 Frontend Development Functions**
+  - [ ] Implement component development
+  - [ ] Implement page layout and styling
+  - [ ] Implement state management
+  - [ ] Implement API integration
+
+- [ ] **4.3 User Experience Optimization**
+  - [ ] Implement responsive design
+  - [ ] Implement performance optimization
+  - [ ] Implement accessibility
+  - [ ] Implement browser compatibility
+
+- [ ] **4.4 AI Tool Integration**
+  - [ ] Integrate Warp for terminal operations
+  - [ ] Integrate Cursor for code editing
+  - [ ] Integrate AI tools for UI design
+  - [ ] Implement design-to-code conversion
+
+#### Verification Criteria
+- [ ] Frontend Developer can create user interfaces
+- [ ] Can implement interactive functions
+- [ ] Can integrate with backend APIs
+- [ ] Can perform frontend testing
+- [ ] AI tools can assist in UI design
+
+### Phase 5: QA Engineer Role Implementation (1-2 weeks)
+
+#### Objectives
+Implement a fully functional QA Engineer AI role
+
+#### Task List
+- [ ] **5.1 Role Container Construction**
+  - [ ] Create QA Engineer specific image based on VNC Lab
+  - [ ] Install testing tools: Playwright, Jest, Cypress, etc.
+  - [ ] Configure testing environment
+  - [ ] Set up test data management
+
+- [ ] **5.2 Testing Function Implementation**
+  - [ ] Implement automated testing scripts
+  - [ ] Implement functional testing
+  - [ ] Implement performance testing
+  - [ ] Implement security testing
+
+- [ ] **5.3 Test Reports and Feedback**
+  - [ ] Implement test report generation
+  - [ ] Implement issue tracking
+  - [ ] Implement test coverage analysis
+  - [ ] Implement quality metrics monitoring
+
+- [ ] **5.4 AI Tool Integration**
+  - [ ] Integrate AI tools for test case generation
+  - [ ] Integrate AI tools for issue analysis
+  - [ ] Integrate AI tools for test optimization
+  - [ ] Implement intelligent testing strategies
+
+#### Verification Criteria
+- [ ] QA Engineer can execute automated tests
+- [ ] Can discover and report issues
+- [ ] Can generate test reports
+- [ ] Can perform quality assessments
+- [ ] AI tools can assist in testing process
+
+### Phase 6: DevOps Engineer Role Implementation (1-2 weeks)
+
+#### Objectives
+Implement a fully functional DevOps Engineer AI role
+
+#### Task List
+- [ ] **6.1 Role Container Construction**
+  - [ ] Create DevOps Engineer specific image based on VNC Lab
+  - [ ] Install DevOps tools: Docker, Kubernetes, Terraform, etc.
+  - [ ] Configure CI/CD environment
+  - [ ] Set up monitoring and logging systems
+
+- [ ] **6.2 Deployment and Operations**
+  - [ ] Implement automated deployment
+  - [ ] Implement environment management
+  - [ ] Implement configuration management
+  - [ ] Implement service monitoring
+
+- [ ] **6.3 Security and Performance**
+  - [ ] Implement security scanning
+  - [ ] Implement performance monitoring
+  - [ ] Implement backup and recovery
+  - [ ] Implement disaster recovery
+
+- [ ] **6.4 AI Tool Integration**
+  - [ ] Integrate AI tools for deployment optimization
+  - [ ] Integrate AI tools for issue diagnosis
+  - [ ] Integrate AI tools for performance tuning
+  - [ ] Implement intelligent operations strategies
+
+#### Verification Criteria
+- [ ] DevOps Engineer can automate deployments
+- [ ] Can monitor system status
+- [ ] Can handle operational issues
+- [ ] Can optimize system performance
+- [ ] AI tools can assist in operational decisions
+
+### Phase 7: Team Collaboration Verification (2-3 weeks)
+
+#### Objectives
+Verify the entire team's collaboration effectiveness through small projects
+
+#### Task List
+- [ ] **7.1 Collaboration Mechanism Testing**
+  - [ ] Test inter-role communication
+  - [ ] Test task handoff process
+  - [ ] Test status synchronization mechanism
+  - [ ] Test conflict resolution mechanism
+
+- [ ] **7.2 Small Project Execution**
+  - [ ] Select a simple web application project
+  - [ ] Complete process from requirements analysis to deployment
+  - [ ] Verify each role's work effectiveness
+  - [ ] Collect feedback and improvement suggestions
+
+- [ ] **7.3 Performance Optimization**
+  - [ ] Optimize task scheduling algorithms
+  - [ ] Optimize AI tool usage strategies
+  - [ ] Optimize collaboration processes
+  - [ ] Optimize system performance
+
+- [ ] **7.4 Documentation and Training**
+  - [ ] Complete system documentation
+  - [ ] Create usage guides
+  - [ ] Record demonstration videos
+  - [ ] Prepare training materials
+
+#### Verification Criteria
+- [ ] Team can collaborate to complete projects
+- [ ] Inter-role communication is smooth
+- [ ] Task completion quality is high
+- [ ] System runs stably
+- [ ] User feedback is positive
+
+## 🎯 **Success Metrics**
+
+### Technical Metrics
+- [ ] Each role can independently complete its responsibilities
+- [ ] AI tool usage effectiveness meets expectations
+- [ ] System response time < 5 seconds
+- [ ] System availability > 99%
+- [ ] Code quality meets production standards
+
+### Business Metrics
+- [ ] Project delivery time reduced by 50%
+- [ ] Code defect rate reduced by 30%
+- [ ] Development cost reduced by 40%
+- [ ] Team collaboration efficiency improved by 60%
+- [ ] User satisfaction > 90%
+
+## 📊 **Risk Management**
+
+### Technical Risks
+- **AI Tool Instability**: Prepare multiple backup solutions
+- **Network Connection Issues**: Implement offline work mode
+- **Data Security Issues**: Strengthen security measures
+- **Performance Bottlenecks**: Continuous monitoring and optimization
+
+### Business Risks
+- **Frequent Requirement Changes**: Establish change management process
+- **Low Team Acceptance**: Strengthen training and communication
+- **Cost Overruns**: Strict budget control
+- **Schedule Delays**: Establish milestone checkpoints
+
+## 📈 **Future Planning**
+
+### Short-term Goals (3-6 months)
+- [ ] Expand to more role types
+- [ ] Support more project types
+- [ ] Optimize AI tool integration
+- [ ] Improve system performance
+
+### Medium-term Goals (6-12 months)
+- [ ] Support large-scale teams
+- [ ] Implement intelligent project management
+- [ ] Integrate more AI tools
+- [ ] Establish ecosystem
+
+### Long-term Goals (1-2 years)
+- [ ] Achieve fully automated development
+- [ ] Support complex project types
+- [ ] Establish industry standards
+- [ ] Commercial promotion
+
+## 📞 **Contact**
+
+For questions or suggestions, please contact us through:
+- Submit an Issue
+- Send email
+- Join discussions
 
 ---
 
-**注意**：本执行计划会根据实际情况进行调整和优化。 
+**Note**: This execution plan will be adjusted and optimized based on actual circumstances. 
