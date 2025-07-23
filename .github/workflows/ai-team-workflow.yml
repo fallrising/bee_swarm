@@ -28,7 +28,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install requests pyyaml
+          pip install requests
       
       - name: Check for pending tasks
         run: |
@@ -111,7 +111,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install requests prometheus_client
+          pip install requests
       
       - name: Check system health
         run: |
@@ -159,7 +159,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install requests markdown
+          pip install requests
       
       - name: Update documentation
         run: |
