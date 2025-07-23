@@ -1,181 +1,181 @@
 # Bee Swarm
 
-An AI team collaboration automated workflow system.
+一個基於 GitHub 的 AI 團隊協作自動化工作流系統。
 
-## 📊 Project Status
+## 🎯 項目概述
 
-**Last Updated**: 2025-07-23 22:59:08
+Bee Swarm 採用 **GitHub-Centric** 架構，通過 GitHub 的現有功能實現 AI 角色之間的協調和通信，簡化系統架構，提高可維護性。
 
-### Repository Information
-- **Stars**: 42 ⭐
-- **Forks**: 15 🍴
-- **Open Issues**: 3 📝
-- **Open Pull Requests**: 2 🔄
-- **Last Updated**: 2025-07-23T10:30:00Z
+## 🏗️ 系統架構
 
-### Recent Activity
-#### Recent Commits
-- `abc123` feat: add new feature module (2025-07-23)
-- `def456` fix: fix login issue (2025-07-22)
-- `ghi789` docs: update documentation (2025-07-21)
+```
+GitHub Platform (協調中心)
+├── Issues (任務管理)
+├── Projects (看板)
+├── Actions (觸發器)
+├── Comments (通信)
+├── Pull Requests (代碼審查)
+└── Wiki/README (文檔)
 
-#### Open Issues
-- #1 Implement user authentication feature
-- #2 Fix login page bug
-- #3 Add database connection pool
+    ↓
 
-#### Open Pull Requests
-- #1 Add new feature functionality
-- #2 Fix UI issues
+AI Containers (角色容器)
+├── Product Manager
+├── Backend Developer
+├── Frontend Developer
+├── QA Engineer
+└── DevOps Engineer
+```
 
-## 🚀 Quick Start
+## 🚀 快速開始
 
-### Prerequisites
+### 前置要求
 
-- Python 3.11+
-- Docker and Docker Compose
-- GitHub account
+- Docker 20.10+
+- Docker Compose 2.0+
+- GitHub 帳戶
 
-### Installation
+### 安裝步驟
 
-1. Clone the repository:
+1. 克隆項目：
 ```bash
 git clone https://github.com/your-username/bee_swarm.git
 cd bee_swarm
 ```
 
-2. Copy environment variables file:
+2. 配置環境變量：
 ```bash
 cp env.example .env
+# 編輯 .env 文件，配置 GitHub Token 和 AI 工具 API Key
 ```
 
-3. Start services:
+3. 構建和啟動容器：
 ```bash
 docker-compose up -d
 ```
 
-## 📋 Features
+## 📋 核心功能
 
-### 🤖 AI Team Collaboration
-- Automatic task assignment and notification
-- Intelligent workflow management
-- Real-time status monitoring
+### 🤖 AI 團隊協作
+- 基於 GitHub Issues 的任務分配
+- 智能工作流管理
+- 異步協作通信
 
-### 🔄 Automated Workflows
-- GitHub Actions integration
-- Scheduled task execution
-- Event-driven triggers
+### 🔄 自動化工作流
+- GitHub Actions 集成
+- 定時任務觸發
+- 事件驅動響應
 
-### 📊 System Monitoring
-- Health status checks
-- Performance metrics monitoring
-- Automatic backups
+### 📊 透明化管理
+- 所有協調過程在 GitHub 上可見
+- 完整的版本控制歷史
+- 清晰的審計軌跡
 
-### 📚 Documentation Management
-- Automatic documentation updates
-- Version control integration
-- Project status tracking
-
-## 🏗️ System Architecture
+## 🏗️ 項目結構
 
 ```
 bee_swarm/
-├── coordinator/          # Coordinator service
-├── roles/               # AI role definitions
-├── scripts/             # Workflow scripts
-├── docs/                # Project documentation
+├── roles/               # AI 角色定義
+├── scripts/             # 工作流腳本
+├── docs/                # 項目文檔
 └── .github/workflows/   # GitHub Actions
 ```
 
-## 🔧 Configuration
+## 🔧 配置說明
 
-### Environment Variables
+### 環境變量
 
-Create a `.env` file and configure the following variables:
+創建 `.env` 文件並配置以下變量：
 
 ```bash
-# GitHub Configuration
-GITHUB_TOKEN=your_github_token
-GITHUB_REPOSITORY=your_username/bee_swarm
+# GitHub 配置
+GITHUB_TOKEN_PM=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_BACKEND=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_FRONTEND=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_QA=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_DEVOPS=ghp_xxxxxxxxxxxxxxxxxxxx
 
-# Optional Configuration (Mock version doesn't require)
-CLOUDFLARE_TUNNEL_URL=your_tunnel_url
-PROMETHEUS_URL=your_prometheus_url
-GRAFANA_URL=your_grafana_url
-SLACK_WEBHOOK_URL=your_slack_webhook
+# GitHub 倉庫配置
+GITHUB_REPOSITORY=your-username/bee_swarm
+GITHUB_OWNER=your-username
+
+# AI 工具配置
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxx
+ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxx
+GEMINI_API_KEY=xxxxxxxxxxxxxxxxxxxx
 ```
 
 ### GitHub Secrets
 
-Add the following secrets in your GitHub repository settings:
+在 GitHub 倉庫設置中添加以下 secrets：
 
-- `GITHUB_TOKEN`: GitHub API access token
-- `CLOUDFLARE_TUNNEL_URL`: Cloudflare Tunnel URL (optional)
-- `PROMETHEUS_URL`: Prometheus service URL (optional)
-- `GRAFANA_URL`: Grafana service URL (optional)
-- `SLACK_WEBHOOK_URL`: Slack Webhook URL (optional)
+- `GITHUB_TOKEN_PM`: Product Manager 的 GitHub Token
+- `GITHUB_TOKEN_BACKEND`: Backend Developer 的 GitHub Token
+- `GITHUB_TOKEN_FRONTEND`: Frontend Developer 的 GitHub Token
+- `GITHUB_TOKEN_QA`: QA Engineer 的 GitHub Token
+- `GITHUB_TOKEN_DEVOPS`: DevOps Engineer 的 GitHub Token
 
-## 🧪 Mock Mode
+## 🧪 測試模式
 
-Currently, all scripts run in **Mock Mode**, which means:
+目前所有腳本運行在 **測試模式** 下：
 
-- ✅ No need to configure complex external services
-- ✅ Workflows can run immediately
-- ✅ All data is preset mock data
-- ✅ Easy for development and testing
+- ✅ 無需配置複雜的外部服務
+- ✅ 工作流可立即運行
+- ✅ 所有數據都是預設的測試數據
+- ✅ 便於開發和測試
 
-### Mock Script List
+### 測試腳本列表
 
-- `check_pending_tasks.py` - Check pending tasks
-- `trigger_ai_containers.py` - Trigger AI containers
-- `notify_role_assignment.py` - Notify role assignments
-- `handle_pr_events.py` - Handle PR events
-- `check_system_health.py` - Check system health status
-- `create_backup.py` - Create system backups
-- `update_documentation.py` - Update project documentation
+- `check_pending_tasks.py` - 檢查待處理任務
+- `trigger_ai_containers.py` - 觸發 AI 容器
+- `notify_role_assignment.py` - 通知角色分配
+- `handle_pr_events.py` - 處理 PR 事件
+- `check_system_health.py` - 檢查系統健康狀態
+- `create_backup.py` - 創建系統備份
+- `update_documentation.py` - 更新項目文檔
 
-### Test Mock Scripts
+### 運行測試
 
 ```bash
-# Test all scripts
+# 測試所有腳本
 python3 scripts/test_scripts.py
 
-# Test individual script
+# 測試單個腳本
 python3 scripts/check_pending_tasks.py
 ```
 
-## 📖 Documentation
+## 📖 文檔
 
-For detailed documentation, please check the [docs/](docs/) directory:
+詳細文檔請查看 [docs/](docs/) 目錄：
 
-- [System Overview](docs/level1/system-overview.md)
-- [Role System](docs/level2/role-system.md)
-- [Workflow System](docs/level3/workflow-system.md)
-- [Communication Protocol](docs/level4/communication-protocol.md)
-- [Implementation Details](docs/level5/implementation-details.md)
-- [Workflow Fixes Record](docs/workflow-fixes.md)
+- [架構設計](docs/architecture.md) - 系統架構和設計原則
+- [角色定義](docs/roles.md) - AI 角色定義和職責
+- [工作流程](docs/workflows.md) - 工作流程和協作模式
+- [部署指南](docs/deployment.md) - 部署和配置說明
+- [執行計劃](docs/execution-plan.md) - 項目執行計劃
+- [工作流修復記錄](docs/workflow-fixes.md) - 工作流修復歷史
 
-## 🤝 Contributing
+## 🤝 貢獻
 
-1. Fork this project
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork 本項目
+2. 創建功能分支 (`git checkout -b feature/amazing-feature`)
+3. 提交變更 (`git commit -m 'Add some amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 創建 Pull Request
 
-## 📄 License
+## 📄 許可證
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+本項目採用 MIT 許可證 - 詳見 [LICENSE](LICENSE) 文件
 
-## 🆘 Support
+## 🆘 支持
 
-If you encounter issues or have suggestions, please:
+如果遇到問題或有建議，請：
 
-1. Check the [Issues](../../issues) page
-2. Create a new Issue
-3. Contact the maintenance team
+1. 查看 [Issues](../../issues) 頁面
+2. 創建新的 Issue
+3. 聯繫維護團隊
 
 ---
 
-*This project is automatically maintained by the AI team*
+*本項目由 AI 團隊自動維護*
 

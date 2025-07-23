@@ -1,0 +1,85 @@
+name: AI Task Trigger
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # 每30分鐘觸發
+  issues:
+    types: [opened, assigned, labeled]
+  pull_request:
+    types: [opened, synchronize, closed]
+
+jobs:
+  trigger-ai:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install requests pygithub
+          
+      - name: Check pending tasks
+        id: check-tasks
+        run: |
+          python scripts/check_pending_tasks.py
+          echo "has_pending_tasks=true" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Trigger AI containers
+        if: steps.check-tasks.outputs.has_pending_tasks == 'true'
+        run: |
+          python scripts/trigger_ai_containers.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Notify role assignment
+        if: github.event_name == 'issues' && github.event.action == 'assigned'
+        run: |
+          python scripts/notify_role_assignment.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ASSIGNEE: ${{ github.event.issue.assignee.login }}
+          
+      - name: Handle PR events
+        if: github.event_name == 'pull_request'
+        run: |
+          python scripts/handle_pr_events.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_ACTION: ${{ github.event.action }}
+          
+      - name: Check system health
+        run: |
+          python scripts/check_system_health.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Update documentation
+        if: github.event_name == 'schedule'
+        run: |
+          python scripts/update_documentation.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Create backup
+        if: github.event_name == 'schedule'
+        run: |
+          python scripts/create_backup.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }} 
