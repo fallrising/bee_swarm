@@ -21,7 +21,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pip install requests pygithub pytest
+          pip install requests pygithub pytest pyyaml
           
       - name: Set up environment variables
         run: |
@@ -95,11 +95,7 @@ jobs:
       - name: Validate docker-compose.yml
         run: |
           echo "Validating docker-compose.yml..."
-          # 使用 mock 环境变量进行验证
-          export POSTGRES_DB=bee_swarm
-          export POSTGRES_USER=postgres
-          export POSTGRES_PASSWORD=password
-          docker-compose config
+          python scripts/validate_docker_compose.py
           
       - name: Check environment variables
         run: |
