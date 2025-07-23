@@ -1,114 +1,90 @@
-# GitHub Workflow 修复总结
+# Workflow 修复记录
 
-## 修复概述
+## 问题描述
 
-本次修复解决了 GitHub Workflow 文件中可能导致运行失败的问题，确保所有 workflow 都能在 mock 模式下正常运行。
+GitHub Actions workflow 在运行时遇到以下错误：
+```
+/home/runner/work/_temp/7b2b14d4-f43d-4e7c-80f0-ea3546575103.sh: line 6: docker-compose: command not found
+Error: Process completed with exit code 127.
+```
 
-## 修复的问题
+## 根本原因
 
-### 1. 缺少监控配置文件
-**问题**: `ai-trigger.yml` 和 `test.yml` 引用了不存在的监控配置文件
-**解决方案**: 
-- 创建了 `monitoring/` 目录结构
-- 添加了 `prometheus.yml` 配置文件
-- 添加了 Grafana 数据源和仪表板配置
+GitHub Actions 环境中没有安装 Docker 和 docker-compose，但 workflow 中仍然尝试使用这些命令。
 
-### 2. 环境变量依赖
-**问题**: 脚本依赖多个环境变量，但在 workflow 中没有设置
-**解决方案**:
-- 在 workflow 中添加了环境变量设置步骤
-- 为所有脚本步骤添加了必要的环境变量
+## 修复方案
 
-### 3. Docker Compose 配置验证失败
-**问题**: `test.yml` 中的 Docker Compose 验证会失败
-**解决方案**:
-- 添加了监控配置文件检查
-- 改进了 Docker Compose 验证逻辑
+### 1. 创建 Python 验证脚本
+
+创建了 `scripts/validate_docker_compose.py` 脚本来替代 `docker-compose config` 命令：
+
+- 使用 PyYAML 库解析 docker-compose.yml 文件
+- 验证 YAML 语法正确性
+- 检查必需的服务（postgres、grafana、prometheus）
+- 验证服务配置的完整性
+- 检查环境变量设置
+
+### 2. 更新依赖安装
+
+在所有 workflow 中添加了 `pyyaml` 依赖：
+
+```yaml
+- name: Install dependencies
+  run: |
+    pip install requests pygithub pytest pyyaml
+```
+
+### 3. 替换 Docker 命令
+
+将 `test.yml` workflow 中的 docker-compose 验证步骤替换为 Python 脚本：
+
+```yaml
+- name: Validate docker-compose.yml
+  run: |
+    echo "Validating docker-compose.yml..."
+    python scripts/validate_docker_compose.py
+```
+
+### 4. 更新部署脚本注释
+
+在 `deploy.yml` 中更新了注释，明确说明在 CI 环境中使用 mock 模式：
+
+```yaml
+echo "3. Run docker-compose up -d (mock in CI)"
+```
 
 ## 修复的文件
 
-### 新增文件
-- `monitoring/prometheus.yml` - Prometheus 监控配置
-- `monitoring/grafana/datasources/datasource.yml` - Grafana 数据源配置
-- `monitoring/grafana/dashboards/dashboard.yml` - Grafana 仪表板配置
-- `monitoring/grafana/dashboards/bee-swarm-overview.json` - 系统概览仪表板
+1. `.github/workflows/test.yml` - 更新验证步骤和依赖
+2. `.github/workflows/ai-trigger.yml` - 添加 pyyaml 依赖
+3. `.github/workflows/deploy.yml` - 更新注释
+4. `scripts/validate_docker_compose.py` - 新增验证脚本
 
-### 修改的文件
-- `.github/workflows/ai-trigger.yml` - 添加环境变量，确保脚本正常运行
-- `.github/workflows/test.yml` - 添加监控配置检查，修复验证逻辑
-- `.github/workflows/deploy.yml` - 改进 mock 实现，添加更好的错误处理
+## 验证脚本功能
 
-## 修复后的状态
+`validate_docker_compose.py` 脚本提供以下功能：
 
-### ✅ ai-trigger.yml
-- **状态**: 完全修复
-- **功能**: 每30分钟自动触发 + Issue/PR 事件处理
-- **改进**: 添加了环境变量设置，所有脚本都能正常运行
-
-### ✅ test.yml  
-- **状态**: 完全修复
-- **功能**: Push 到 main/develop + PR 测试
-- **改进**: 添加了监控配置文件检查，修复了 Docker Compose 验证
-
-### ✅ deploy.yml
-- **状态**: 改进完成
-- **功能**: Push 到 main + 手动触发部署
-- **改进**: 添加了配置验证，改进了 mock 实现
+- ✅ 检查 docker-compose.yml 文件存在性
+- ✅ 验证 YAML 语法正确性
+- ✅ 检查必需服务（postgres、grafana、prometheus）
+- ✅ 验证服务配置完整性
+- ✅ 检查环境变量设置
+- ✅ 提供详细的验证报告
 
 ## 测试结果
 
-### 脚本测试
-```bash
-python3 scripts/test_scripts.py
-```
-**结果**: 所有脚本测试通过 ✅
-
-### Docker Compose 验证
-```bash
-docker-compose config
-```
-**结果**: 配置验证通过 ✅
-
-## 环境变量设置
-
-所有 workflow 现在都包含以下 mock 环境变量：
-
-```bash
-CLOUDFLARE_TUNNEL_URL=https://mock-tunnel.example.com
-PROMETHEUS_URL=http://localhost:9090
-GRAFANA_URL=http://localhost:3000
-SLACK_WEBHOOK_URL=https://hooks.slack.com/mock
-BACKUP_S3_BUCKET=mock-bucket
-AWS_ACCESS_KEY_ID=mock-key
-AWS_SECRET_ACCESS_KEY=mock-secret
-POSTGRES_DB=bee_swarm
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password
-```
-
-## 监控配置
-
-### Prometheus 配置
-- 监控 Docker 容器
-- 监控 Bee Swarm 服务
-- 监控 Redis 和 PostgreSQL
-- 监控 Grafana
-
-### Grafana 配置
-- 配置了 Prometheus 数据源
-- 配置了 PostgreSQL 数据源
-- 创建了系统概览仪表板
+修复后的 workflow 应该能够在 GitHub Actions 环境中正常运行，不再依赖 Docker 命令。
 
 ## 注意事项
 
-1. **Mock 模式**: 所有功能都使用 mock 实现，不会执行真实的部署或操作
-2. **环境变量**: 在生产环境中需要设置真实的环境变量
-3. **监控配置**: 监控配置文件已创建，但需要根据实际环境调整
-4. **脚本权限**: 所有 Python 脚本都已设置执行权限
+1. 所有脚本都使用 mock 模式，适合 CI/CD 环境
+2. 实际部署时需要在有 Docker 的环境中运行
+3. 验证脚本提供了与 docker-compose config 类似的功能
+4. 环境变量使用 mock 值，确保测试能够通过
 
-## 后续建议
+## 后续改进
 
-1. 在生产环境中设置真实的环境变量
-2. 根据实际需求调整监控配置
-3. 添加真实的部署逻辑到 `deploy.yml`
-4. 添加更多的测试用例到 `test.yml` 
+1. 可以考虑添加更多的验证规则
+2. 可以增加对 Dockerfile 的验证
+3. 可以添加对服务依赖关系的检查
+4. 可以增加对网络和卷配置的详细验证 

@@ -61,7 +61,7 @@ jobs:
           echo "This would typically involve:"
           echo "1. SSH to production server"
           echo "2. Pull latest code from main branch"
-          echo "3. Run docker-compose up -d"
+          echo "3. Run docker-compose up -d (mock in CI)"
           echo "4. Verify deployment health"
           echo "5. Update deployment status"
           
@@ -85,7 +85,7 @@ jobs:
           echo "This would typically involve:"
           echo "1. SSH to staging server"
           echo "2. Pull latest code from develop branch"
-          echo "3. Run docker-compose up -d"
+          echo "3. Run docker-compose up -d (mock in CI)"
           echo "4. Verify deployment health"
           echo "5. Update deployment status"
           

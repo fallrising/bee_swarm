@@ -22,7 +22,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pip install requests pygithub
+          pip install requests pygithub pyyaml
           
       - name: Set up environment variables
         run: |
