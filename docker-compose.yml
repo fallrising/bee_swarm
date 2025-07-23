@@ -1,60 +1,102 @@
 version: '3.8'
 
 services:
-  # 产品经理容器
-  product-manager:
+  # 系统协调器 (独立部署)
+  coordinator:
     build: 
-      context: ./roles/product_manager
+      context: ./coordinator
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=product_manager
-      - GITHUB_USERNAME=pm_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_PM}
-      - AI_TOOLS=gemini-cli,notion-api,figma-api
-      - VNC_PASSWORD=${VNC_PASSWORD_PM}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_PM}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_COORDINATOR}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - REDIS_URL=${REDIS_URL}
-      - PROMETHEUS_URL=${PROMETHEUS_URL}
+      - DATABASE_URL=${DATABASE_URL}
+      - LOG_LEVEL=${LOG_LEVEL}
     ports:
-      - "6080:6080"  # noVNC
-      - "7681:7681"  # ttyd
+      - "8000:8000"  # FastAPI
+      - "5555:5555"  # Flower (Celery监控)
     volumes:
-      - pm_data:/app/data
-      - pm_logs:/app/logs
-      - pm_config:/app/config
+      - coordinator_data:/app/data
+      - coordinator_logs:/app/logs
+      - coordinator_config:/app/config
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
           memory: 1G
           cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+    networks:
+      - bee-swarm-network
+    depends_on:
+      - redis
+      - postgres
+
+  # 角色容器 - 基于VNC Lab
+  # 每个VPS只运行一个角色容器 + 基础设施服务
+  
+  # 产品经理角色 (VPS-01)
+  pm-01:
+    build: 
+      context: ./roles/product_manager
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=product_manager_01
+      - ROLE_ID=pm-01
+      - GITHUB_USERNAME=${GITHUB_USERNAME_PM_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_PM_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_PM_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_PM_01}
+      - COORDINATOR_URL=${COORDINATOR_URL}
+      - REDIS_URL=${REDIS_URL}
+      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
+    ports:
+      - "6080:6080"  # noVNC
+      - "7680:7681"  # ttyd
+    volumes:
+      - pm_01_data:/app/data
+      - pm_01_logs:/app/logs
+      - pm_01_config:/app/config
+      - shared_workspace:/workspace
+      - firefox_profile_pm_01:/home/firefox-profile
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
     networks:
       - bee-swarm-network
 
-  # 后端开发容器
-  backend-developer:
+  # 后端开发角色 (VPS-02)
+  backend-01:
     build: 
       context: ./roles/backend_developer
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=backend_developer
-      - GITHUB_USERNAME=backend_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND}
-      - AI_TOOLS=claude-code,rovo-dev,cursor
-      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND}
+      - ROLE_NAME=backend_developer_01
+      - ROLE_ID=backend-01
+      - GITHUB_USERNAME=${GITHUB_USERNAME_BACKEND_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND_01}
+      - COORDINATOR_URL=${COORDINATOR_URL}
       - REDIS_URL=${REDIS_URL}
-      - PROMETHEUS_URL=${PROMETHEUS_URL}
+      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor,warp
     ports:
       - "6081:6080"  # noVNC
-      - "7682:7681"  # ttyd
+      - "7681:7681"  # ttyd
     volumes:
-      - backend_data:/app/data
-      - backend_logs:/app/logs
-      - backend_config:/app/config
+      - backend_01_data:/app/data
+      - backend_01_logs:/app/logs
+      - backend_01_config:/app/config
+      - shared_workspace:/workspace
+      - firefox_profile_backend_01:/home/firefox-profile
     restart: unless-stopped
     deploy:
       resources:
@@ -62,32 +104,35 @@ services:
           memory: 4G
           cpus: '2.0'
         reservations:
-          memory: 2G
-          cpus: '1.0'
+          memory: 3G
+          cpus: '1.5'
     networks:
       - bee-swarm-network
 
-  # 前端开发容器
-  frontend-developer:
+  # 前端开发角色 (VPS-03)
+  frontend-01:
     build: 
       context: ./roles/frontend_developer
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=frontend_developer
-      - GITHUB_USERNAME=frontend_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND}
-      - AI_TOOLS=warp,cursor,figma-api
-      - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND}
+      - ROLE_NAME=frontend_developer_01
+      - ROLE_ID=frontend-01
+      - GITHUB_USERNAME=${GITHUB_USERNAME_FRONTEND_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND_01}
+      - COORDINATOR_URL=${COORDINATOR_URL}
       - REDIS_URL=${REDIS_URL}
-      - PROMETHEUS_URL=${PROMETHEUS_URL}
+      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor,warp
     ports:
       - "6082:6080"  # noVNC
-      - "7683:7681"  # ttyd
+      - "7682:7681"  # ttyd
     volumes:
-      - frontend_data:/app/data
-      - frontend_logs:/app/logs
-      - frontend_config:/app/config
+      - frontend_01_data:/app/data
+      - frontend_01_logs:/app/logs
+      - frontend_01_config:/app/config
+      - shared_workspace:/workspace
+      - firefox_profile_frontend_01:/home/firefox-profile
     restart: unless-stopped
     deploy:
       resources:
@@ -95,65 +140,35 @@ services:
           memory: 3G
           cpus: '1.5'
         reservations:
-          memory: 1.5G
-          cpus: '0.75'
+          memory: 2G
+          cpus: '1.0'
     networks:
       - bee-swarm-network
 
-  # QA工程师容器
-  qa-engineer:
+  # QA工程师角色 (VPS-04)
+  qa-01:
     build: 
       context: ./roles/qa_engineer
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=qa_engineer
-      - GITHUB_USERNAME=qa_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_QA}
-      - AI_TOOLS=playwright,jest,cypress
-      - VNC_PASSWORD=${VNC_PASSWORD_QA}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_QA}
+      - ROLE_NAME=qa_engineer_01
+      - ROLE_ID=qa-01
+      - GITHUB_USERNAME=${GITHUB_USERNAME_QA_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_QA_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_QA_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_QA_01}
+      - COORDINATOR_URL=${COORDINATOR_URL}
       - REDIS_URL=${REDIS_URL}
-      - PROMETHEUS_URL=${PROMETHEUS_URL}
+      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
     ports:
       - "6083:6080"  # noVNC
-      - "7684:7681"  # ttyd
+      - "7683:7681"  # ttyd
     volumes:
-      - qa_data:/app/data
-      - qa_logs:/app/logs
-      - qa_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
-    networks:
-      - bee-swarm-network
-
-  # DevOps工程师容器
-  devops-engineer:
-    build: 
-      context: ./roles/devops_engineer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=devops_engineer
-      - GITHUB_USERNAME=devops_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS}
-      - AI_TOOLS=terraform,kubernetes,docker
-      - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS}
-      - REDIS_URL=${REDIS_URL}
-      - PROMETHEUS_URL=${PROMETHEUS_URL}
-    ports:
-      - "6084:6080"  # noVNC
-      - "7685:7681"  # ttyd
-    volumes:
-      - devops_data:/app/data
-      - devops_logs:/app/logs
-      - devops_config:/app/config
+      - qa_01_data:/app/data
+      - qa_01_logs:/app/logs
+      - qa_01_config:/app/config
+      - shared_workspace:/workspace
+      - firefox_profile_qa_01:/home/firefox-profile
     restart: unless-stopped
     deploy:
       resources:
@@ -161,28 +176,48 @@ services:
           memory: 3G
           cpus: '1.5'
         reservations:
-          memory: 1.5G
-          cpus: '0.75'
+          memory: 2G
+          cpus: '1.0'
     networks:
       - bee-swarm-network
 
-  # Webhook处理器
-  webhook-handler:
+  # DevOps工程师角色 (VPS-05)
+  devops-01:
     build: 
-      context: ./webhook
+      context: ./roles/devops_engineer
       dockerfile: Dockerfile
     environment:
-      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET}
+      - ROLE_NAME=devops_engineer_01
+      - ROLE_ID=devops-01
+      - GITHUB_USERNAME=${GITHUB_USERNAME_DEVOPS_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS_01}
+      - COORDINATOR_URL=${COORDINATOR_URL}
       - REDIS_URL=${REDIS_URL}
+      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
     ports:
-      - "5000:5000"
+      - "6084:6080"  # noVNC
+      - "7684:7681"  # ttyd
     volumes:
-      - webhook_logs:/app/logs
+      - devops_01_data:/app/data
+      - devops_01_logs:/app/logs
+      - devops_01_config:/app/config
+      - shared_workspace:/workspace
+      - firefox_profile_devops_01:/home/firefox-profile
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
     networks:
       - bee-swarm-network
 
-  # Redis消息队列
+  # 基础设施服务 (每个VPS都需要)
   redis:
     image: redis:7-alpine
     ports:
@@ -193,7 +228,20 @@ services:
     networks:
       - bee-swarm-network
 
-  # Prometheus监控
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - bee-swarm-network
+
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -212,7 +260,6 @@ services:
     networks:
       - bee-swarm-network
 
-  # Grafana可视化
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -229,26 +276,41 @@ services:
       - bee-swarm-network
 
 volumes:
+  # 协调器数据卷
+  coordinator_data:
+  coordinator_logs:
+  coordinator_config:
+  
   # 角色数据卷
-  pm_data:
-  pm_logs:
-  pm_config:
-  backend_data:
-  backend_logs:
-  backend_config:
-  frontend_data:
-  frontend_logs:
-  frontend_config:
-  qa_data:
-  qa_logs:
-  qa_config:
-  devops_data:
-  devops_logs:
-  devops_config:
+  pm_01_data:
+  pm_01_logs:
+  pm_01_config:
+  backend_01_data:
+  backend_01_logs:
+  backend_01_config:
+  frontend_01_data:
+  frontend_01_logs:
+  frontend_01_config:
+  qa_01_data:
+  qa_01_logs:
+  qa_01_config:
+  devops_01_data:
+  devops_01_logs:
+  devops_01_config:
+  
+  # Firefox配置文件
+  firefox_profile_pm_01:
+  firefox_profile_backend_01:
+  firefox_profile_frontend_01:
+  firefox_profile_qa_01:
+  firefox_profile_devops_01:
+  
+  # 共享工作空间
+  shared_workspace:
   
   # 服务数据卷
-  webhook_logs:
   redis_data:
+  postgres_data:
   prometheus_data:
   grafana_data:
 
