@@ -1,0 +1,260 @@
+version: '3.8'
+
+services:
+  # 产品经理容器
+  product-manager:
+    build: 
+      context: ./roles/product_manager
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=product_manager
+      - GITHUB_USERNAME=pm_ai_001
+      - GITHUB_TOKEN=${GITHUB_TOKEN_PM}
+      - AI_TOOLS=gemini-cli,notion-api,figma-api
+      - VNC_PASSWORD=${VNC_PASSWORD_PM}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_PM}
+      - REDIS_URL=${REDIS_URL}
+      - PROMETHEUS_URL=${PROMETHEUS_URL}
+    ports:
+      - "6080:6080"  # noVNC
+      - "7681:7681"  # ttyd
+    volumes:
+      - pm_data:/app/data
+      - pm_logs:/app/logs
+      - pm_config:/app/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    networks:
+      - bee-swarm-network
+
+  # 后端开发容器
+  backend-developer:
+    build: 
+      context: ./roles/backend_developer
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=backend_developer
+      - GITHUB_USERNAME=backend_ai_001
+      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND}
+      - AI_TOOLS=claude-code,rovo-dev,cursor
+      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND}
+      - REDIS_URL=${REDIS_URL}
+      - PROMETHEUS_URL=${PROMETHEUS_URL}
+    ports:
+      - "6081:6080"  # noVNC
+      - "7682:7681"  # ttyd
+    volumes:
+      - backend_data:/app/data
+      - backend_logs:/app/logs
+      - backend_config:/app/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    networks:
+      - bee-swarm-network
+
+  # 前端开发容器
+  frontend-developer:
+    build: 
+      context: ./roles/frontend_developer
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=frontend_developer
+      - GITHUB_USERNAME=frontend_ai_001
+      - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND}
+      - AI_TOOLS=warp,cursor,figma-api
+      - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND}
+      - REDIS_URL=${REDIS_URL}
+      - PROMETHEUS_URL=${PROMETHEUS_URL}
+    ports:
+      - "6082:6080"  # noVNC
+      - "7683:7681"  # ttyd
+    volumes:
+      - frontend_data:/app/data
+      - frontend_logs:/app/logs
+      - frontend_config:/app/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 1.5G
+          cpus: '0.75'
+    networks:
+      - bee-swarm-network
+
+  # QA工程师容器
+  qa-engineer:
+    build: 
+      context: ./roles/qa_engineer
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=qa_engineer
+      - GITHUB_USERNAME=qa_ai_001
+      - GITHUB_TOKEN=${GITHUB_TOKEN_QA}
+      - AI_TOOLS=playwright,jest,cypress
+      - VNC_PASSWORD=${VNC_PASSWORD_QA}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_QA}
+      - REDIS_URL=${REDIS_URL}
+      - PROMETHEUS_URL=${PROMETHEUS_URL}
+    ports:
+      - "6083:6080"  # noVNC
+      - "7684:7681"  # ttyd
+    volumes:
+      - qa_data:/app/data
+      - qa_logs:/app/logs
+      - qa_config:/app/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    networks:
+      - bee-swarm-network
+
+  # DevOps工程师容器
+  devops-engineer:
+    build: 
+      context: ./roles/devops_engineer
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=devops_engineer
+      - GITHUB_USERNAME=devops_ai_001
+      - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS}
+      - AI_TOOLS=terraform,kubernetes,docker
+      - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS}
+      - REDIS_URL=${REDIS_URL}
+      - PROMETHEUS_URL=${PROMETHEUS_URL}
+    ports:
+      - "6084:6080"  # noVNC
+      - "7685:7681"  # ttyd
+    volumes:
+      - devops_data:/app/data
+      - devops_logs:/app/logs
+      - devops_config:/app/config
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 1.5G
+          cpus: '0.75'
+    networks:
+      - bee-swarm-network
+
+  # Webhook处理器
+  webhook-handler:
+    build: 
+      context: ./webhook
+      dockerfile: Dockerfile
+    environment:
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET}
+      - REDIS_URL=${REDIS_URL}
+    ports:
+      - "5000:5000"
+    volumes:
+      - webhook_logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - bee-swarm-network
+
+  # Redis消息队列
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - bee-swarm-network
+
+  # Prometheus监控
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    networks:
+      - bee-swarm-network
+
+  # Grafana可视化
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    restart: unless-stopped
+    networks:
+      - bee-swarm-network
+
+volumes:
+  # 角色数据卷
+  pm_data:
+  pm_logs:
+  pm_config:
+  backend_data:
+  backend_logs:
+  backend_config:
+  frontend_data:
+  frontend_logs:
+  frontend_config:
+  qa_data:
+  qa_logs:
+  qa_config:
+  devops_data:
+  devops_logs:
+  devops_config:
+  
+  # 服务数据卷
+  webhook_logs:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  bee-swarm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 
