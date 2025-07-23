@@ -1,32 +1,32 @@
-# Level 2: 角色池管理
+# Level 2: Role Pool Management
 
-## 角色池架构设计
+## Role Pool Architecture Design
 
-### 2.1 角色池概览
+### 2.1 Role Pool Overview
 
-#### 角色池组成
+#### Role Pool Composition
 ```
-角色池 (Role Pool)：
-├── 产品经理 (Product Manager) × 2
-│   ├── PM-01: 专注于需求分析和项目规划
-│   └── PM-02: 专注于产品设计和用户研究
-├── 后端开发 (Backend Developer) × 3
-│   ├── Backend-01: 全栈开发，擅长Python/Node.js
-│   ├── Backend-02: 微服务专家，擅长Go/Rust
-│   └── Backend-03: 数据库专家，擅长PHP/DevOps
-├── 前端开发 (Frontend Developer) × 2
-│   ├── Frontend-01: React/Vue专家，UI设计
-│   └── Frontend-02: Angular/Svelte专家，响应式设计
-├── QA工程师 (QA Engineer) × 2
-│   ├── QA-01: 自动化测试专家
-│   └── QA-02: 安全测试和API测试专家
-└── DevOps工程师 (DevOps Engineer) × 1
-    └── DevOps-01: CI/CD和云基础设施专家
+Role Pool:
+├── Product Manager × 2
+│   ├── PM-01: Focus on requirements analysis and project planning
+│   └── PM-02: Focus on product design and user research
+├── Backend Developer × 3
+│   ├── Backend-01: Full-stack development, expert in Python/Node.js
+│   ├── Backend-02: Microservices expert, expert in Go/Rust
+│   └── Backend-03: Database expert, expert in PHP/DevOps
+├── Frontend Developer × 2
+│   ├── Frontend-01: React/Vue expert, UI design
+│   └── Frontend-02: Angular/Svelte expert, responsive design
+├── QA Engineer × 2
+│   ├── QA-01: Automated testing expert
+│   └── QA-02: Security testing and API testing expert
+└── DevOps Engineer × 1
+    └── DevOps-01: CI/CD and cloud infrastructure expert
 ```
 
-#### 角色状态管理
+#### Role State Management
 ```yaml
-角色状态：
+Role State:
   role_id: "backend-01"
   status: "available"  # available, busy, offline
   current_project: "project-a"
@@ -41,9 +41,9 @@
     success_rate: 0.95
 ```
 
-### 2.2 角色配置管理
+### 2.2 Role Configuration Management
 
-#### 产品经理配置
+#### Product Manager Configuration
 ```python
 PM_ROLES = {
     "pm-01": {
@@ -65,7 +65,7 @@ PM_ROLES = {
 }
 ```
 
-#### 后端开发配置
+#### Backend Developer Configuration
 ```python
 BACKEND_ROLES = {
     "backend-01": {
@@ -95,384 +95,734 @@ BACKEND_ROLES = {
 }
 ```
 
-#### 前端开发配置
+#### Frontend Developer Configuration
 ```python
 FRONTEND_ROLES = {
     "frontend-01": {
         "username": "frontend_ai_001",
         "token": "ghp_xxxxxxxxxxxxxxxxxxxx",
         "ai_tools": ["warp", "cursor", "figma-api"],
-        "skills": ["react", "vue", "typescript", "ui_design"],
+        "skills": ["react", "vue", "javascript", "typescript"],
         "max_workload": 85,
-        "specializations": ["component_libraries", "state_management", "pwa"]
+        "specializations": ["ui_design", "component_library", "state_management"]
     },
     "frontend-02": {
         "username": "frontend_ai_002",
         "token": "ghp_xxxxxxxxxxxxxxxxxxxx",
         "ai_tools": ["warp", "cursor", "figma-api"],
-        "skills": ["angular", "svelte", "javascript", "responsive_design"],
+        "skills": ["angular", "svelte", "css", "responsive_design"],
         "max_workload": 85,
-        "specializations": ["mobile_first", "accessibility", "performance"]
+        "specializations": ["responsive_design", "accessibility", "performance_optimization"]
     }
 }
 ```
 
-#### QA工程师配置
+#### QA Engineer Configuration
 ```python
 QA_ROLES = {
     "qa-01": {
         "username": "qa_ai_001",
         "token": "ghp_xxxxxxxxxxxxxxxxxxxx",
         "ai_tools": ["playwright", "jest", "cypress"],
-        "skills": ["automated_testing", "manual_testing", "performance_testing"],
-        "max_workload": 75,
-        "specializations": ["e2e_testing", "unit_testing", "load_testing"]
+        "skills": ["automated_testing", "manual_testing", "test_planning"],
+        "max_workload": 80,
+        "specializations": ["e2e_testing", "unit_testing", "integration_testing"]
     },
     "qa-02": {
         "username": "qa_ai_002",
         "token": "ghp_xxxxxxxxxxxxxxxxxxxx",
         "ai_tools": ["playwright", "jest", "cypress"],
-        "skills": ["security_testing", "api_testing", "mobile_testing"],
-        "max_workload": 75,
-        "specializations": ["penetration_testing", "api_security", "mobile_qa"]
+        "skills": ["security_testing", "api_testing", "performance_testing"],
+        "max_workload": 80,
+        "specializations": ["security_audit", "penetration_testing", "load_testing"]
     }
 }
 ```
 
-#### DevOps工程师配置
+#### DevOps Engineer Configuration
 ```python
 DEVOPS_ROLES = {
     "devops-01": {
         "username": "devops_ai_001",
         "token": "ghp_xxxxxxxxxxxxxxxxxxxx",
         "ai_tools": ["terraform", "kubernetes", "docker"],
-        "skills": ["ci_cd", "kubernetes", "aws", "monitoring"],
-        "max_workload": 70,
-        "specializations": ["infrastructure_as_code", "cloud_architecture", "observability"]
+        "skills": ["ci_cd", "cloud_infrastructure", "monitoring"],
+        "max_workload": 85,
+        "specializations": ["aws", "kubernetes", "terraform", "jenkins"]
     }
 }
 ```
 
-### 2.3 工作空间管理
+### 2.3 Workspace Management
 
-#### 共享工作空间结构
-```
-/workspace/
-├── shared/                    # 共享资源
-│   ├── tools/                # 共享工具
-│   ├── templates/            # 项目模板
-│   └── docs/                 # 共享文档
-├── project-a/                # 项目A工作空间
-│   ├── backend/              # 后端代码
-│   ├── frontend/             # 前端代码
-│   ├── tests/                # 测试代码
-│   └── config/               # 项目配置
-├── project-b/                # 项目B工作空间
-│   ├── backend/
-│   ├── frontend/
-│   ├── tests/
-│   └── config/
-└── temp/                     # 临时文件
-    ├── downloads/
-    ├── uploads/
-    └── cache/
+#### Workspace Isolation
+```python
+class WorkspaceManager:
+    def __init__(self):
+        self.workspaces = {}
+        self.base_path = "/workspace"
+    
+    def create_workspace(self, project_id: str, role_id: str):
+        """Create isolated workspace for role"""
+        workspace_path = f"{self.base_path}/{project_id}/{role_id}"
+        os.makedirs(workspace_path, exist_ok=True)
+        
+        # Initialize git repository
+        subprocess.run(["git", "init"], cwd=workspace_path)
+        
+        # Set up environment
+        self._setup_environment(workspace_path, role_id)
+        
+        return workspace_path
+    
+    def _setup_environment(self, workspace_path: str, role_id: str):
+        """Set up development environment for role"""
+        # Create .env file
+        env_file = f"{workspace_path}/.env"
+        with open(env_file, "w") as f:
+            f.write(f"ROLE_ID={role_id}\n")
+            f.write(f"WORKSPACE_PATH={workspace_path}\n")
+        
+        # Create role-specific configuration
+        self._create_role_config(workspace_path, role_id)
+    
+    def _create_role_config(self, workspace_path: str, role_id: str):
+        """Create role-specific configuration files"""
+        config_dir = f"{workspace_path}/.bee-swarm"
+        os.makedirs(config_dir, exist_ok=True)
+        
+        # Create role configuration
+        role_config = {
+            "role_id": role_id,
+            "created_at": datetime.now().isoformat(),
+            "ai_tools": self._get_role_ai_tools(role_id),
+            "skills": self._get_role_skills(role_id)
+        }
+        
+        with open(f"{config_dir}/role.json", "w") as f:
+            json.dump(role_config, f, indent=2)
 ```
 
-#### 上下文切换机制
+#### Context Switching
 ```python
 class ContextManager:
-    """上下文管理器"""
+    def __init__(self):
+        self.active_contexts = {}
     
     def switch_context(self, role_id: str, project_id: str):
-        """切换角色到指定项目上下文"""
-        # 1. 保存当前工作状态
-        self.save_current_state(role_id)
+        """Switch role to different project context"""
+        context_key = f"{role_id}:{project_id}"
         
-        # 2. 切换到项目工作空间
-        self.switch_workspace(role_id, project_id)
+        if context_key in self.active_contexts:
+            # Resume existing context
+            context = self.active_contexts[context_key]
+            self._restore_context(context)
+        else:
+            # Create new context
+            context = self._create_context(role_id, project_id)
+            self.active_contexts[context_key] = context
         
-        # 3. 加载项目配置
-        self.load_project_config(project_id)
-        
-        # 4. 设置环境变量
-        self.set_environment_variables(project_id)
-        
-        # 5. 更新角色状态
-        self.update_role_status(role_id, project_id)
+        return context
     
-    def save_current_state(self, role_id: str):
-        """保存当前工作状态"""
-        # 保存当前工作目录
-        # 保存打开的文件
-        # 保存终端会话
-        # 保存环境变量
-        pass
+    def _create_context(self, role_id: str, project_id: str):
+        """Create new project context for role"""
+        context = {
+            "role_id": role_id,
+            "project_id": project_id,
+            "workspace_path": f"/workspace/{project_id}/{role_id}",
+            "current_task": None,
+            "task_history": [],
+            "created_at": datetime.now().isoformat(),
+            "last_accessed": datetime.now().isoformat()
+        }
+        
+        # Initialize workspace
+        workspace_manager = WorkspaceManager()
+        workspace_manager.create_workspace(project_id, role_id)
+        
+        return context
     
-    def switch_workspace(self, role_id: str, project_id: str):
-        """切换到项目工作空间"""
-        workspace_path = f"/workspace/{project_id}"
-        # 确保工作空间存在
-        # 设置工作目录
-        # 初始化项目环境
-        pass
+    def _restore_context(self, context: dict):
+        """Restore previous context state"""
+        context["last_accessed"] = datetime.now().isoformat()
+        
+        # Restore working directory
+        os.chdir(context["workspace_path"])
+        
+        # Restore environment variables
+        self._load_environment(context["workspace_path"])
+    
+    def _load_environment(self, workspace_path: str):
+        """Load environment variables from workspace"""
+        env_file = f"{workspace_path}/.env"
+        if os.path.exists(env_file):
+            load_dotenv(env_file)
 ```
 
-### 2.4 负载均衡策略
+### 2.4 Load Balancing Algorithm
 
-#### 负载计算算法
+#### Task Assignment Algorithm
 ```python
 class LoadBalancer:
-    """负载均衡器"""
+    def __init__(self):
+        self.role_states = {}
+        self.task_queue = []
     
-    def calculate_workload(self, role_id: str) -> float:
-        """计算角色当前负载"""
-        role = self.get_role_status(role_id)
+    def assign_task(self, task: dict) -> str:
+        """Assign task to best available role"""
+        available_roles = self._get_available_roles(task["required_skills"])
         
-        # 基础负载：当前任务数量
-        base_load = len(role.current_tasks) * 20
+        if not available_roles:
+            raise Exception("No available roles for task")
         
-        # 任务复杂度负载
-        complexity_load = sum(task.complexity for task in role.current_tasks)
+        # Score each role based on multiple factors
+        role_scores = {}
+        for role_id in available_roles:
+            score = self._calculate_role_score(role_id, task)
+            role_scores[role_id] = score
         
-        # 时间负载：任务持续时间
-        time_load = sum(task.duration_hours for task in role.current_tasks) * 5
+        # Select role with highest score
+        best_role = max(role_scores, key=role_scores.get)
         
-        # 总负载
-        total_load = min(base_load + complexity_load + time_load, 100)
+        # Assign task to role
+        self._assign_task_to_role(best_role, task)
         
-        return total_load
+        return best_role
     
-    def select_best_role(self, task_requirements: dict) -> str:
-        """选择最适合的角色"""
-        available_roles = self.get_available_roles()
+    def _get_available_roles(self, required_skills: list) -> list:
+        """Get roles that have required skills and are available"""
+        available_roles = []
         
-        # 技能匹配度
-        skill_scores = {}
-        for role_id, role in available_roles.items():
-            skill_match = self.calculate_skill_match(role.skills, task_requirements.skills)
-            workload_score = 100 - role.workload  # 负载越低分数越高
-            performance_score = role.performance_metrics.success_rate * 100
-            
-            # 综合评分
-            total_score = skill_match * 0.5 + workload_score * 0.3 + performance_score * 0.2
-            skill_scores[role_id] = total_score
+        for role_id, state in self.role_states.items():
+            if (state["status"] == "available" and 
+                state["workload"] < state["max_workload"] and
+                self._has_required_skills(role_id, required_skills)):
+                available_roles.append(role_id)
         
-        # 返回评分最高的角色
-        return max(skill_scores, key=skill_scores.get)
+        return available_roles
+    
+    def _calculate_role_score(self, role_id: str, task: dict) -> float:
+        """Calculate score for role-task assignment"""
+        state = self.role_states[role_id]
+        
+        # Base score from skill match
+        skill_score = self._calculate_skill_match(role_id, task["required_skills"])
+        
+        # Workload factor (prefer less loaded roles)
+        workload_factor = 1.0 - (state["workload"] / 100.0)
+        
+        # Performance factor
+        performance_factor = state["performance_metrics"]["success_rate"]
+        
+        # Specialization bonus
+        specialization_bonus = self._calculate_specialization_bonus(role_id, task)
+        
+        # Calculate final score
+        score = (skill_score * 0.4 + 
+                workload_factor * 0.3 + 
+                performance_factor * 0.2 + 
+                specialization_bonus * 0.1)
+        
+        return score
+    
+    def _calculate_skill_match(self, role_id: str, required_skills: list) -> float:
+        """Calculate skill match percentage"""
+        role_skills = self.role_states[role_id]["skills"]
+        
+        matched_skills = set(role_skills) & set(required_skills)
+        total_required = len(required_skills)
+        
+        if total_required == 0:
+            return 1.0
+        
+        return len(matched_skills) / total_required
+    
+    def _calculate_specialization_bonus(self, role_id: str, task: dict) -> float:
+        """Calculate specialization bonus for task"""
+        role_specializations = self.role_states[role_id]["specializations"]
+        task_type = task.get("type", "")
+        
+        if task_type in role_specializations:
+            return 0.2  # 20% bonus for specialization match
+        
+        return 0.0
+    
+    def _assign_task_to_role(self, role_id: str, task: dict):
+        """Assign task to specific role"""
+        # Update role state
+        self.role_states[role_id]["status"] = "busy"
+        self.role_states[role_id]["current_task"] = task["id"]
+        self.role_states[role_id]["workload"] += task.get("estimated_effort", 10)
+        
+        # Add task to role's queue
+        if "task_queue" not in self.role_states[role_id]:
+            self.role_states[role_id]["task_queue"] = []
+        
+        self.role_states[role_id]["task_queue"].append(task)
 ```
 
-#### 负载均衡策略
-```python
-class LoadBalanceStrategy:
-    """负载均衡策略"""
-    
-    def round_robin(self, available_roles: list) -> str:
-        """轮询策略"""
-        # 按角色类型轮询分配
-        pass
-    
-    def least_loaded(self, available_roles: list) -> str:
-        """最少负载策略"""
-        # 选择当前负载最低的角色
-        return min(available_roles, key=lambda r: r.workload)
-    
-    def skill_based(self, task_requirements: dict, available_roles: list) -> str:
-        """基于技能的策略"""
-        # 根据任务技能要求选择最匹配的角色
-        best_match = None
-        best_score = 0
-        
-        for role in available_roles:
-            score = self.calculate_skill_match(role.skills, task_requirements.skills)
-            if score > best_score:
-                best_score = score
-                best_match = role
-        
-        return best_match.role_id
-```
+### 2.5 Health Check and Monitoring
 
-### 2.5 角色监控和健康检查
-
-#### 健康检查机制
+#### Role Health Monitoring
 ```python
-class HealthChecker:
-    """健康检查器"""
+class HealthMonitor:
+    def __init__(self):
+        self.health_checks = {}
+        self.alert_thresholds = {
+            "cpu_usage": 90,
+            "memory_usage": 85,
+            "disk_usage": 80,
+            "response_time": 5000  # ms
+        }
     
     def check_role_health(self, role_id: str) -> dict:
-        """检查角色健康状态"""
+        """Perform comprehensive health check for role"""
         health_status = {
             "role_id": role_id,
-            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "overall_status": "healthy",
             "checks": {}
         }
         
-        # 检查容器状态
-        container_status = self.check_container_status(role_id)
-        health_status["checks"]["container"] = container_status
+        # System resource checks
+        health_status["checks"]["system"] = self._check_system_resources(role_id)
         
-        # 检查VNC连接
-        vnc_status = self.check_vnc_connection(role_id)
-        health_status["checks"]["vnc"] = vnc_status
+        # Application health checks
+        health_status["checks"]["application"] = self._check_application_health(role_id)
         
-        # 检查GitHub连接
-        github_status = self.check_github_connection(role_id)
-        health_status["checks"]["github"] = github_status
+        # AI tool availability checks
+        health_status["checks"]["ai_tools"] = self._check_ai_tools(role_id)
         
-        # 检查AI工具状态
-        ai_tools_status = self.check_ai_tools_status(role_id)
-        health_status["checks"]["ai_tools"] = ai_tools_status
+        # Network connectivity checks
+        health_status["checks"]["network"] = self._check_network_connectivity(role_id)
         
-        # 综合状态判断
-        if any(check["status"] == "unhealthy" for check in health_status["checks"].values()):
-            health_status["status"] = "unhealthy"
+        # Determine overall status
+        health_status["overall_status"] = self._determine_overall_status(health_status["checks"])
         
         return health_status
     
-    def check_container_status(self, role_id: str) -> dict:
-        """检查容器状态"""
-        # 检查Docker容器是否运行
-        # 检查资源使用情况
-        # 检查日志是否有错误
-        pass
+    def _check_system_resources(self, role_id: str) -> dict:
+        """Check system resource usage"""
+        try:
+            # Get container stats
+            container_stats = self._get_container_stats(role_id)
+            
+            checks = {
+                "cpu_usage": {
+                    "status": "healthy" if container_stats["cpu_percent"] < self.alert_thresholds["cpu_usage"] else "warning",
+                    "value": container_stats["cpu_percent"],
+                    "threshold": self.alert_thresholds["cpu_usage"]
+                },
+                "memory_usage": {
+                    "status": "healthy" if container_stats["memory_percent"] < self.alert_thresholds["memory_usage"] else "warning",
+                    "value": container_stats["memory_percent"],
+                    "threshold": self.alert_thresholds["memory_usage"]
+                },
+                "disk_usage": {
+                    "status": "healthy" if container_stats["disk_percent"] < self.alert_thresholds["disk_usage"] else "warning",
+                    "value": container_stats["disk_percent"],
+                    "threshold": self.alert_thresholds["disk_usage"]
+                }
+            }
+            
+            return checks
+        except Exception as e:
+            return {"error": str(e)}
     
-    def check_vnc_connection(self, role_id: str) -> dict:
-        """检查VNC连接状态"""
-        # 检查noVNC服务是否响应
-        # 检查VNC密码是否正确
-        # 检查桌面环境是否正常
-        pass
+    def _check_application_health(self, role_id: str) -> dict:
+        """Check application health endpoints"""
+        try:
+            # Check role API endpoint
+            response = requests.get(f"http://{role_id}:8000/health", timeout=5)
+            
+            checks = {
+                "api_endpoint": {
+                    "status": "healthy" if response.status_code == 200 else "unhealthy",
+                    "response_time": response.elapsed.total_seconds() * 1000,
+                    "status_code": response.status_code
+                }
+            }
+            
+            return checks
+        except Exception as e:
+            return {"api_endpoint": {"status": "unhealthy", "error": str(e)}}
     
-    def check_github_connection(self, role_id: str) -> dict:
-        """检查GitHub连接状态"""
-        # 检查GitHub API连接
-        # 检查Token是否有效
-        # 检查权限是否足够
-        pass
+    def _check_ai_tools(self, role_id: str) -> dict:
+        """Check AI tool availability"""
+        role_config = self._get_role_config(role_id)
+        ai_tools = role_config.get("ai_tools", [])
+        
+        checks = {}
+        for tool in ai_tools:
+            try:
+                # Check if AI tool is available
+                tool_status = self._check_ai_tool_status(tool)
+                checks[tool] = {
+                    "status": "healthy" if tool_status else "unhealthy",
+                    "available": tool_status
+                }
+            except Exception as e:
+                checks[tool] = {
+                    "status": "unhealthy",
+                    "error": str(e)
+                }
+        
+        return checks
     
-    def check_ai_tools_status(self, role_id: str) -> dict:
-        """检查AI工具状态"""
-        # 检查各个AI工具是否可用
-        # 检查API密钥是否有效
-        # 检查工具响应时间
-        pass
+    def _check_network_connectivity(self, role_id: str) -> dict:
+        """Check network connectivity"""
+        checks = {}
+        
+        # Check GitHub connectivity
+        try:
+            response = requests.get("https://api.github.com", timeout=5)
+            checks["github"] = {
+                "status": "healthy" if response.status_code == 200 else "unhealthy",
+                "response_time": response.elapsed.total_seconds() * 1000
+            }
+        except Exception as e:
+            checks["github"] = {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+        
+        # Check coordinator connectivity
+        try:
+            response = requests.get("http://coordinator:8000/health", timeout=5)
+            checks["coordinator"] = {
+                "status": "healthy" if response.status_code == 200 else "unhealthy",
+                "response_time": response.elapsed.total_seconds() * 1000
+            }
+        except Exception as e:
+            checks["coordinator"] = {
+                "status": "unhealthy",
+                "error": str(e)
+            }
+        
+        return checks
+    
+    def _determine_overall_status(self, checks: dict) -> str:
+        """Determine overall health status"""
+        all_checks = []
+        
+        # Flatten all check results
+        for category, category_checks in checks.items():
+            if isinstance(category_checks, dict):
+                for check_name, check_result in category_checks.items():
+                    if isinstance(check_result, dict) and "status" in check_result:
+                        all_checks.append(check_result["status"])
+        
+        # Determine overall status
+        if "unhealthy" in all_checks:
+            return "unhealthy"
+        elif "warning" in all_checks:
+            return "warning"
+        else:
+            return "healthy"
 ```
 
-#### 性能监控
+### 2.6 Performance Monitoring
+
+#### Performance Metrics Collection
 ```python
 class PerformanceMonitor:
-    """性能监控器"""
+    def __init__(self):
+        self.metrics = {}
+        self.performance_history = {}
     
-    def track_role_performance(self, role_id: str):
-        """跟踪角色性能指标"""
+    def collect_metrics(self, role_id: str) -> dict:
+        """Collect performance metrics for role"""
         metrics = {
             "role_id": role_id,
-            "timestamp": datetime.now(),
-            "task_completion_rate": self.calculate_completion_rate(role_id),
-            "average_task_duration": self.calculate_average_duration(role_id),
-            "error_rate": self.calculate_error_rate(role_id),
-            "resource_usage": self.get_resource_usage(role_id),
-            "ai_tool_usage": self.get_ai_tool_usage(role_id)
+            "timestamp": datetime.now().isoformat(),
+            "task_metrics": self._collect_task_metrics(role_id),
+            "ai_tool_metrics": self._collect_ai_tool_metrics(role_id),
+            "system_metrics": self._collect_system_metrics(role_id)
         }
         
-        # 存储性能指标
-        self.store_metrics(metrics)
+        # Store metrics
+        self.metrics[role_id] = metrics
         
-        # 检查是否需要调整
-        self.check_performance_alerts(metrics)
+        # Update performance history
+        if role_id not in self.performance_history:
+            self.performance_history[role_id] = []
+        
+        self.performance_history[role_id].append(metrics)
+        
+        # Keep only last 100 entries
+        if len(self.performance_history[role_id]) > 100:
+            self.performance_history[role_id] = self.performance_history[role_id][-100:]
+        
+        return metrics
     
-    def calculate_completion_rate(self, role_id: str) -> float:
-        """计算任务完成率"""
-        # 统计最近24小时的任务完成情况
-        pass
+    def _collect_task_metrics(self, role_id: str) -> dict:
+        """Collect task-related performance metrics"""
+        role_state = self._get_role_state(role_id)
+        
+        return {
+            "tasks_completed": role_state.get("tasks_completed", 0),
+            "tasks_failed": role_state.get("tasks_failed", 0),
+            "average_completion_time": role_state.get("average_completion_time", "0h"),
+            "success_rate": role_state.get("success_rate", 0.0),
+            "current_workload": role_state.get("workload", 0),
+            "queue_length": len(role_state.get("task_queue", []))
+        }
     
-    def calculate_average_duration(self, role_id: str) -> float:
-        """计算平均任务持续时间"""
-        # 计算最近完成任务的平均时间
-        pass
+    def _collect_ai_tool_metrics(self, role_id: str) -> dict:
+        """Collect AI tool usage metrics"""
+        role_config = self._get_role_config(role_id)
+        ai_tools = role_config.get("ai_tools", [])
+        
+        tool_metrics = {}
+        for tool in ai_tools:
+            tool_metrics[tool] = {
+                "usage_count": self._get_tool_usage_count(role_id, tool),
+                "success_rate": self._get_tool_success_rate(role_id, tool),
+                "average_response_time": self._get_tool_response_time(role_id, tool)
+            }
+        
+        return tool_metrics
     
-    def calculate_error_rate(self, role_id: str) -> float:
-        """计算错误率"""
-        # 统计任务失败和错误的比例
-        pass
+    def _collect_system_metrics(self, role_id: str) -> dict:
+        """Collect system performance metrics"""
+        try:
+            container_stats = self._get_container_stats(role_id)
+            
+            return {
+                "cpu_usage": container_stats.get("cpu_percent", 0),
+                "memory_usage": container_stats.get("memory_percent", 0),
+                "disk_usage": container_stats.get("disk_percent", 0),
+                "network_io": container_stats.get("network_io", {}),
+                "uptime": container_stats.get("uptime", 0)
+            }
+        except Exception as e:
+            return {"error": str(e)}
+    
+    def get_performance_report(self, role_id: str, time_range: str = "24h") -> dict:
+        """Generate performance report for role"""
+        if role_id not in self.performance_history:
+            return {"error": "No performance data available"}
+        
+        history = self.performance_history[role_id]
+        
+        # Filter by time range
+        cutoff_time = datetime.now() - timedelta(hours=24 if time_range == "24h" else 168)
+        filtered_history = [
+            entry for entry in history 
+            if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
+        ]
+        
+        if not filtered_history:
+            return {"error": "No data in specified time range"}
+        
+        # Calculate aggregated metrics
+        report = {
+            "role_id": role_id,
+            "time_range": time_range,
+            "total_tasks": sum(entry["task_metrics"]["tasks_completed"] for entry in filtered_history),
+            "average_success_rate": sum(entry["task_metrics"]["success_rate"] for entry in filtered_history) / len(filtered_history),
+            "average_workload": sum(entry["task_metrics"]["current_workload"] for entry in filtered_history) / len(filtered_history),
+            "system_performance": self._aggregate_system_metrics(filtered_history)
+        }
+        
+        return report
+    
+    def _aggregate_system_metrics(self, history: list) -> dict:
+        """Aggregate system metrics from history"""
+        if not history:
+            return {}
+        
+        cpu_usage = [entry["system_metrics"].get("cpu_usage", 0) for entry in history]
+        memory_usage = [entry["system_metrics"].get("memory_usage", 0) for entry in history]
+        
+        return {
+            "average_cpu_usage": sum(cpu_usage) / len(cpu_usage),
+            "max_cpu_usage": max(cpu_usage),
+            "average_memory_usage": sum(memory_usage) / len(memory_usage),
+            "max_memory_usage": max(memory_usage)
+        }
 ```
 
-### 2.6 角色扩展和缩容
+### 2.7 Dynamic Scaling
 
-#### 动态扩缩容
+#### Auto-scaling Algorithm
 ```python
-class RoleScaler:
-    """角色扩缩容管理器"""
+class AutoScaler:
+    def __init__(self):
+        self.scaling_rules = {
+            "cpu_threshold": 80,
+            "memory_threshold": 85,
+            "queue_length_threshold": 10,
+            "response_time_threshold": 5000
+        }
+        self.scaling_cooldown = 300  # 5 minutes
     
-    def scale_up(self, role_type: str, count: int = 1):
-        """扩容角色"""
-        # 1. 检查资源可用性
-        if not self.check_resource_availability(role_type, count):
-            raise InsufficientResourcesError(f"Insufficient resources for {role_type}")
+    def evaluate_scaling_needs(self) -> dict:
+        """Evaluate if scaling is needed"""
+        scaling_decisions = {
+            "scale_up": [],
+            "scale_down": [],
+            "reasons": []
+        }
         
-        # 2. 创建新角色容器
-        new_roles = []
-        for i in range(count):
-            role_id = self.generate_role_id(role_type)
-            role_config = self.create_role_config(role_type, role_id)
+        # Check each role type
+        role_types = ["product_manager", "backend_developer", "frontend_developer", "qa_engineer", "devops_engineer"]
+        
+        for role_type in role_types:
+            decision = self._evaluate_role_type_scaling(role_type)
             
-            # 启动新容器
-            container_id = self.start_role_container(role_config)
+            if decision["action"] == "scale_up":
+                scaling_decisions["scale_up"].append({
+                    "role_type": role_type,
+                    "count": decision["count"],
+                    "reason": decision["reason"]
+                })
+            elif decision["action"] == "scale_down":
+                scaling_decisions["scale_down"].append({
+                    "role_type": role_type,
+                    "count": decision["count"],
+                    "reason": decision["reason"]
+                })
             
-            # 初始化角色
-            self.initialize_role(role_id, role_config)
-            
-            new_roles.append(role_id)
+            scaling_decisions["reasons"].extend(decision["reasons"])
         
-        # 3. 更新角色池配置
-        self.update_role_pool_config(role_type, new_roles)
-        
-        # 4. 通知系统协调器
-        self.notify_coordinator_new_roles(new_roles)
-        
-        return new_roles
+        return scaling_decisions
     
-    def scale_down(self, role_type: str, count: int = 1):
-        """缩容角色"""
-        # 1. 选择要移除的角色
-        roles_to_remove = self.select_roles_to_remove(role_type, count)
+    def _evaluate_role_type_scaling(self, role_type: str) -> dict:
+        """Evaluate scaling needs for specific role type"""
+        roles = self._get_roles_by_type(role_type)
         
-        # 2. 迁移正在进行的任务
-        for role_id in roles_to_remove:
-            self.migrate_tasks(role_id)
+        if not roles:
+            return {"action": "none", "count": 0, "reason": "No roles found", "reasons": []}
         
-        # 3. 停止角色容器
-        for role_id in roles_to_remove:
-            self.stop_role_container(role_id)
+        reasons = []
+        scale_up_factors = 0
+        scale_down_factors = 0
         
-        # 4. 清理角色数据
-        for role_id in roles_to_remove:
-            self.cleanup_role_data(role_id)
+        # Check average workload
+        avg_workload = sum(role["workload"] for role in roles) / len(roles)
+        if avg_workload > 90:
+            scale_up_factors += 1
+            reasons.append(f"High average workload: {avg_workload:.1f}%")
+        elif avg_workload < 30:
+            scale_down_factors += 1
+            reasons.append(f"Low average workload: {avg_workload:.1f}%")
         
-        # 5. 更新角色池配置
-        self.update_role_pool_config(role_type, remove_roles=roles_to_remove)
+        # Check queue length
+        total_queue_length = sum(len(role.get("task_queue", [])) for role in roles)
+        if total_queue_length > self.scaling_rules["queue_length_threshold"]:
+            scale_up_factors += 1
+            reasons.append(f"Long task queue: {total_queue_length} tasks")
         
-        return roles_to_remove
+        # Check response time
+        avg_response_time = self._get_average_response_time(roles)
+        if avg_response_time > self.scaling_rules["response_time_threshold"]:
+            scale_up_factors += 1
+            reasons.append(f"Slow response time: {avg_response_time}ms")
+        
+        # Determine action
+        if scale_up_factors >= 2:
+            return {
+                "action": "scale_up",
+                "count": 1,
+                "reason": "Multiple scaling factors triggered",
+                "reasons": reasons
+            }
+        elif scale_down_factors >= 2 and len(roles) > 1:
+            return {
+                "action": "scale_down",
+                "count": 1,
+                "reason": "Low utilization detected",
+                "reasons": reasons
+            }
+        else:
+            return {
+                "action": "none",
+                "count": 0,
+                "reason": "No scaling needed",
+                "reasons": reasons
+            }
     
-    def auto_scale(self):
-        """自动扩缩容"""
-        # 1. 分析当前负载
-        current_load = self.analyze_current_load()
+    def execute_scaling(self, scaling_decisions: dict):
+        """Execute scaling decisions"""
+        results = {
+            "scaled_up": [],
+            "scaled_down": [],
+            "errors": []
+        }
         
-        # 2. 预测未来负载
-        predicted_load = self.predict_future_load()
+        # Execute scale up
+        for decision in scaling_decisions["scale_up"]:
+            try:
+                new_role = self._create_new_role(decision["role_type"])
+                results["scaled_up"].append({
+                    "role_type": decision["role_type"],
+                    "role_id": new_role["id"],
+                    "reason": decision["reason"]
+                })
+            except Exception as e:
+                results["errors"].append({
+                    "action": "scale_up",
+                    "role_type": decision["role_type"],
+                    "error": str(e)
+                })
         
-        # 3. 计算需要的角色数量
-        required_roles = self.calculate_required_roles(predicted_load)
+        # Execute scale down
+        for decision in scaling_decisions["scale_down"]:
+            try:
+                removed_role = self._remove_role(decision["role_type"])
+                results["scaled_down"].append({
+                    "role_type": decision["role_type"],
+                    "role_id": removed_role["id"],
+                    "reason": decision["reason"]
+                })
+            except Exception as e:
+                results["errors"].append({
+                    "action": "scale_down",
+                    "role_type": decision["role_type"],
+                    "error": str(e)
+                })
         
-        # 4. 执行扩缩容
-        current_roles = self.get_current_role_count()
+        return results
+    
+    def _create_new_role(self, role_type: str) -> dict:
+        """Create new role instance"""
+        # Generate unique role ID
+        role_id = f"{role_type}-{int(time.time())}"
         
-        if required_roles > current_roles:
-            # 需要扩容
-            self.scale_up(required_roles - current_roles)
-        elif required_roles < current_roles:
-            # 需要缩容
-            self.scale_down(current_roles - required_roles)
-```
-
-这个角色池管理系统提供了完整的角色生命周期管理、负载均衡、健康检查和动态扩缩容功能，确保系统能够高效地分配和管理AI开发角色。 
+        # Create role configuration
+        role_config = self._get_role_type_config(role_type)
+        role_config["id"] = role_id
+        role_config["created_at"] = datetime.now().isoformat()
+        
+        # Deploy role container
+        container_id = self._deploy_role_container(role_config)
+        
+        # Update role registry
+        self._register_role(role_config)
+        
+        return {
+            "id": role_id,
+            "type": role_type,
+            "container_id": container_id,
+            "status": "starting"
+        }
+    
+    def _remove_role(self, role_type: str) -> dict:
+        """Remove role instance"""
+        # Find least loaded role of this type
+        roles = self._get_roles_by_type(role_type)
+        if not roles:
+            raise Exception(f"No roles found for type: {role_type}")
+        
+        # Select role with lowest workload
+        target_role = min(roles, key=lambda r: r["workload"])
+        
+        # Stop and remove container
+        self._stop_role_container(target_role["id"])
+        
+        # Unregister role
+        self._unregister_role(target_role["id"])
+        
+        return target_role
+``` 

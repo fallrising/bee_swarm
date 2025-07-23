@@ -1,113 +1,113 @@
-# Level 1: 系统概览
+# Level 1: System Overview
 
-## 业务面：项目整体运作模式
+## Business Aspect: Overall Project Operation Mode
 
-### 1.1 项目生命周期
+### 1.1 Project Lifecycle
 
-#### 需求阶段
-1. **需求接收**：人类用户在GitHub创建Issue描述需求
-2. **需求分析**：产品经理角色分析需求的可行性和技术复杂度
-3. **任务拆解**：将大需求拆分为具体的开发任务
-4. **优先级排序**：根据业务价值和紧急程度排序
-5. **任务分配**：系统协调器智能分配给合适的角色
+#### Requirements Phase
+1. **Requirements Reception**: Human users create Issues on GitHub to describe requirements
+2. **Requirements Analysis**: Product Manager role analyzes feasibility and technical complexity of requirements
+3. **Task Breakdown**: Break down large requirements into specific development tasks
+4. **Priority Sorting**: Sort by business value and urgency
+5. **Task Assignment**: System coordinator intelligently assigns to appropriate roles
 
-#### 开发阶段
-1. **任务接收**：角色从GitHub接收分配的任务
-2. **上下文切换**：角色切换到对应项目的工作空间
-3. **AI工具执行**：使用预装的AI工具进行开发
-4. **代码生成**：AI工具根据需求生成代码
-5. **PR创建**：创建Pull Request进行代码审查
+#### Development Phase
+1. **Task Reception**: Roles receive assigned tasks from GitHub
+2. **Context Switching**: Roles switch to corresponding project workspace
+3. **AI Tool Execution**: Use pre-installed AI tools for development
+4. **Code Generation**: AI tools generate code based on requirements
+5. **PR Creation**: Create Pull Requests for code review
 
-#### 测试阶段
-1. **自动化测试**：QA工程师执行自动化测试
-2. **问题发现**：发现并记录代码问题
-3. **问题反馈**：通过GitHub Comments反馈问题
-4. **问题修复**：开发人员根据反馈修复问题
-5. **回归测试**：验证修复后的功能
+#### Testing Phase
+1. **Automated Testing**: QA Engineer executes automated tests
+2. **Issue Discovery**: Discover and record code issues
+3. **Issue Feedback**: Provide feedback through GitHub Comments
+4. **Issue Resolution**: Developers fix issues based on feedback
+5. **Regression Testing**: Verify functionality after fixes
 
-#### 部署阶段
-1. **代码合并**：通过代码审查后合并到主分支
-2. **自动部署**：DevOps工程师触发自动部署流程
-3. **环境监控**：监控生产环境运行状态
-4. **问题处理**：处理生产环境中的问题
-5. **性能优化**：根据运行数据进行优化
+#### Deployment Phase
+1. **Code Merge**: Merge to main branch after code review
+2. **Automated Deployment**: DevOps Engineer triggers automated deployment process
+3. **Environment Monitoring**: Monitor production environment status
+4. **Issue Handling**: Handle issues in production environment
+5. **Performance Optimization**: Optimize based on runtime data
 
-### 1.2 角色协作模式
+### 1.2 Role Collaboration Mode
 
-#### 角色池管理
+#### Role Pool Management
 ```
-角色池：
-├── 产品经理 × 2 (PM-01, PM-02)
-├── 后端开发 × 3 (Backend-01, Backend-02, Backend-03)
-├── 前端开发 × 2 (Frontend-01, Frontend-02)
-├── QA工程师 × 2 (QA-01, QA-02)
-└── DevOps工程师 × 1 (DevOps-01)
+Role Pool:
+├── Product Manager × 2 (PM-01, PM-02)
+├── Backend Developer × 3 (Backend-01, Backend-02, Backend-03)
+├── Frontend Developer × 2 (Frontend-01, Frontend-02)
+├── QA Engineer × 2 (QA-01, QA-02)
+└── DevOps Engineer × 1 (DevOps-01)
 ```
 
-#### 任务分配流程
+#### Task Assignment Process
 ```
-GitHub Issue → 系统协调器 → 任务分析 → 角色匹配 → 任务分配
+GitHub Issue → System Coordinator → Task Analysis → Role Matching → Task Assignment
      ↓              ↓           ↓         ↓         ↓
-需求描述 → 技能匹配 → 负载检查 → 选择角色 → 更新状态
+Requirement Description → Skill Matching → Load Check → Role Selection → Status Update
 ```
 
-#### 异步协作流程
+#### Asynchronous Collaboration Process
 ```
-角色A → GitHub Comments → 角色B
+Role A → GitHub Comments → Role B
   ↓           ↓           ↓
-执行任务 → 状态更新 → 接收通知
+Execute Task → Status Update → Receive Notification
   ↓           ↓           ↓
-完成任务 → 创建PR → 代码审查
+Complete Task → Create PR → Code Review
 ```
 
-### 1.3 沟通机制
+### 1.3 Communication Mechanism
 
-#### GitHub驱动的通信
-- **Issues**：任务管理和状态跟踪
-- **Comments**：角色间讨论和问题反馈
-- **Labels**：任务分类、优先级和技能要求
-- **Projects**：项目看板和角色负载管理
-- **Pull Requests**：代码审查和讨论
-- **Mentions**：角色间通知和协作
+#### GitHub-Driven Communication
+- **Issues**: Task management and status tracking
+- **Comments**: Inter-role discussions and issue feedback
+- **Labels**: Task categorization, priorities, and skill requirements
+- **Projects**: Project kanban and role load management
+- **Pull Requests**: Code review and discussions
+- **Mentions**: Inter-role notifications and collaboration
 
-#### 状态同步机制
-- **定时扫描**：每30秒扫描GitHub状态
-- **事件触发**：重要事件发生时立即更新
-- **负载均衡**：根据角色负载动态分配任务
-- **进度跟踪**：实时更新任务进度
+#### Status Synchronization Mechanism
+- **Periodic Scanning**: Scan GitHub status every 30 seconds
+- **Event Triggering**: Update immediately when important events occur
+- **Load Balancing**: Dynamically assign tasks based on role load
+- **Progress Tracking**: Real-time task progress updates
 
-#### 问题反馈流程
-1. **问题发现**：QA或开发人员发现问题
-2. **问题记录**：在GitHub上创建Issue或Comment
-3. **问题分配**：系统自动分配给合适的处理人员
-4. **问题解决**：相关人员解决问题
-5. **问题验证**：验证问题是否已解决
+#### Issue Feedback Process
+1. **Issue Discovery**: QA or developers discover issues
+2. **Issue Recording**: Create Issues or Comments on GitHub
+3. **Issue Assignment**: System automatically assigns to appropriate handlers
+4. **Issue Resolution**: Relevant personnel resolve issues
+5. **Issue Verification**: Verify if issues are resolved
 
-## 技术面：系统架构概览
+## Technical Aspect: System Architecture Overview
 
-### 1.1 整体架构
+### 1.1 Overall Architecture
 
-#### 系统层次结构
+#### System Hierarchy
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        GitHub 平台                              │
+│                        GitHub Platform                          │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
 │  │   Issues    │ │  Projects   │ │  Comments   │ │   Labels    │ │
-│  │   (任务)    │ │  (看板)     │ │  (通信)     │ │  (分类)     │ │
+│  │  (Tasks)    │ │  (Kanban)   │ │ (Communication)│ │ (Categories) │ │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    系统协调器 (Coordinator)                      │
+│                 System Coordinator (Coordinator)                │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │ 任务调度器  │ │ 状态管理器  │ │ GitHub同步器│ │ 通信协调器  │ │
+│  │ Task Scheduler│ │ State Manager│ │ GitHub Sync│ │ Communication│ │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    角色池 (Role Pool)                           │
+│                     Role Pool (Role Pool)                       │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
 │  │ PM-01       │ │ Backend-01  │ │ Frontend-01 │ │ QA-01       │ │
 │  │ PM-02       │ │ Backend-02  │ │ Frontend-02 │ │ QA-02       │ │
@@ -119,7 +119,7 @@ GitHub Issue → 系统协调器 → 任务分析 → 角色匹配 → 任务分
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-#### 网络架构
+#### Network Architecture
 ```
 Internet
     │
@@ -143,87 +143,87 @@ Internet
 └─────────────────────────────────────────────────┘
 ```
 
-### 1.2 技术栈
+### 1.2 Technology Stack
 
-#### 系统协调器
-- **FastAPI**：Web框架和API服务
-- **Celery**：异步任务处理
-- **Redis**：消息队列和缓存
-- **PostgreSQL**：状态数据库
-- **PyGithub**：GitHub API集成
+#### System Coordinator
+- **FastAPI**: Web framework and API services
+- **Celery**: Asynchronous task processing
+- **Redis**: Message queue and caching
+- **PostgreSQL**: State database
+- **PyGithub**: GitHub API integration
 
-#### 角色容器
-- **Docker**：容器运行时
-- **VNC Lab**：基于noVNC的桌面环境
-- **Supervisor**：进程管理
-- **Python**：角色逻辑实现
+#### Role Containers
+- **Docker**: Container runtime
+- **VNC Lab**: noVNC-based desktop environment
+- **Supervisor**: Process management
+- **Python**: Role logic implementation
 
-#### AI工具集成
-- **Gemini CLI**：Google的AI编程助手
-- **Claude Code**：Anthropic的代码生成工具
-- **Rovo Dev**：AI驱动的开发工具
-- **Warp**：AI终端
-- **Cursor**：AI代码编辑器
+#### AI Tool Integration
+- **Gemini CLI**: Google's AI programming assistant
+- **Claude Code**: Anthropic's code generation tool
+- **Rovo Dev**: AI-driven development tool
+- **Warp**: AI terminal
+- **Cursor**: AI code editor
 
-#### 监控和日志
-- **Prometheus**：指标收集
-- **Grafana**：数据可视化
-- **Loguru**：日志管理
+#### Monitoring and Logging
+- **Prometheus**: Metrics collection
+- **Grafana**: Data visualization
+- **Loguru**: Log management
 
-### 1.3 部署策略
+### 1.3 Deployment Strategy
 
-#### 开发环境
-- **本地部署**：使用Docker Compose
-- **单机运行**：所有服务运行在同一台机器
-- **快速迭代**：便于开发和测试
+#### Development Environment
+- **Local Deployment**: Use Docker Compose
+- **Single Machine**: All services run on the same machine
+- **Rapid Iteration**: Easy for development and testing
 
-#### 测试环境
-- **容器集群**：使用Docker Swarm或Kubernetes
-- **负载均衡**：测试高可用性
-- **性能测试**：验证系统性能
+#### Testing Environment
+- **Container Cluster**: Use Docker Swarm or Kubernetes
+- **Load Balancing**: Test high availability
+- **Performance Testing**: Verify system performance
 
-#### 生产环境
-- **容器编排**：使用Kubernetes
-- **自动扩缩容**：根据负载自动调整
-- **多地域部署**：提高可用性
+#### Production Environment
+- **Container Orchestration**: Use Kubernetes
+- **Auto Scaling**: Automatically adjust based on load
+- **Multi-Region Deployment**: Improve availability
 
-#### 部署流程
-1. **代码构建**：Docker镜像构建
-2. **镜像推送**：推送到镜像仓库
-3. **服务更新**：滚动更新服务
-4. **健康检查**：验证服务状态
-5. **流量切换**：切换到新版本
+#### Deployment Process
+1. **Code Build**: Docker image building
+2. **Image Push**: Push to image registry
+3. **Service Update**: Rolling service updates
+4. **Health Check**: Verify service status
+5. **Traffic Switch**: Switch to new version
 
-### 1.4 安全策略
+### 1.4 Security Strategy
 
-#### 网络安全
-- **容器隔离**：每个角色运行在独立容器中
-- **网络策略**：限制容器间通信
-- **端口管理**：只开放必要端口
+#### Network Security
+- **Container Isolation**: Each role runs in independent container
+- **Network Policies**: Limit inter-container communication
+- **Port Management**: Only open necessary ports
 
-#### 容器安全
-- **镜像扫描**：扫描安全漏洞
-- **权限最小化**：容器运行在最小权限下
-- **资源限制**：限制容器资源使用
+#### Container Security
+- **Image Scanning**: Scan for security vulnerabilities
+- **Minimal Permissions**: Containers run with minimal privileges
+- **Resource Limits**: Limit container resource usage
 
-#### 数据安全
-- **数据加密**：传输和存储加密
-- **备份策略**：定期数据备份
-- **访问控制**：基于角色的访问控制
+#### Data Security
+- **Data Encryption**: Encrypt data in transit and at rest
+- **Backup Strategy**: Regular data backups
+- **Access Control**: Role-based access control
 
-### 1.5 性能优化
+### 1.5 Performance Optimization
 
-#### 资源优化
-- **CPU分配**：根据角色需求分配CPU
-- **内存管理**：合理分配内存资源
-- **存储优化**：使用共享工作空间
+#### Resource Optimization
+- **CPU Allocation**: Allocate CPU based on role requirements
+- **Memory Management**: Reasonably allocate memory resources
+- **Storage Optimization**: Use shared workspace
 
-#### 网络优化
-- **连接池**：复用数据库连接
-- **缓存策略**：多级缓存
-- **异步处理**：减少阻塞操作
+#### Network Optimization
+- **Connection Pooling**: Reuse database connections
+- **Caching Strategy**: Multi-level caching
+- **Asynchronous Processing**: Reduce blocking operations
 
-#### 应用优化
-- **代码优化**：AI生成的代码优化
-- **数据库优化**：查询和索引优化
-- **缓存优化**：应用级缓存 
+#### Application Optimization
+- **Code Optimization**: Optimize AI-generated code
+- **Database Optimization**: Query and index optimization
+- **Cache Optimization**: Application-level caching 

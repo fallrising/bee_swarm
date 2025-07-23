@@ -1,789 +1,894 @@
-# Level 2: 角色系统
+# Level 2: Role System
 
-## 业务面：角色职责和协作模式
+## Business Aspect: Role Responsibilities and Collaboration Patterns
 
-### 2.1 产品经理 (Product Manager)
+### 2.1 Product Manager
 
-#### 主要职责
-- **需求管理**：接收、分析和整理用户需求
-- **产品规划**：制定产品路线图和功能规划
-- **任务拆解**：将大需求拆分为具体的开发任务
-- **优先级管理**：根据业务价值和紧急程度排序任务
-- **进度跟踪**：监控项目进度和里程碑完成情况
-- **stakeholder沟通**：与业务方、用户等利益相关者沟通
+#### Main Responsibilities
+- **Requirements Management**: Receive, analyze, and organize user requirements
+- **Product Planning**: Develop product roadmap and feature planning
+- **Task Breakdown**: Break down large requirements into specific development tasks
+- **Priority Management**: Sort tasks by business value and urgency
+- **Progress Tracking**: Monitor project progress and milestone completion
+- **Stakeholder Communication**: Communicate with business stakeholders and users
 
-#### 协作模式
-- **需求传递**：将需求转化为GitHub Issues
-- **任务分配**：将Issues分配给相应的开发角色
-- **进度协调**：协调各角色的工作进度
-- **质量把控**：审查PR和提供产品层面的反馈
-- **风险管控**：识别和应对项目风险
+#### Collaboration Patterns
+- **Requirements Transfer**: Convert requirements into GitHub Issues
+- **Task Assignment**: Assign Issues to appropriate development roles
+- **Progress Coordination**: Coordinate work progress across roles
+- **Quality Control**: Review PRs and provide product-level feedback
+- **Risk Management**: Identify and address project risks
 
-#### 工作流程
+#### Workflow
 ```mermaid
 graph TD
-    A[接收需求] --> B[需求分析]
-    B --> C[可行性评估]
-    C --> D[任务拆解]
-    D --> E[创建Issues]
-    E --> F[分配任务]
-    F --> G[跟踪进度]
-    G --> H[质量审查]
-    H --> I[项目交付]
+    A[Receive Requirements] --> B[Requirements Analysis]
+    B --> C[Feasibility Assessment]
+    C --> D[Task Breakdown]
+    D --> E[Create Issues]
+    E --> F[Assign Tasks]
+    F --> G[Track Progress]
+    G --> H[Quality Review]
+    H --> I[Project Delivery]
 ```
 
-### 2.2 后端开发 (Backend Developer)
+### 2.2 Backend Developer
 
-#### 主要职责
-- **API设计**：设计和实现RESTful API
-- **数据库设计**：设计数据库结构和关系
-- **业务逻辑**：实现核心业务逻辑
-- **性能优化**：优化系统性能和响应时间
-- **安全实现**：实现身份认证和授权
-- **系统集成**：集成第三方服务和API
+#### Main Responsibilities
+- **API Design**: Design and implement RESTful APIs
+- **Database Design**: Design database structure and relationships
+- **Business Logic**: Implement core business logic
+- **Performance Optimization**: Optimize system performance and response time
+- **Security Implementation**: Implement authentication and authorization
+- **System Integration**: Integrate third-party services and APIs
 
-#### 协作模式
-- **API文档**：为前端开发提供API文档
-- **接口协调**：与前端开发协调接口设计
-- **数据模型**：与数据工程师协调数据模型
-- **部署配合**：与DevOps工程师配合部署
-- **问题修复**：响应QA工程师发现的问题
+#### Collaboration Patterns
+- **API Documentation**: Provide API documentation for frontend development
+- **Interface Coordination**: Coordinate interface design with frontend development
+- **Data Models**: Coordinate data models with data engineers
+- **Deployment Coordination**: Coordinate deployment with DevOps engineers
+- **Issue Resolution**: Respond to issues found by QA engineers
 
-#### 工作流程
+#### Workflow
 ```mermaid
 graph TD
-    A[接收任务] --> B[需求分析]
-    B --> C[技术设计]
-    C --> D[API设计]
-    D --> E[数据库设计]
-    E --> F[代码实现]
-    F --> G[单元测试]
-    G --> H[创建PR]
-    H --> I[代码审查]
-    I --> J[合并部署]
+    A[Receive Task] --> B[Requirements Analysis]
+    B --> C[Technical Design]
+    C --> D[API Design]
+    D --> E[Database Design]
+    E --> F[Code Implementation]
+    F --> G[Unit Testing]
+    G --> H[Create PR]
+    H --> I[Code Review]
+    I --> J[Merge and Deploy]
 ```
 
-### 2.3 前端开发 (Frontend Developer)
+### 2.3 Frontend Developer
 
-#### 主要职责
-- **UI设计**：设计和实现用户界面
-- **交互开发**：实现用户交互逻辑
-- **响应式设计**：确保在不同设备上的适配
-- **性能优化**：优化前端加载和运行性能
-- **用户体验**：优化用户使用体验
-- **前端测试**：编写前端测试用例
+#### Main Responsibilities
+- **UI Design**: Design and implement user interfaces
+- **Interaction Development**: Implement user interaction logic
+- **Responsive Design**: Ensure adaptation across different devices
+- **Performance Optimization**: Optimize frontend loading and runtime performance
+- **User Experience**: Optimize user experience
+- **Frontend Testing**: Write frontend test cases
 
-#### 协作模式
-- **设计协调**：与UI/UX设计师协调设计
-- **API对接**：基于后端API进行开发
-- **接口调试**：与后端开发调试接口
-- **测试配合**：配合QA工程师进行测试
-- **部署协调**：与DevOps工程师协调部署
+#### Collaboration Patterns
+- **Design Coordination**: Coordinate design with UI/UX designers
+- **API Integration**: Develop based on backend APIs
+- **Interface Debugging**: Debug interfaces with backend developers
+- **Testing Coordination**: Coordinate testing with QA engineers
+- **Deployment Coordination**: Coordinate deployment with DevOps engineers
 
-#### 工作流程
+#### Workflow
 ```mermaid
 graph TD
-    A[接收任务] --> B[UI设计]
-    B --> C[组件设计]
-    C --> D[API对接]
-    D --> E[交互实现]
-    E --> F[响应式适配]
-    F --> G[性能优化]
-    G --> H[创建PR]
-    H --> I[代码审查]
-    I --> J[合并部署]
+    A[Receive Task] --> B[UI Design]
+    B --> C[Component Design]
+    C --> D[API Integration]
+    D --> E[Interaction Implementation]
+    E --> F[Responsive Adaptation]
+    F --> G[Performance Optimization]
+    G --> H[Create PR]
+    H --> I[Code Review]
+    I --> J[Merge and Deploy]
 ```
 
-### 2.4 QA工程师 (QA Engineer)
+### 2.4 QA Engineer
 
-#### 主要职责
-- **测试计划**：制定测试计划和策略
-- **测试用例**：设计和编写测试用例
-- **自动化测试**：实现自动化测试脚本
-- **缺陷管理**：发现、记录和跟踪缺陷
-- **质量保证**：确保产品质量符合标准
-- **测试报告**：生成测试报告和数据分析
+#### Main Responsibilities
+- **Test Planning**: Develop test plans and strategies
+- **Test Case Design**: Design comprehensive test cases
+- **Automated Testing**: Implement automated testing frameworks
+- **Manual Testing**: Perform manual testing for complex scenarios
+- **Bug Reporting**: Report and track bugs
+- **Quality Assurance**: Ensure overall product quality
 
-#### 协作模式
-- **需求理解**：与产品经理理解需求
-- **测试协调**：与开发人员协调测试
-- **缺陷反馈**：向开发人员反馈缺陷
-- **质量评估**：评估产品质量和风险
-- **发布验证**：验证发布版本的质量
+#### Collaboration Patterns
+- **Requirements Review**: Review requirements with product managers
+- **Test Coordination**: Coordinate testing with development teams
+- **Bug Communication**: Communicate bugs with developers
+- **Release Validation**: Validate releases before deployment
+- **Quality Metrics**: Track and report quality metrics
 
-#### 工作流程
+#### Workflow
 ```mermaid
 graph TD
-    A[接收测试任务] --> B[测试计划]
-    B --> C[测试用例设计]
-    C --> D[自动化脚本]
-    D --> E[执行测试]
-    E --> F[缺陷发现]
-    F --> G[缺陷报告]
-    G --> H[回归测试]
-    H --> I[测试报告]
-    I --> J[质量评估]
+    A[Receive Test Requirements] --> B[Test Planning]
+    B --> C[Test Case Design]
+    C --> D[Test Environment Setup]
+    D --> E[Execute Tests]
+    E --> F[Bug Reporting]
+    F --> G[Bug Verification]
+    G --> H[Test Report]
+    H --> I[Release Validation]
 ```
 
-### 2.5 DevOps工程师 (DevOps Engineer)
+### 2.5 DevOps Engineer
 
-#### 主要职责
-- **部署自动化**：实现自动化部署流程
-- **基础设施**：管理和维护基础设施
-- **监控告警**：设置系统监控和告警
-- **性能优化**：优化系统性能和资源使用
-- **安全运维**：确保系统安全和合规
-- **灾难恢复**：制定和实施灾难恢复计划
+#### Main Responsibilities
+- **Infrastructure Management**: Manage cloud infrastructure and servers
+- **CI/CD Pipeline**: Build and maintain continuous integration/deployment pipelines
+- **Monitoring and Logging**: Set up monitoring and logging systems
+- **Security Management**: Implement security measures and compliance
+- **Performance Optimization**: Optimize system performance and scalability
+- **Disaster Recovery**: Plan and implement disaster recovery procedures
 
-#### 协作模式
-- **部署协调**：与开发人员协调部署
-- **环境管理**：为开发人员提供测试环境
-- **问题处理**：处理生产环境问题
-- **性能调优**：与开发人员协作性能优化
-- **安全加固**：与安全团队协作安全加固
+#### Collaboration Patterns
+- **Deployment Coordination**: Coordinate deployments with development teams
+- **Infrastructure Support**: Provide infrastructure support for development
+- **Security Consultation**: Provide security consultation to development teams
+- **Performance Analysis**: Analyze and optimize system performance
+- **Incident Response**: Respond to system incidents and outages
 
-#### 工作流程
+#### Workflow
 ```mermaid
 graph TD
-    A[接收部署任务] --> B[环境准备]
-    B --> C[代码构建]
-    C --> D[自动化测试]
-    D --> E[部署执行]
-    E --> F[健康检查]
-    F --> G[监控设置]
-    G --> H[性能监控]
-    H --> I[问题处理]
-    I --> J[运维报告]
+    A[Infrastructure Planning] --> B[Environment Setup]
+    B --> C[CI/CD Configuration]
+    C --> D[Monitoring Setup]
+    D --> E[Security Implementation]
+    E --> F[Deployment Automation]
+    F --> G[Performance Monitoring]
+    G --> H[Incident Response]
+    H --> I[Continuous Improvement]
 ```
 
-### 2.6 项目管理 (Project Manager)
+## Technical Aspect: Role Implementation
 
-#### 主要职责
-- **项目规划**：制定项目计划和里程碑
-- **资源协调**：协调项目资源和人员
-- **进度管理**：跟踪项目进度和风险
-- **沟通管理**：管理项目相关方沟通
-- **质量管理**：确保项目质量符合要求
-- **变更管理**：管理项目变更和影响
+### 2.1 Role Container Architecture
 
-#### 协作模式
-- **团队协调**：协调各角色之间的工作
-- **进度跟踪**：跟踪各角色的工作进度
-- **风险管控**：识别和应对项目风险
-- **stakeholder管理**：管理与利益相关者的关系
-- **质量把控**：确保项目交付质量
-
-### 2.7 运营人员 (Operations)
-
-#### 主要职责
-- **用户反馈**：收集和分析用户反馈
-- **数据分析**：分析产品使用数据和指标
-- **用户支持**：提供用户支持和帮助
-- **内容运营**：管理产品内容和文档
-- **市场调研**：进行市场调研和竞品分析
-- **产品优化**：基于数据优化产品功能
-
-#### 协作模式
-- **需求反馈**：向产品经理反馈用户需求
-- **问题报告**：向开发团队报告用户问题
-- **数据分析**：为产品决策提供数据支持
-- **用户教育**：帮助用户更好地使用产品
-- **市场洞察**：为产品规划提供市场洞察
-
-## 技术面：容器镜像设计
-
-### 2.1 基础镜像架构
-
-基于VNC Lab的`novnc_llm_cli`，为每个角色定制：
-
+#### Container Structure
 ```dockerfile
-# 基础镜像：novnc_llm_cli
-FROM vnc_lab/novnc_llm_cli:latest
+# Base role container structure
+FROM vnc-llm-cli:latest
 
-# 角色特定配置
-ENV ROLE_NAME=""
-ENV GITHUB_USERNAME=""
-ENV GITHUB_TOKEN=""
-ENV AI_TOOLS=""
+# Role-specific tools and dependencies
+RUN apt-get update && apt-get install -y \
+    role-specific-packages \
+    && rm -rf /var/lib/apt/lists/*
 
-# 角色特定工具安装
-COPY roles/${ROLE_NAME}/install_tools.sh /opt/scripts/
-RUN /opt/scripts/install_tools.sh
+# Python dependencies
+RUN pip install \
+    role-specific-python-packages
 
-# 角色特定脚本
-COPY roles/${ROLE_NAME}/ /app/
-WORKDIR /app
+# Node.js dependencies (if needed)
+RUN npm install -g \
+    role-specific-node-packages
 
-# 启动角色服务
-CMD ["python", "role_service.py"]
+# Set up workspace
+WORKDIR /workspace
+RUN mkdir -p /workspace/projects /workspace/tools /workspace/config
+
+# Copy role-specific scripts
+COPY scripts/ /opt/scripts/
+RUN chmod +x /opt/scripts/*.py
+
+# Set environment variables
+ENV ROLE_TYPE=role_type
+ENV ROLE_ID=role_id
+ENV GITHUB_TOKEN=github_token
+
+# Start role service
+CMD ["python", "/opt/scripts/role_service.py"]
 ```
 
-### 2.2 角色容器配置
-
-#### 产品经理容器配置
-```yaml
-# docker-compose.yml
-services:
-  product-manager:
-    build: 
-      context: ./roles/product_manager
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=product_manager
-      - GITHUB_USERNAME=pm_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_PM}
-      - AI_TOOLS=gemini-cli,notion-api,figma-api
-      - VNC_PASSWORD=${VNC_PASSWORD_PM}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_PM}
-    ports:
-      - "6080:6080"  # noVNC
-      - "7681:7681"  # ttyd
-    volumes:
-      - pm_data:/app/data
-      - pm_logs:/app/logs
-      - pm_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
-```
-
-#### 后端开发容器配置
-```yaml
-services:
-  backend-developer:
-    build: 
-      context: ./roles/backend_developer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=backend_developer
-      - GITHUB_USERNAME=backend_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND}
-      - AI_TOOLS=claude-code,rovo-dev,cursor
-      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND}
-    ports:
-      - "6081:6080"  # noVNC
-      - "7682:7681"  # ttyd
-    volumes:
-      - backend_data:/app/data
-      - backend_logs:/app/logs
-      - backend_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 4G
-          cpus: '2.0'
-        reservations:
-          memory: 2G
-          cpus: '1.0'
-```
-
-#### 前端开发容器配置
-```yaml
-services:
-  frontend-developer:
-    build: 
-      context: ./roles/frontend_developer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=frontend_developer
-      - GITHUB_USERNAME=frontend_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND}
-      - AI_TOOLS=warp,cursor,figma-api
-      - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND}
-    ports:
-      - "6082:6080"  # noVNC
-      - "7683:7681"  # ttyd
-    volumes:
-      - frontend_data:/app/data
-      - frontend_logs:/app/logs
-      - frontend_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 3G
-          cpus: '1.5'
-        reservations:
-          memory: 1.5G
-          cpus: '0.75'
-```
-
-#### QA工程师容器配置
-```yaml
-services:
-  qa-engineer:
-    build: 
-      context: ./roles/qa_engineer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=qa_engineer
-      - GITHUB_USERNAME=qa_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_QA}
-      - AI_TOOLS=playwright,jest,cypress
-      - VNC_PASSWORD=${VNC_PASSWORD_QA}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_QA}
-    ports:
-      - "6083:6080"  # noVNC
-      - "7684:7681"  # ttyd
-    volumes:
-      - qa_data:/app/data
-      - qa_logs:/app/logs
-      - qa_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
-```
-
-#### DevOps工程师容器配置
-```yaml
-services:
-  devops-engineer:
-    build: 
-      context: ./roles/devops_engineer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=devops_engineer
-      - GITHUB_USERNAME=devops_ai_001
-      - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS}
-      - AI_TOOLS=terraform,kubernetes,docker
-      - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS}
-    ports:
-      - "6084:6080"  # noVNC
-      - "7685:7681"  # ttyd
-    volumes:
-      - devops_data:/app/data
-      - devops_logs:/app/logs
-      - devops_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 3G
-          cpus: '1.5'
-        reservations:
-          memory: 1.5G
-          cpus: '0.75'
-```
-
-### 2.3 角色服务实现
-
-#### 基础角色服务类
+#### Role Service Implementation
 ```python
-# role_service.py
+# scripts/role_service.py
 import os
 import time
 import logging
-from github_client import GitHubClient
-from ai_tools import AITools
-from role_communication import RoleCommunication
-from monitoring import Monitoring
+import requests
+from typing import Dict, Any, List
+from datetime import datetime
 
 class RoleService:
     def __init__(self):
-        self.role_name = os.getenv('ROLE_NAME')
-        self.github_client = GitHubClient()
-        self.ai_tools = AITools()
-        self.communication = RoleCommunication(self.role_name, self.github_client)
-        self.monitoring = Monitoring(self.role_name)
+        self.role_id = os.getenv("ROLE_ID")
+        self.role_type = os.getenv("ROLE_TYPE")
+        self.github_token = os.getenv("GITHUB_TOKEN")
+        self.coordinator_url = os.getenv("COORDINATOR_URL", "http://coordinator:8000")
         
-        # 设置日志
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(f'/app/logs/{self.role_name}.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(self.role_name)
-    
-    def process_assigned_issues(self):
-        """处理分配给当前角色的issues"""
-        try:
-            issues = self.github_client.get_assigned_issues()
-            self.logger.info(f"Found {len(issues)} assigned issues")
-            
-            for issue in issues:
-                self.handle_issue(issue)
-                
-        except Exception as e:
-            self.logger.error(f"Error processing issues: {e}")
-            self.monitoring.alert_on_issues("issue_processing_error", str(e))
-    
-    def handle_issue(self, issue):
-        """处理单个issue"""
-        issue_number = issue['number']
-        issue_title = issue['title']
+        # Setup logging
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(f"role_service_{self.role_id}")
         
-        self.logger.info(f"Processing issue #{issue_number}: {issue_title}")
-        self.monitoring.log_activity("issue_processing", {
-            'issue_number': issue_number,
-            'issue_title': issue_title,
-            'status': issue['state']
-        })
+        # Initialize role state
+        self.status = "available"
+        self.current_task = None
+        self.workload = 0
         
-        try:
-            if self.role_name == 'product_manager':
-                self.handle_pm_issue(issue)
-            elif self.role_name == 'backend_developer':
-                self.handle_backend_issue(issue)
-            elif self.role_name == 'frontend_developer':
-                self.handle_frontend_issue(issue)
-            elif self.role_name == 'qa_engineer':
-                self.handle_qa_issue(issue)
-            elif self.role_name == 'devops_engineer':
-                self.handle_devops_issue(issue)
-            else:
-                self.logger.warning(f"Unknown role: {self.role_name}")
-                
-        except Exception as e:
-            self.logger.error(f"Error handling issue #{issue_number}: {e}")
-            self.monitoring.alert_on_issues("issue_handling_error", str(e))
-    
-    def handle_pm_issue(self, issue):
-        """产品经理处理issue"""
-        # 产品经理特定的处理逻辑
-        pass
-    
-    def handle_backend_issue(self, issue):
-        """后端开发处理issue"""
-        # 后端开发特定的处理逻辑
-        pass
-    
-    def handle_frontend_issue(self, issue):
-        """前端开发处理issue"""
-        # 前端开发特定的处理逻辑
-        pass
-    
-    def handle_qa_issue(self, issue):
-        """QA工程师处理issue"""
-        # QA工程师特定的处理逻辑
-        pass
-    
-    def handle_devops_issue(self, issue):
-        """DevOps工程师处理issue"""
-        # DevOps工程师特定的处理逻辑
-        pass
-    
-    def run(self):
-        """主运行循环"""
-        self.logger.info(f"Starting {self.role_name} service")
-        self.monitoring.log_activity("service_started", {})
+    def start(self):
+        """Start the role service"""
+        self.logger.info(f"Starting {self.role_type} service: {self.role_id}")
         
+        # Register with coordinator
+        self.register_with_coordinator()
+        
+        # Start main loop
         while True:
             try:
-                # 处理分配的任务
-                self.process_assigned_issues()
+                # Check for new tasks
+                self.check_for_tasks()
                 
-                # 处理协作请求
-                self.process_collaboration_requests()
-                
-                # 更新状态
+                # Update status
                 self.update_status()
                 
-                # 性能监控
-                self.monitoring.track_performance()
+                # Process current task
+                if self.current_task:
+                    self.process_task()
                 
-                # 等待下次检查
-                time.sleep(300)  # 5分钟检查一次
+                # Sleep before next iteration
+                time.sleep(30)
                 
             except Exception as e:
                 self.logger.error(f"Error in main loop: {e}")
-                self.monitoring.alert_on_issues("main_loop_error", str(e))
-                time.sleep(60)  # 出错后等待1分钟再重试
+                time.sleep(60)  # Longer sleep on error
     
-    def process_collaboration_requests(self):
-        """处理来自其他角色的协作请求"""
-        # 处理协作请求的逻辑
-        pass
+    def register_with_coordinator(self):
+        """Register role with coordinator"""
+        try:
+            registration_data = {
+                "role_id": self.role_id,
+                "role_type": self.role_type,
+                "status": self.status,
+                "capabilities": self.get_capabilities()
+            }
+            
+            response = requests.post(
+                f"{self.coordinator_url}/roles",
+                json=registration_data,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                self.logger.info("Successfully registered with coordinator")
+            else:
+                self.logger.error(f"Failed to register: {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Error registering with coordinator: {e}")
+    
+    def get_capabilities(self) -> Dict[str, Any]:
+        """Get role capabilities"""
+        capabilities = {
+            "pm": {
+                "requirements_analysis": True,
+                "task_planning": True,
+                "progress_tracking": True,
+                "quality_review": True
+            },
+            "backend": {
+                "api_development": True,
+                "database_design": True,
+                "system_integration": True,
+                "performance_optimization": True
+            },
+            "frontend": {
+                "ui_development": True,
+                "api_integration": True,
+                "responsive_design": True,
+                "performance_optimization": True
+            },
+            "qa": {
+                "test_planning": True,
+                "automated_testing": True,
+                "manual_testing": True,
+                "bug_tracking": True
+            },
+            "devops": {
+                "infrastructure_management": True,
+                "ci_cd_pipeline": True,
+                "monitoring": True,
+                "security_management": True
+            }
+        }
+        
+        return capabilities.get(self.role_type, {})
+    
+    def check_for_tasks(self):
+        """Check for new tasks from coordinator"""
+        try:
+            response = requests.get(
+                f"{self.coordinator_url}/tasks",
+                params={"role_id": self.role_id, "status": "assigned"},
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                tasks = response.json()
+                if tasks and not self.current_task:
+                    # Accept first available task
+                    self.current_task = tasks[0]
+                    self.status = "busy"
+                    self.logger.info(f"Accepted task: {self.current_task['id']}")
+                    
+        except Exception as e:
+            self.logger.error(f"Error checking for tasks: {e}")
     
     def update_status(self):
-        """更新角色状态"""
-        # 更新状态到GitHub或其他系统
-        pass
+        """Update status with coordinator"""
+        try:
+            status_data = {
+                "role_id": self.role_id,
+                "status": self.status,
+                "workload": self.workload,
+                "current_task": self.current_task["id"] if self.current_task else None,
+                "last_activity": datetime.now().isoformat()
+            }
+            
+            response = requests.put(
+                f"{self.coordinator_url}/roles/{self.role_id}",
+                json=status_data,
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                self.logger.error(f"Failed to update status: {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Error updating status: {e}")
+    
+    def process_task(self):
+        """Process current task"""
+        if not self.current_task:
+            return
+        
+        task_id = self.current_task["id"]
+        task_type = self.current_task.get("type", "development")
+        
+        try:
+            # Process based on role type
+            if self.role_type == "pm":
+                self.process_pm_task()
+            elif self.role_type == "backend":
+                self.process_backend_task()
+            elif self.role_type == "frontend":
+                self.process_frontend_task()
+            elif self.role_type == "qa":
+                self.process_qa_task()
+            elif self.role_type == "devops":
+                self.process_devops_task()
+            
+            # Update task progress
+            self.update_task_progress()
+            
+        except Exception as e:
+            self.logger.error(f"Error processing task {task_id}: {e}")
+            # Mark task as failed
+            self.mark_task_failed(task_id, str(e))
+    
+    def process_pm_task(self):
+        """Process product manager task"""
+        task = self.current_task
+        
+        if task["type"] == "requirements_analysis":
+            # Analyze requirements
+            analysis = self.analyze_requirements(task["description"])
+            
+            # Create detailed task breakdown
+            breakdown = self.create_task_breakdown(analysis)
+            
+            # Update task with results
+            self.update_task_result({
+                "analysis": analysis,
+                "breakdown": breakdown,
+                "estimated_effort": self.calculate_effort(breakdown)
+            })
+            
+        elif task["type"] == "progress_review":
+            # Review project progress
+            progress_report = self.generate_progress_report()
+            
+            # Update task with results
+            self.update_task_result({
+                "progress_report": progress_report,
+                "recommendations": self.generate_recommendations(progress_report)
+            })
+    
+    def process_backend_task(self):
+        """Process backend developer task"""
+        task = self.current_task
+        
+        if task["type"] == "api_development":
+            # Design API
+            api_design = self.design_api(task["requirements"])
+            
+            # Implement API
+            implementation = self.implement_api(api_design)
+            
+            # Write tests
+            tests = self.write_api_tests(implementation)
+            
+            # Update task with results
+            self.update_task_result({
+                "api_design": api_design,
+                "implementation": implementation,
+                "tests": tests,
+                "documentation": self.generate_api_docs(api_design)
+            })
+    
+    def process_frontend_task(self):
+        """Process frontend developer task"""
+        task = self.current_task
+        
+        if task["type"] == "ui_development":
+            # Design UI
+            ui_design = self.design_ui(task["requirements"])
+            
+            # Implement UI
+            implementation = self.implement_ui(ui_design)
+            
+            # Write tests
+            tests = self.write_ui_tests(implementation)
+            
+            # Update task with results
+            self.update_task_result({
+                "ui_design": ui_design,
+                "implementation": implementation,
+                "tests": tests
+            })
+    
+    def process_qa_task(self):
+        """Process QA engineer task"""
+        task = self.current_task
+        
+        if task["type"] == "test_planning":
+            # Create test plan
+            test_plan = self.create_test_plan(task["requirements"])
+            
+            # Design test cases
+            test_cases = self.design_test_cases(test_plan)
+            
+            # Update task with results
+            self.update_task_result({
+                "test_plan": test_plan,
+                "test_cases": test_cases
+            })
+        
+        elif task["type"] == "test_execution":
+            # Execute tests
+            test_results = self.execute_tests(task["test_cases"])
+            
+            # Generate test report
+            test_report = self.generate_test_report(test_results)
+            
+            # Update task with results
+            self.update_task_result({
+                "test_results": test_results,
+                "test_report": test_report
+            })
+    
+    def process_devops_task(self):
+        """Process DevOps engineer task"""
+        task = self.current_task
+        
+        if task["type"] == "deployment":
+            # Plan deployment
+            deployment_plan = self.plan_deployment(task["requirements"])
+            
+            # Execute deployment
+            deployment_result = self.execute_deployment(deployment_plan)
+            
+            # Monitor deployment
+            monitoring_data = self.monitor_deployment(deployment_result)
+            
+            # Update task with results
+            self.update_task_result({
+                "deployment_plan": deployment_plan,
+                "deployment_result": deployment_result,
+                "monitoring_data": monitoring_data
+            })
+    
+    def update_task_progress(self):
+        """Update task progress"""
+        if not self.current_task:
+            return
+        
+        try:
+            progress_data = {
+                "task_id": self.current_task["id"],
+                "progress": self.calculate_progress(),
+                "status": "in_progress",
+                "updated_at": datetime.now().isoformat()
+            }
+            
+            response = requests.put(
+                f"{self.coordinator_url}/tasks/{self.current_task['id']}",
+                json=progress_data,
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                self.logger.error(f"Failed to update task progress: {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Error updating task progress: {e}")
+    
+    def update_task_result(self, result: Dict[str, Any]):
+        """Update task with results"""
+        if not self.current_task:
+            return
+        
+        try:
+            result_data = {
+                "task_id": self.current_task["id"],
+                "result": result,
+                "status": "completed",
+                "completed_at": datetime.now().isoformat()
+            }
+            
+            response = requests.put(
+                f"{self.coordinator_url}/tasks/{self.current_task['id']}",
+                json=result_data,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                self.logger.info(f"Task {self.current_task['id']} completed successfully")
+                self.current_task = None
+                self.status = "available"
+            else:
+                self.logger.error(f"Failed to update task result: {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Error updating task result: {e}")
+    
+    def mark_task_failed(self, task_id: str, error: str):
+        """Mark task as failed"""
+        try:
+            result_data = {
+                "task_id": task_id,
+                "error": error,
+                "status": "failed",
+                "failed_at": datetime.now().isoformat()
+            }
+            
+            response = requests.put(
+                f"{self.coordinator_url}/tasks/{task_id}",
+                json=result_data,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                self.logger.info(f"Task {task_id} marked as failed")
+                self.current_task = None
+                self.status = "available"
+            else:
+                self.logger.error(f"Failed to mark task as failed: {response.status_code}")
+                
+        except Exception as e:
+            self.logger.error(f"Error marking task as failed: {e}")
+    
+    def calculate_progress(self) -> int:
+        """Calculate current task progress percentage"""
+        # This would be implemented based on actual task progress
+        return 50  # Placeholder
+    
+    # Placeholder methods for task processing
+    def analyze_requirements(self, description: str) -> Dict[str, Any]:
+        """Analyze requirements"""
+        return {"analysis": "placeholder"}
+    
+    def create_task_breakdown(self, analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Create task breakdown"""
+        return [{"task": "placeholder"}]
+    
+    def calculate_effort(self, breakdown: List[Dict[str, Any]]) -> int:
+        """Calculate effort estimate"""
+        return 10
+    
+    def generate_progress_report(self) -> Dict[str, Any]:
+        """Generate progress report"""
+        return {"report": "placeholder"}
+    
+    def generate_recommendations(self, report: Dict[str, Any]) -> List[str]:
+        """Generate recommendations"""
+        return ["recommendation"]
+    
+    def design_api(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
+        """Design API"""
+        return {"api": "design"}
+    
+    def implement_api(self, design: Dict[str, Any]) -> Dict[str, Any]:
+        """Implement API"""
+        return {"api": "implementation"}
+    
+    def write_api_tests(self, implementation: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Write API tests"""
+        return [{"test": "placeholder"}]
+    
+    def generate_api_docs(self, design: Dict[str, Any]) -> str:
+        """Generate API documentation"""
+        return "API documentation"
+    
+    def design_ui(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
+        """Design UI"""
+        return {"ui": "design"}
+    
+    def implement_ui(self, design: Dict[str, Any]) -> Dict[str, Any]:
+        """Implement UI"""
+        return {"ui": "implementation"}
+    
+    def write_ui_tests(self, implementation: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Write UI tests"""
+        return [{"test": "placeholder"}]
+    
+    def create_test_plan(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
+        """Create test plan"""
+        return {"plan": "placeholder"}
+    
+    def design_test_cases(self, plan: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Design test cases"""
+        return [{"case": "placeholder"}]
+    
+    def execute_tests(self, test_cases: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Execute tests"""
+        return {"results": "placeholder"}
+    
+    def generate_test_report(self, results: Dict[str, Any]) -> Dict[str, Any]:
+        """Generate test report"""
+        return {"report": "placeholder"}
+    
+    def plan_deployment(self, requirements: Dict[str, Any]) -> Dict[str, Any]:
+        """Plan deployment"""
+        return {"plan": "placeholder"}
+    
+    def execute_deployment(self, plan: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute deployment"""
+        return {"result": "placeholder"}
+    
+    def monitor_deployment(self, result: Dict[str, Any]) -> Dict[str, Any]:
+        """Monitor deployment"""
+        return {"monitoring": "placeholder"}
 
 if __name__ == "__main__":
     service = RoleService()
-    service.run()
+    service.start()
 ```
 
-### 2.4 角色特定工具安装
+### 2.2 Role Communication
 
-#### 产品经理工具安装脚本
-```bash
-#!/bin/bash
-# roles/product_manager/install_tools.sh
-
-echo "Installing Product Manager tools..."
-
-# 安装Gemini CLI
-npm install -g @google/gemini-cli
-
-# 安装Notion API工具
-npm install -g notion-client
-
-# 安装Figma API工具
-npm install -g figma-api
-
-# 安装项目管理工具
-npm install -g jira-client
-npm install -g trello-client
-
-# 安装数据分析工具
-pip install pandas numpy matplotlib seaborn
-
-# 安装文档工具
-pip install sphinx mkdocs
-
-echo "Product Manager tools installed successfully!"
-```
-
-#### 后端开发工具安装脚本
-```bash
-#!/bin/bash
-# roles/backend_developer/install_tools.sh
-
-echo "Installing Backend Developer tools..."
-
-# 安装Claude Code
-npm install -g @anthropic-ai/claude-code
-
-# 安装Rovo Dev
-npm install -g rovo-dev
-
-# 安装Cursor
-# Cursor需要单独下载安装
-
-# 安装后端开发工具
-npm install -g nodemon
-npm install -g pm2
-npm install -g sequelize-cli
-
-# 安装数据库工具
-npm install -g mysql2
-npm install -g pg
-npm install -g mongodb
-
-# 安装API测试工具
-npm install -g postman-cli
-npm install -g insomnia-inso
-
-# 安装代码质量工具
-npm install -g eslint
-npm install -g prettier
-npm install -g sonarqube-scanner
-
-echo "Backend Developer tools installed successfully!"
-```
-
-#### 前端开发工具安装脚本
-```bash
-#!/bin/bash
-# roles/frontend_developer/install_tools.sh
-
-echo "Installing Frontend Developer tools..."
-
-# 安装Warp
-# Warp需要单独下载安装
-
-# 安装Cursor
-# Cursor需要单独下载安装
-
-# 安装前端开发工具
-npm install -g create-react-app
-npm install -g vue-cli
-npm install -g angular-cli
-npm install -g svelte-cli
-
-# 安装构建工具
-npm install -g webpack
-npm install -g vite
-npm install -g rollup
-
-# 安装CSS工具
-npm install -g sass
-npm install -g less
-npm install -g postcss-cli
-
-# 安装前端测试工具
-npm install -g jest
-npm install -g cypress
-npm install -g playwright
-
-echo "Frontend Developer tools installed successfully!"
-```
-
-#### QA工程师工具安装脚本
-```bash
-#!/bin/bash
-# roles/qa_engineer/install_tools.sh
-
-echo "Installing QA Engineer tools..."
-
-# 安装Playwright
-npm install -g playwright
-npx playwright install
-
-# 安装Jest
-npm install -g jest
-
-# 安装Cypress
-npm install -g cypress
-
-# 安装Selenium
-pip install selenium
-
-# 安装测试报告工具
-npm install -g allure-commandline
-npm install -g jest-html-reporter
-
-# 安装性能测试工具
-npm install -g artillery
-npm install -g k6
-
-# 安装安全测试工具
-npm install -g owasp-zap-cli
-
-echo "QA Engineer tools installed successfully!"
-```
-
-#### DevOps工程师工具安装脚本
-```bash
-#!/bin/bash
-# roles/devops_engineer/install_tools.sh
-
-echo "Installing DevOps Engineer tools..."
-
-# 安装Terraform
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt-get update && sudo apt-get install terraform
-
-# 安装Kubernetes工具
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-# 安装Helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-# 安装Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# 安装监控工具
-npm install -g prometheus-client
-npm install -g grafana-api
-
-# 安装CI/CD工具
-npm install -g jenkins-cli
-npm install -g gitlab-cli
-
-echo "DevOps Engineer tools installed successfully!"
-```
-
-### 2.5 角色身份管理
-
-#### GitHub身份配置
+#### Inter-Role Communication
 ```python
-# identity_manager.py
-import os
-import json
-from typing import Dict, Any
-
-class IdentityManager:
-    def __init__(self, role_name: str):
-        self.role_name = role_name
-        self.identities = self._load_identities()
+class RoleCommunication:
+    def __init__(self, role_id: str, coordinator_url: str):
+        self.role_id = role_id
+        self.coordinator_url = coordinator_url
     
-    def _load_identities(self) -> Dict[str, Any]:
-        """加载角色身份配置"""
-        config_path = f"/app/config/identities.json"
-        
-        if os.path.exists(config_path):
-            with open(config_path, 'r') as f:
-                return json.load(f)
-        else:
-            return self._get_default_identities()
-    
-    def _get_default_identities(self) -> Dict[str, Any]:
-        """获取默认身份配置"""
-        return {
-            'product_manager': {
-                'github_username': 'pm_ai_001',
-                'github_email': 'pm_ai_001@bee-swarm.com',
-                'display_name': 'AI Product Manager',
-                'avatar_url': 'https://example.com/avatars/pm.png'
-            },
-            'backend_developer': {
-                'github_username': 'backend_ai_001',
-                'github_email': 'backend_ai_001@bee-swarm.com',
-                'display_name': 'AI Backend Developer',
-                'avatar_url': 'https://example.com/avatars/backend.png'
-            },
-            'frontend_developer': {
-                'github_username': 'frontend_ai_001',
-                'github_email': 'frontend_ai_001@bee-swarm.com',
-                'display_name': 'AI Frontend Developer',
-                'avatar_url': 'https://example.com/avatars/frontend.png'
-            },
-            'qa_engineer': {
-                'github_username': 'qa_ai_001',
-                'github_email': 'qa_ai_001@bee-swarm.com',
-                'display_name': 'AI QA Engineer',
-                'avatar_url': 'https://example.com/avatars/qa.png'
-            },
-            'devops_engineer': {
-                'github_username': 'devops_ai_001',
-                'github_email': 'devops_ai_001@bee-swarm.com',
-                'display_name': 'AI DevOps Engineer',
-                'avatar_url': 'https://example.com/avatars/devops.png'
+    def send_message(self, recipient_id: str, message_type: str, content: Dict[str, Any]):
+        """Send message to another role"""
+        try:
+            message_data = {
+                "sender_id": self.role_id,
+                "recipient_id": recipient_id,
+                "type": message_type,
+                "content": content,
+                "timestamp": datetime.now().isoformat()
             }
-        }
+            
+            response = requests.post(
+                f"{self.coordinator_url}/messages/send",
+                json=message_data,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                return {"success": True, "message_id": response.json().get("message_id")}
+            else:
+                return {"success": False, "error": f"HTTP {response.status_code}"}
+                
+        except Exception as e:
+            return {"success": False, "error": str(e)}
     
-    def get_identity(self) -> Dict[str, Any]:
-        """获取当前角色身份"""
-        return self.identities.get(self.role_name, {})
+    def request_collaboration(self, target_role: str, request_type: str, details: Dict[str, Any]):
+        """Request collaboration from another role"""
+        return self.send_message(target_role, "collaboration_request", {
+            "request_type": request_type,
+            "details": details
+        })
     
-    def get_github_config(self) -> Dict[str, str]:
-        """获取GitHub配置"""
-        identity = self.get_identity()
-        return {
-            'username': identity.get('github_username', ''),
-            'email': identity.get('github_email', ''),
-            'display_name': identity.get('display_name', ''),
-            'token': os.getenv('GITHUB_TOKEN', '')
-        }
+    def notify_completion(self, task_id: str, result: Dict[str, Any]):
+        """Notify completion of task"""
+        return self.send_message("coordinator", "task_completion", {
+            "task_id": task_id,
+            "result": result
+        })
     
-    def setup_git_config(self):
-        """设置Git配置"""
-        github_config = self.get_github_config()
-        
-        # 设置Git用户名和邮箱
-        os.system(f"git config --global user.name '{github_config['display_name']}'")
-        os.system(f"git config --global user.email '{github_config['email']}'")
-        
-        # 设置GitHub token
-        if github_config['token']:
-            os.system(f"gh auth login --with-token < <(echo '{github_config['token']}')")
+    def report_issue(self, issue_type: str, description: str, severity: str = "medium"):
+        """Report issue to coordinator"""
+        return self.send_message("coordinator", "issue_report", {
+            "issue_type": issue_type,
+            "description": description,
+            "severity": severity
+        })
+```
+
+### 2.3 Role Load Balancing
+
+#### Load Balancer Implementation
+```python
+class RoleLoadBalancer:
+    def __init__(self, coordinator_url: str):
+        self.coordinator_url = coordinator_url
     
-    def get_avatar_url(self) -> str:
-        """获取头像URL"""
-        identity = self.get_identity()
-        return identity.get('avatar_url', '')
-``` 
+    def get_role_status(self) -> Dict[str, Dict[str, Any]]:
+        """Get status of all roles"""
+        try:
+            response = requests.get(f"{self.coordinator_url}/roles", timeout=10)
+            
+            if response.status_code == 200:
+                roles = response.json()
+                return {role["id"]: role for role in roles}
+            else:
+                return {}
+                
+        except Exception as e:
+            print(f"Error getting role status: {e}")
+            return {}
+    
+    def assign_task(self, task: Dict[str, Any]) -> Optional[str]:
+        """Assign task to best available role"""
+        try:
+            # Get available roles
+            role_status = self.get_role_status()
+            available_roles = [
+                role_id for role_id, status in role_status.items()
+                if status["status"] == "available"
+            ]
+            
+            if not available_roles:
+                return None
+            
+            # Find role with lowest workload
+            best_role = min(
+                available_roles,
+                key=lambda role_id: role_status[role_id]["workload"]
+            )
+            
+            # Assign task
+            assignment_data = {
+                "task_id": task["id"],
+                "role_id": best_role
+            }
+            
+            response = requests.post(
+                f"{self.coordinator_url}/tasks/assign",
+                json=assignment_data,
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                return best_role
+            else:
+                return None
+                
+        except Exception as e:
+            print(f"Error assigning task: {e}")
+            return None
+    
+    def rebalance_workload(self):
+        """Rebalance workload across roles"""
+        try:
+            # Get current workload distribution
+            role_status = self.get_role_status()
+            
+            # Calculate optimal distribution
+            total_workload = sum(status["workload"] for status in role_status.values())
+            num_roles = len(role_status)
+            target_workload = total_workload / num_roles if num_roles > 0 else 0
+            
+            # Identify overloaded and underloaded roles
+            overloaded = []
+            underloaded = []
+            
+            for role_id, status in role_status.items():
+                if status["workload"] > target_workload * 1.2:  # 20% tolerance
+                    overloaded.append(role_id)
+                elif status["workload"] < target_workload * 0.8:  # 20% tolerance
+                    underloaded.append(role_id)
+            
+            # Reassign tasks from overloaded to underloaded roles
+            reassignments = []
+            
+            for overloaded_role in overloaded:
+                if not underloaded:
+                    break
+                
+                # Get tasks from overloaded role
+                tasks = self.get_role_tasks(overloaded_role)
+                
+                for task in tasks:
+                    if not underloaded:
+                        break
+                    
+                    # Find best underloaded role
+                    best_role = min(
+                        underloaded,
+                        key=lambda role_id: role_status[role_id]["workload"]
+                    )
+                    
+                    # Reassign task
+                    if self.reassign_task(task["id"], overloaded_role, best_role):
+                        reassignments.append({
+                            "task_id": task["id"],
+                            "from_role": overloaded_role,
+                            "to_role": best_role
+                        })
+                        
+                        # Update workload estimates
+                        role_status[overloaded_role]["workload"] -= 1
+                        role_status[best_role]["workload"] += 1
+                        
+                        # Remove role from underloaded if it's no longer underloaded
+                        if role_status[best_role]["workload"] >= target_workload * 0.8:
+                            underloaded.remove(best_role)
+            
+            return reassignments
+            
+        except Exception as e:
+            print(f"Error rebalancing workload: {e}")
+            return []
+    
+    def get_role_tasks(self, role_id: str) -> List[Dict[str, Any]]:
+        """Get tasks assigned to specific role"""
+        try:
+            response = requests.get(
+                f"{self.coordinator_url}/tasks",
+                params={"role_id": role_id, "status": "assigned"},
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                return response.json()
+            else:
+                return []
+                
+        except Exception as e:
+            print(f"Error getting role tasks: {e}")
+            return []
+    
+    def reassign_task(self, task_id: str, from_role: str, to_role: str) -> bool:
+        """Reassign task from one role to another"""
+        try:
+            reassignment_data = {
+                "task_id": task_id,
+                "from_role": from_role,
+                "to_role": to_role
+            }
+            
+            response = requests.post(
+                f"{self.coordinator_url}/tasks/reassign",
+                json=reassignment_data,
+                timeout=10
+            )
+            
+            return response.status_code == 200
+            
+        except Exception as e:
+            print(f"Error reassigning task: {e}")
+            return False
+```
+
+This role system provides comprehensive role definitions, implementations, and management for the AI development team. 
