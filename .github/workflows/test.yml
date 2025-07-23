@@ -1,0 +1,105 @@
+name: Test Scripts
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install requests pygithub pytest
+          
+      - name: Run all tests
+        run: |
+          python scripts/test_scripts.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Test individual scripts
+        run: |
+          echo "Testing individual scripts..."
+          
+          echo "Testing check_pending_tasks.py..."
+          python scripts/check_pending_tasks.py
+          
+          echo "Testing trigger_ai_containers.py..."
+          python scripts/trigger_ai_containers.py
+          
+          echo "Testing notify_role_assignment.py..."
+          python scripts/notify_role_assignment.py
+          
+          echo "Testing handle_pr_events.py..."
+          python scripts/handle_pr_events.py
+          
+          echo "Testing check_system_health.py..."
+          python scripts/check_system_health.py
+          
+          echo "Testing update_documentation.py..."
+          python scripts/update_documentation.py
+          
+          echo "Testing create_backup.py..."
+          python scripts/create_backup.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          
+      - name: Validate docker-compose.yml
+        run: |
+          docker-compose config
+          
+      - name: Check environment variables
+        run: |
+          echo "Checking environment variables..."
+          if [ -f .env.example ]; then
+            echo "✅ .env.example exists"
+            grep -E "^[A-Z_]+=" .env.example | wc -l | xargs echo "Found environment variables:"
+          else
+            echo "❌ .env.example not found"
+            exit 1
+          fi
+          
+      - name: Check documentation
+        run: |
+          echo "Checking documentation..."
+          if [ -f docs/architecture.md ]; then
+            echo "✅ architecture.md exists"
+          else
+            echo "❌ architecture.md not found"
+            exit 1
+          fi
+          
+          if [ -f docs/roles.md ]; then
+            echo "✅ roles.md exists"
+          else
+            echo "❌ roles.md not found"
+            exit 1
+          fi
+          
+          if [ -f docs/workflows.md ]; then
+            echo "✅ workflows.md exists"
+          else
+            echo "❌ workflows.md not found"
+            exit 1
+          fi
+          
+          if [ -f docs/deployment.md ]; then
+            echo "✅ deployment.md exists"
+          else
+            echo "❌ deployment.md not found"
+            exit 1
+          fi 

@@ -66,7 +66,6 @@ def main():
             "docs/",
             "scripts/",
             "roles/",
-            "coordinator/",
             "README.md",
             "CHANGELOG.md",
             "docker-compose.yml",

@@ -1,41 +1,8 @@
 version: '3.8'
 
 services:
-  # 系统协调器 (独立部署)
-  coordinator:
-    build: 
-      context: ./coordinator
-      dockerfile: Dockerfile
-    environment:
-      - GITHUB_TOKEN=${GITHUB_TOKEN_COORDINATOR}
-      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-      - REDIS_URL=${REDIS_URL}
-      - DATABASE_URL=${DATABASE_URL}
-      - LOG_LEVEL=${LOG_LEVEL}
-    ports:
-      - "8000:8000"  # FastAPI
-      - "5555:5555"  # Flower (Celery监控)
-    volumes:
-      - coordinator_data:/app/data
-      - coordinator_logs:/app/logs
-      - coordinator_config:/app/config
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: '0.5'
-        reservations:
-          memory: 512M
-          cpus: '0.25'
-    networks:
-      - bee-swarm-network
-    depends_on:
-      - redis
-      - postgres
-
-  # 角色容器 - 基于VNC Lab
-  # 每个VPS只运行一个角色容器 + 基础设施服务
+  # AI 角色容器 - 基于 VNC Lab
+  # 每个 VPS 只运行一个角色容器 + 基础设施服务
   
   # 产品经理角色 (VPS-01)
   pm-01:
@@ -49,8 +16,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN_PM_01}
       - VNC_PASSWORD=${VNC_PASSWORD_PM_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_PM_01}
-      - COORDINATOR_URL=${COORDINATOR_URL}
-      - REDIS_URL=${REDIS_URL}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
       - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
     ports:
       - "6080:6080"  # noVNC
@@ -85,8 +52,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND_01}
       - VNC_PASSWORD=${VNC_PASSWORD_BACKEND_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND_01}
-      - COORDINATOR_URL=${COORDINATOR_URL}
-      - REDIS_URL=${REDIS_URL}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
       - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor,warp
     ports:
       - "6081:6080"  # noVNC
@@ -121,8 +88,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND_01}
       - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND_01}
-      - COORDINATOR_URL=${COORDINATOR_URL}
-      - REDIS_URL=${REDIS_URL}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
       - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor,warp
     ports:
       - "6082:6080"  # noVNC
@@ -157,8 +124,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN_QA_01}
       - VNC_PASSWORD=${VNC_PASSWORD_QA_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_QA_01}
-      - COORDINATOR_URL=${COORDINATOR_URL}
-      - REDIS_URL=${REDIS_URL}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
       - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
     ports:
       - "6083:6080"  # noVNC
@@ -193,8 +160,8 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS_01}
       - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS_01}
-      - COORDINATOR_URL=${COORDINATOR_URL}
-      - REDIS_URL=${REDIS_URL}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
       - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
     ports:
       - "6084:6080"  # noVNC
@@ -276,11 +243,6 @@ services:
       - bee-swarm-network
 
 volumes:
-  # 协调器数据卷
-  coordinator_data:
-  coordinator_logs:
-  coordinator_config:
-  
   # 角色数据卷
   pm_01_data:
   pm_01_logs:

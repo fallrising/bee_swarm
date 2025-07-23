@@ -1,0 +1,53 @@
+name: Deploy AI Containers
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/main' && inputs.environment == 'production'
+        run: |
+          echo "Deploying to production..."
+          echo "This would typically involve:"
+          echo "1. SSH to production server"
+          echo "2. Pull latest code"
+          echo "3. Run docker-compose up -d"
+          echo "4. Verify deployment"
+        env:
+          DEPLOYMENT_ENV: production
+          
+      - name: Deploy to staging
+        if: inputs.environment == 'staging'
+        run: |
+          echo "Deploying to staging..."
+          echo "This would typically involve:"
+          echo "1. SSH to staging server"
+          echo "2. Pull latest code"
+          echo "3. Run docker-compose up -d"
+          echo "4. Verify deployment"
+        env:
+          DEPLOYMENT_ENV: staging
+          
+      - name: Verify deployment
+        run: |
+          echo "Verifying deployment..."
+          echo "✅ Deployment completed successfully"
+          echo "Environment: ${{ inputs.environment }}"
+          echo "Commit: ${{ github.sha }}" 

@@ -51,11 +51,13 @@ check_environment() {
     
     # 检查必要的环境变量
     required_vars=(
-        "GITHUB_TOKEN_COORDINATOR"
+        "GITHUB_TOKEN_PM"
+        "GITHUB_TOKEN_BACKEND"
+        "GITHUB_TOKEN_FRONTEND"
+        "GITHUB_TOKEN_QA"
+        "GITHUB_TOKEN_DEVOPS"
         "GITHUB_REPOSITORY"
         "GITHUB_OWNER"
-        "DATABASE_URL"
-        "REDIS_URL"
     )
     
     for var in "${required_vars[@]}"; do
@@ -71,19 +73,6 @@ check_environment() {
 # 构建镜像
 build_images() {
     log_step "Building Docker images..."
-    
-    # 构建系统协调器
-    log_info "Building coordinator image..."
-    if [ -d "coordinator" ]; then
-        cd coordinator
-        docker build -t bee-swarm-coordinator . || {
-            log_error "Failed to build coordinator image"
-            exit 1
-        }
-        cd ..
-    else
-        log_warn "Coordinator directory not found, skipping coordinator build"
-    fi
     
     # 构建角色镜像
     log_info "Building role images..."
