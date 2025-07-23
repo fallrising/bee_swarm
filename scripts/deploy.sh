@@ -51,12 +51,11 @@ check_environment() {
     
     # 检查必要的环境变量
     required_vars=(
-        "GITHUB_TOKEN_PM"
-        "GITHUB_TOKEN_BACKEND"
-        "GITHUB_TOKEN_FRONTEND"
-        "GITHUB_TOKEN_QA"
-        "GITHUB_TOKEN_DEVOPS"
-        "GITHUB_WEBHOOK_SECRET"
+        "GITHUB_TOKEN_COORDINATOR"
+        "GITHUB_REPOSITORY"
+        "GITHUB_OWNER"
+        "DATABASE_URL"
+        "REDIS_URL"
     )
     
     for var in "${required_vars[@]}"; do
@@ -73,24 +72,17 @@ check_environment() {
 build_images() {
     log_step "Building Docker images..."
     
-    # 构建基础镜像
-    log_info "Building base images..."
-    if [ -d "novnc_base" ]; then
-        cd novnc_base
-        docker build -t vnc-base . || {
-            log_error "Failed to build vnc-base image"
+    # 构建系统协调器
+    log_info "Building coordinator image..."
+    if [ -d "coordinator" ]; then
+        cd coordinator
+        docker build -t bee-swarm-coordinator . || {
+            log_error "Failed to build coordinator image"
             exit 1
         }
         cd ..
-    fi
-    
-    if [ -d "novnc_llm_cli" ]; then
-        cd novnc_llm_cli
-        docker build -t vnc-llm-cli . || {
-            log_error "Failed to build vnc-llm-cli image"
-            exit 1
-        }
-        cd ..
+    else
+        log_warn "Coordinator directory not found, skipping coordinator build"
     fi
     
     # 构建角色镜像
@@ -107,15 +99,38 @@ build_images() {
 start_services() {
     log_step "Starting services..."
     
-    # 启动所有服务
-    docker-compose up -d || {
-        log_error "Failed to start services"
+    # 启动基础服务
+    log_info "Starting infrastructure services..."
+    docker-compose up -d redis postgres prometheus grafana || {
+        log_error "Failed to start infrastructure services"
         exit 1
     }
     
-    # 等待服务启动
-    log_info "Waiting for services to start..."
+    # 等待基础服务启动
+    log_info "Waiting for infrastructure services to start..."
     sleep 30
+    
+    # 启动系统协调器
+    log_info "Starting coordinator..."
+    docker-compose up -d coordinator || {
+        log_error "Failed to start coordinator"
+        exit 1
+    }
+    
+    # 等待协调器启动
+    log_info "Waiting for coordinator to start..."
+    sleep 20
+    
+    # 启动角色池
+    log_info "Starting role pool..."
+    docker-compose up -d pm-01 pm-02 backend-01 backend-02 backend-03 frontend-01 frontend-02 qa-01 qa-02 devops-01 || {
+        log_error "Failed to start role pool"
+        exit 1
+    }
+    
+    # 等待角色启动
+    log_info "Waiting for roles to start..."
+    sleep 60
     
     # 检查服务状态
     check_service_status
@@ -127,9 +142,28 @@ start_services() {
 check_service_status() {
     log_step "Checking service status..."
     
-    services=("product-manager" "backend-developer" "frontend-developer" "qa-engineer" "devops-engineer")
+    # 检查基础设施服务
+    infrastructure_services=("redis" "postgres" "prometheus" "grafana")
+    for service in "${infrastructure_services[@]}"; do
+        if docker-compose ps | grep -q "$service.*Up"; then
+            log_info "$service is running"
+        else
+            log_error "$service is not running"
+            docker-compose logs "$service"
+        fi
+    done
     
-    for service in "${services[@]}"; do
+    # 检查协调器
+    if docker-compose ps | grep -q "coordinator.*Up"; then
+        log_info "coordinator is running"
+    else
+        log_error "coordinator is not running"
+        docker-compose logs coordinator
+    fi
+    
+    # 检查角色池
+    role_services=("pm-01" "pm-02" "backend-01" "backend-02" "backend-03" "frontend-01" "frontend-02" "qa-01" "qa-02" "devops-01")
+    for service in "${role_services[@]}"; do
         if docker-compose ps | grep -q "$service.*Up"; then
             log_info "$service is running"
         else
@@ -139,51 +173,73 @@ check_service_status() {
     done
 }
 
-# 配置GitHub Webhook
-setup_webhook() {
-    log_step "Setting up GitHub webhook..."
+# 配置GitHub仓库
+setup_github_repository() {
+    log_step "Setting up GitHub repository..."
     
-    # 检查是否有外部域名配置
-    if [ -n "$EXTERNAL_DOMAIN" ]; then
-        webhook_url="https://$EXTERNAL_DOMAIN/webhook"
-    else
-        webhook_url="http://localhost:5000/webhook"
-        log_warn "No external domain configured, using localhost"
-    fi
-    
-    log_warn "Please manually configure GitHub webhook:"
-    log_warn "URL: $webhook_url"
-    log_warn "Content type: application/json"
-    log_warn "Secret: $GITHUB_WEBHOOK_SECRET"
-    log_warn "Events: Issues, Pull requests, Push"
+    log_warn "Please manually configure GitHub repository:"
+    log_warn "1. Create GitHub Projects board for task management"
+    log_warn "2. Set up Labels for task classification:"
+    log_warn "   - task types: feature, bugfix, refactor, documentation, testing, deployment, research, planning"
+    log_warn "   - priorities: critical, high, medium, low"
+    log_warn "   - skills: python, nodejs, java, go, rust, php, react, vue, angular, typescript, javascript"
+    log_warn "   - projects: project-a, project-b, project-c"
+    log_warn "3. Configure role GitHub accounts with appropriate permissions"
+    log_warn "4. Set up repository webhooks (optional for future use)"
     
     # 提供自动配置的选项
     if command -v gh &> /dev/null && [ -n "$GITHUB_REPOSITORY" ]; then
-        read -p "Do you want to configure webhook automatically? (y/N): " -n 1 -r
+        read -p "Do you want to configure GitHub repository automatically? (y/N): " -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
-            configure_webhook_automatically "$webhook_url"
+            configure_github_automatically
         fi
     fi
 }
 
-# 自动配置webhook
-configure_webhook_automatically() {
-    local webhook_url="$1"
+# 自动配置GitHub
+configure_github_automatically() {
+    log_info "Configuring GitHub repository automatically..."
     
-    log_info "Configuring webhook automatically..."
+    # 创建Labels
+    log_info "Creating labels..."
+    labels=(
+        "feature:新功能:0366d6"
+        "bugfix:修复bug:d73a4a"
+        "refactor:重构:7057ff"
+        "documentation:文档:0075ca"
+        "testing:测试:0e8a16"
+        "deployment:部署:5319e7"
+        "research:调研:fbca04"
+        "planning:规划:1d76db"
+        "critical:紧急:d93f0b"
+        "high:高:fb8c00"
+        "medium:中:fbca04"
+        "low:低:0e8a16"
+        "python:Python:3776ab"
+        "nodejs:Node.js:339933"
+        "java:Java:ed8b00"
+        "go:Go:00add8"
+        "rust:Rust:dea584"
+        "php:PHP:777bb4"
+        "react:React:61dafb"
+        "vue:Vue:4fc08d"
+        "angular:Angular:dd0031"
+        "typescript:TypeScript:3178c6"
+        "javascript:JavaScript:f7df1e"
+    )
     
-    # 使用GitHub CLI配置webhook
-    gh api repos/$GITHUB_REPOSITORY/hooks \
-        -f name="bee-swarm-webhook" \
-        -f active=true \
-        -f events='["issues", "pull_request", "push"]' \
-        -f config="{\"url\": \"$webhook_url\", \"content_type\": \"json\", \"secret\": \"$GITHUB_WEBHOOK_SECRET\"}" || {
-        log_error "Failed to configure webhook automatically"
-        return 1
-    }
+    for label in "${labels[@]}"; do
+        IFS=':' read -r name description color <<< "$label"
+        gh api repos/$GITHUB_REPOSITORY/labels \
+            -f name="$name" \
+            -f description="$description" \
+            -f color="$color" || {
+            log_warn "Failed to create label $name"
+        }
+    done
     
-    log_info "Webhook configured successfully"
+    log_info "GitHub repository configured successfully"
 }
 
 # 健康检查
@@ -200,7 +256,7 @@ health_check() {
     fi
     
     # 检查端口监听
-    ports=(6080 6081 6082 6083 6084 5000 6379 9090 3000)
+    ports=(8000 5555 6080 6081 6082 6083 6084 6085 6086 6087 6088 6089 6379 5432 9090 3000)
     for port in "${ports[@]}"; do
         if netstat -tuln 2>/dev/null | grep -q ":$port " || ss -tuln 2>/dev/null | grep -q ":$port "; then
             log_info "Port $port is listening"
@@ -209,11 +265,11 @@ health_check() {
         fi
     done
     
-    # 检查webhook端点
-    if curl -s http://localhost:5000/health > /dev/null; then
-        log_info "Webhook handler is responding"
+    # 检查协调器API
+    if curl -s http://localhost:8000/health > /dev/null; then
+        log_info "Coordinator API is responding"
     else
-        log_warn "Webhook handler is not responding"
+        log_warn "Coordinator API is not responding"
     fi
     
     log_info "Health check completed"
@@ -250,8 +306,8 @@ backup_data() {
     
     # 备份数据卷（如果存在）
     if docker volume ls | grep -q "bee-swarm"; then
-        docker run --rm -v bee-swarm_pm_data:/data -v "$(pwd)/$backup_dir":/backup alpine tar czf /backup/pm_data.tar.gz -C /data . 2>/dev/null || true
-        docker run --rm -v bee-swarm_backend_data:/data -v "$(pwd)/$backup_dir":/backup alpine tar czf /backup/backend_data.tar.gz -C /data . 2>/dev/null || true
+        docker run --rm -v bee-swarm_coordinator_data:/data -v "$(pwd)/$backup_dir":/backup alpine tar czf /backup/coordinator_data.tar.gz -C /data . 2>/dev/null || true
+        docker run --rm -v bee-swarm_shared_workspace:/data -v "$(pwd)/$backup_dir":/backup alpine tar czf /backup/workspace_data.tar.gz -C /data . 2>/dev/null || true
     fi
     
     log_info "Backup saved to $backup_dir"
@@ -262,14 +318,23 @@ show_access_info() {
     log_step "Deployment completed successfully!"
     echo
     log_info "Access URLs:"
-    log_info "  Product Manager: http://localhost:6080"
-    log_info "  Backend Developer: http://localhost:6081"
-    log_info "  Frontend Developer: http://localhost:6082"
-    log_info "  QA Engineer: http://localhost:6083"
-    log_info "  DevOps Engineer: http://localhost:6084"
+    log_info "  Coordinator API: http://localhost:8000"
+    log_info "  Coordinator Docs: http://localhost:8000/docs"
+    log_info "  Flower (Celery): http://localhost:5555"
+    echo
+    log_info "Role VNC Access:"
+    log_info "  Product Manager 1: http://localhost:6080"
+    log_info "  Product Manager 2: http://localhost:6081"
+    log_info "  Backend Developer 1: http://localhost:6082"
+    log_info "  Backend Developer 2: http://localhost:6083"
+    log_info "  Backend Developer 3: http://localhost:6084"
+    log_info "  Frontend Developer 1: http://localhost:6085"
+    log_info "  Frontend Developer 2: http://localhost:6086"
+    log_info "  QA Engineer 1: http://localhost:6087"
+    log_info "  QA Engineer 2: http://localhost:6088"
+    log_info "  DevOps Engineer 1: http://localhost:6089"
     echo
     log_info "Management URLs:"
-    log_info "  Webhook Handler: http://localhost:5000"
     log_info "  Prometheus: http://localhost:9090"
     log_info "  Grafana: http://localhost:3000 (admin/admin)"
     echo
@@ -278,6 +343,12 @@ show_access_info() {
     log_info "  Stop services: docker-compose down"
     log_info "  Restart services: docker-compose restart"
     log_info "  Update services: docker-compose pull && docker-compose up -d"
+    echo
+    log_info "Next steps:"
+    log_info "  1. Configure GitHub repository settings"
+    log_info "  2. Set up GitHub Projects board"
+    log_info "  3. Create initial issues for testing"
+    log_info "  4. Monitor coordinator logs for task processing"
 }
 
 # 显示帮助信息
@@ -396,8 +467,8 @@ main() {
     # 健康检查
     health_check
     
-    # 配置webhook
-    setup_webhook
+    # 配置GitHub仓库
+    setup_github_repository
     
     # 显示访问信息
     show_access_info

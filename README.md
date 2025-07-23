@@ -2,50 +2,72 @@
 
 ## 📋 **项目概述**
 
-Bee Swarm是一个基于容器化虚拟角色的AI开发团队协作系统，利用现有的AI工具（Gemini CLI, Rovo Dev, Claude Code, Warp, Cursor）和GitHub工作流，实现完全自动化的软件开发流程。
+Bee Swarm是一个基于**单VPS单角色**的AI开发团队协作系统，通过**GitHub作为中央数据源**，实现完全异步的AI驱动软件开发流程。每个VPS运行一个专门的AI角色容器，基于[VNC Lab](https://github.com/fallrising/vnc_lab)项目构建。
 
 ### 🎯 **核心概念**
-- **虚拟角色容器**：每个开发角色运行在独立的VNC容器中，拥有完整的桌面环境
-- **AI工具集成**：每个角色容器预装相应的AI编程工具
-- **异步协作**：通过GitHub Issues、PR、Actions实现角色间协作
-- **按需触发**：通过GitHub Actions定时触发容器工作流程
+- **单VPS单角色**：每个VPS只运行一个AI角色容器，确保资源隔离和稳定性
+- **基于VNC Lab**：使用预装AI工具的VNC桌面环境，支持多种AI编程助手
+- **GitHub驱动协作**：所有信息交换通过GitHub功能实现（Issues、Projects、Comments、Labels）
+- **异步协作模式**：角色通过定期扫描GitHub状态进行异步协作
+- **智能任务调度**：根据角色负载和技能自动分配任务
 
 ### 🏗️ **系统架构**
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        GitHub 平台                              │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │   Issues    │ │ Pull Request│ │   Actions   │ │   Webhooks  │ │
+│  │   Issues    │ │  Projects   │ │  Comments   │ │   Labels    │ │
+│  │   (任务)    │ │  (看板)     │ │  (通信)     │ │  (分类)     │ │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    Cloudflare Tunnel                            │
-│                    远程访问网关                                  │
+│                    系统协调器 (Coordinator)                      │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
+│  │ 任务调度器  │ │ 状态管理器  │ │ GitHub同步器│ │ 通信协调器  │ │
+│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────────────────┘
                                 │
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    20台 VPS 集群                                │
+│                    VPS集群 (单VPS单角色)                         │
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │ VPS-01      │ │ VPS-02      │ │ VPS-03      │ │ VPS-04      │ │
-│  │ PM Container│ │ Backend     │ │ Frontend    │ │ QA          │ │
+│  │   VPS-01    │ │   VPS-02    │ │   VPS-03    │ │   VPS-04    │ │
+│  │ 产品经理    │ │ 后端开发    │ │ 前端开发    │ │ QA工程师    │ │
+│  │ PM-01       │ │ Backend-01  │ │ Frontend-01 │ │ QA-01       │ │
 │  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
-│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │
-│  │ VPS-05      │ │ VPS-06      │ │ VPS-07      │ │ VPS-08      │ │
-│  │ DevOps      │ │ Project Mgr │ │ Operations  │ │ Data Analyst│ │
-│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ │
+│  ┌─────────────┐                                                 │
+│  │   VPS-05    │                                                 │
+│  │ DevOps工程师│                                                 │
+│  │ DevOps-01   │                                                 │
+│  └─────────────┘                                                 │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+### 🖥️ **VPS部署架构**
+```
+每个VPS包含：
+├── 角色容器 (基于VNC Lab)
+│   ├── noVNC桌面环境
+│   ├── AI工具集成 (Gemini CLI, Claude Code, Rovo Dev, Cursor)
+│   ├── Web终端 (ttyd)
+│   └── Firefox浏览器
+├── 基础设施服务
+│   ├── Redis (消息队列)
+│   ├── PostgreSQL (状态数据库)
+│   ├── Prometheus (监控)
+│   └── Grafana (可视化)
+└── 系统协调器 (可选，通常独立部署)
 ```
 
 ## 🚀 **快速开始**
 
 ### 环境要求
 - Docker 20.10+
-- 至少2GB可用内存
+- 每个VPS至少4GB可用内存
 - GitHub账号和Personal Access Token
-- Cloudflare账号（用于Tunnel）
+- Python 3.9+
 
 ### 安装步骤
 
@@ -57,41 +79,88 @@ Bee Swarm是一个基于容器化虚拟角色的AI开发团队协作系统，利
 
 2. **配置环境变量**
    ```bash
-   cp .env.example .env
+   cp env.example .env
    # 编辑.env文件，配置GitHub tokens等
    ```
 
-3. **构建角色容器**
+3. **构建VNC Lab基础镜像**
    ```bash
-   docker-compose build
+   # 基于VNC Lab构建基础镜像
+   cd roles/base
+   docker build -t vnc-llm-cli .
    ```
 
-4. **启动特定角色**
+4. **启动单个角色VPS**
    ```bash
-   docker-compose up product-manager
+   # 启动产品经理VPS
+   docker-compose up pm-01
+   
+   # 启动后端开发VPS
+   docker-compose up backend-01
    ```
 
-5. **配置GitHub Webhook**
-   - 在GitHub仓库设置中添加Webhook
-   - URL: `https://your-domain.com/webhook`
-   - 选择事件: Issues, Pull requests
+5. **配置GitHub仓库**
+   - 创建GitHub Projects看板
+   - 设置Labels（任务类型、优先级、技能要求）
+   - 配置角色GitHub账号
 
 ## 📚 **文档结构**
 
 - `docs/level1/` - 系统概览文档
-- `docs/level2/` - 角色系统文档
-- `docs/level3/` - 工作流程文档
-- `docs/level4/` - 通信协议文档
+- `docs/level2/` - 角色池管理文档
+- `docs/level3/` - GitHub协作流程文档
+- `docs/level4/` - 任务调度系统文档
 - `docs/level5/` - 实现细节文档
 
 ## 🛠️ **技术栈**
 
-- **容器化**：基于VNC Lab的Docker容器
-- **AI工具**：Gemini CLI, Rovo Dev, Claude Code, Warp, Cursor
-- **协作平台**：GitHub (Issues, PR, Actions, Webhooks)
-- **远程访问**：Cloudflare Tunnel + noVNC
-- **调度系统**：GitHub Actions + Cron
+- **容器化**：Docker + VNC Lab + noVNC
+- **系统协调**：Python + FastAPI + Redis
+- **GitHub集成**：PyGithub + GitHub API
+- **任务调度**：Celery + Redis
+- **状态管理**：SQLAlchemy + PostgreSQL
+- **AI工具**：Gemini CLI, Claude Code, Rovo Dev, Cursor
 - **监控**：Prometheus + Grafana
+
+## 🔄 **工作流程**
+
+### 需求发布流程
+```
+人类用户 → GitHub Issues → 系统协调器 → 任务分析 → 角色分配
+```
+
+### 任务执行流程
+```
+角色接收任务 → 更新状态 → 执行开发 → 创建PR → 代码审查 → 合并部署
+```
+
+### 协作通信流程
+```
+角色间通信 → GitHub Comments → 状态同步 → 进度更新 → 任务完成
+```
+
+## 🖥️ **VPS访问信息**
+
+### 角色VNC访问
+- **产品经理**: `http://vps-01:6080` (VNC密码: 环境变量设置)
+- **后端开发**: `http://vps-02:6080` (VNC密码: 环境变量设置)
+- **前端开发**: `http://vps-03:6080` (VNC密码: 环境变量设置)
+- **QA工程师**: `http://vps-04:6080` (VNC密码: 环境变量设置)
+- **DevOps工程师**: `http://vps-05:6080` (VNC密码: 环境变量设置)
+
+### Web终端访问
+- **产品经理**: `http://vps-01:7680` (终端密码: 环境变量设置)
+- **后端开发**: `http://vps-02:7681` (终端密码: 环境变量设置)
+- **前端开发**: `http://vps-03:7682` (终端密码: 环境变量设置)
+- **QA工程师**: `http://vps-04:7683` (终端密码: 环境变量设置)
+- **DevOps工程师**: `http://vps-05:7684` (终端密码: 环境变量设置)
+
+### 管理界面
+- **系统协调器**: `http://coordinator:8000`
+- **API文档**: `http://coordinator:8000/docs`
+- **Celery监控**: `http://coordinator:5555`
+- **Prometheus**: `http://vps-01:9090`
+- **Grafana**: `http://vps-01:3000` (admin/admin)
 
 ## 📄 **许可证**
 
