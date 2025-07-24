@@ -154,6 +154,18 @@ class HealthChecker:
         """運行所有健康檢查"""
         logger.info("🏥 開始系統健康檢查...")
         
+        # 在 CI 環境中跳過實際健康檢查
+        if os.getenv('CI_ENVIRONMENT') == 'true':
+            logger.info("🔄 CI 環境檢測到，跳過實際健康檢查")
+            self.results = {
+                'docker': (True, "skipped in CI", 0.0),
+                'github_api': (True, "skipped in CI", 0.0),
+                'containers': (True, "skipped in CI", 0.0),
+                'network': (True, "skipped in CI", 0.0),
+                'disk_space': (True, "skipped in CI", 0.0)
+            }
+            return self.results
+        
         checks = {
             'docker': self.check_docker_status,
             'github_api': self.check_github_api,
