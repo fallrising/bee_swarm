@@ -6,16 +6,19 @@ Bee Swarm AI is an AI team collaboration automated workflow system. This directo
 
 ## Role Architecture
 
-### Role List
+### Core Role List (4 Roles)
 
 | Role | Folder | Primary Responsibilities | Tech Stack |
 |------|--------|------------------------|------------|
-| **Product Manager** | `product_manager/` | Requirement management, product planning, project coordination | Project management tools, AI tools |
-| **Project Manager** | `project_manager/` | Project planning, progress management, resource coordination | Project management tools, collaboration tools, AI tools |
-| **Backend Developer** | `backend_developer/` | API design, database design, business logic | Python/Node.js/Go, databases, cloud services |
-| **Frontend Developer** | `frontend_developer/` | UI development, user experience, frontend architecture | React/Vue/Angular, CSS, build tools |
-| **QA Engineer** | `qa_engineer/` | Test planning, automated testing, quality assurance | Testing frameworks, automation tools, monitoring tools |
-| **DevOps Engineer** | `devops_engineer/` | Infrastructure, CI/CD, monitoring operations | Containerization, cloud platforms, monitoring tools |
+| **Product Manager** | `product_manager/` | Requirement management, product planning, project coordination, quality control | Project management tools, AI tools |
+| **Backend Developer** | `backend_developer/` | API design, database design, business logic, unit testing | Python/Node.js/Go, databases, cloud services |
+| **Frontend Developer** | `frontend_developer/` | UI development, user experience, frontend architecture, frontend testing | React/Vue/Angular, CSS, build tools |
+| **DevOps Engineer** | `devops_engineer/` | Infrastructure, CI/CD, monitoring, testing, security, deployment | Containerization, cloud platforms, monitoring tools |
+
+### Extended Role List (Optional)
+
+| Role | Folder | Primary Responsibilities | Tech Stack |
+|------|--------|------------------------|------------|
 | **Android Developer** | `android_developer/` | Android app development, mobile development | Kotlin/Java, Android SDK, AI tools |
 | **iOS Developer** | `ios_developer/` | iOS app development, mobile development | Swift/Objective-C, iOS SDK, AI tools |
 | **Unity Developer** | `unity_developer/` | Game development, 3D applications, interactive experiences | C#, Unity Engine, AI tools |
@@ -29,18 +32,12 @@ roles/
 ├── product_manager/
 │   ├── Dockerfile          # Product manager container configuration
 │   └── prompt.md           # Product manager role specification
-├── project_manager/
-│   ├── Dockerfile          # Project manager container configuration
-│   └── prompt.md           # Project manager role specification
 ├── backend_developer/
 │   ├── Dockerfile          # Backend developer container configuration
 │   └── prompt.md           # Backend developer role specification
 ├── frontend_developer/
 │   ├── Dockerfile          # Frontend developer container configuration
 │   └── prompt.md           # Frontend developer role specification
-├── qa_engineer/
-│   ├── Dockerfile          # QA engineer container configuration
-│   └── prompt.md           # QA engineer role specification
 ├── devops_engineer/
 │   ├── Dockerfile          # DevOps engineer container configuration
 │   └── prompt.md           # DevOps engineer role specification
@@ -136,44 +133,26 @@ Each role's Dockerfile is based on the `vnc-llm-cli:latest` image and includes:
 
 ## Role Collaboration Model
 
-### Workflow
+### Core Workflow
 ```mermaid
 graph TD
     A[Product Manager] --> B[Requirement Analysis]
-    B --> C[Project Manager]
-    C --> D[Task Breakdown]
-    D --> E[Visual Design]
-    D --> F[Backend Development]
-    D --> G[Frontend Development]
-    D --> H[Mobile Development]
-    D --> I[Game Development]
-    D --> J[Data Engineering]
-    E --> K[Design Delivery]
-    F --> L[API Integration]
-    G --> L
-    H --> M[Mobile Integration]
-    I --> N[Game Testing]
-    J --> O[Data Pipeline]
-    K --> P[UI Implementation]
-    L --> Q[Full-stack Integration]
-    M --> Q
-    P --> Q
-    O --> R[Data Analysis]
-    Q --> S[QA Testing]
-    N --> S
-    R --> T[Data Reports]
-    S --> U[DevOps Deployment]
-    U --> V[Monitoring Verification]
-    T --> V
-    V --> W[User Feedback]
-    W --> A
+    B --> C[Task Breakdown]
+    C --> D[Backend Development]
+    C --> E[Frontend Development]
+    D --> F[API Integration]
+    E --> F
+    F --> G[DevOps Testing & Deployment]
+    G --> H[Monitoring & Quality Control]
+    H --> I[User Feedback]
+    I --> A
 ```
 
 ### Communication Mechanisms
-- **Real-time Communication**: Use Slack/Teams for real-time collaboration
-- **Document Collaboration**: Use Notion/Confluence for document management
+- **Real-time Communication**: Use GitHub Comments for real-time collaboration
+- **Document Collaboration**: Use GitHub Wiki for document management
 - **Code Collaboration**: Use GitHub for code management and review
-- **Project Management**: Use Jira/Trello for task management
+- **Project Management**: Use GitHub Projects for task management
 
 ## Deployment Configuration
 
@@ -191,8 +170,8 @@ GITHUB_USERNAME=github_username
 GITHUB_TOKEN=github_token
 
 # System Configuration
-COORDINATOR_URL=coordinator_url
-REDIS_URL=redis_url
+GITHUB_REPOSITORY=your-org/your-repo
+GITHUB_OWNER=your-org
 
 # VNC Configuration
 VNC_PASSWORD=vnc_password
@@ -205,11 +184,10 @@ AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
 ### Port Configuration
 - **VNC Port**: 6080 (noVNC)
 - **Terminal Port**: 7681 (ttyd)
-- **API Port**: 8000 (FastAPI)
 
 ### Resource Limits
-- **Memory Limit**: 2-4GB
-- **CPU Limit**: 1-2 cores
+- **Memory Limit**: 1-2GB (depending on role)
+- **CPU Limit**: 0.5-1.0 cores (depending on role)
 - **Storage Space**: 10-20GB
 
 ## Monitoring and Maintenance
@@ -220,50 +198,35 @@ AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
 - Check service availability
 
 ### Log Management
-- Centralized collection of role logs
-- Set up log rotation and cleanup
-- Configure log monitoring and alerts
+- Centralized log collection
+- Log rotation and cleanup
+- Error monitoring and alerting
 
-### Backup Strategy
-- Regular backup of role configurations
-- Backup important data and documents
-- Test recovery procedures
+## Role Responsibilities Summary
 
-## Extension and Customization
+### Product Manager
+- **Primary**: Requirement analysis, product planning, project coordination
+- **Secondary**: Quality control, user feedback analysis, team coordination
+- **Tools**: Gemini CLI, Claude Code, GitHub Projects
 
-### Adding New Roles
-1. Create role folder
-2. Write Dockerfile
-3. Create role specification
-4. Update docker-compose.yml
-5. Configure environment variables
+### Backend Developer
+- **Primary**: API design, database design, business logic implementation
+- **Secondary**: Unit testing, performance optimization, code review
+- **Tools**: Claude Code, Rovo Dev, Cursor
 
-### Custom Configuration
-- Modify Dockerfile to add specific tools
-- Update prompt.md to adjust role responsibilities
-- Configure custom environment variables
-- Add role-specific scripts
+### Frontend Developer
+- **Primary**: UI development, user experience, frontend architecture
+- **Secondary**: Frontend testing, responsive design, API integration
+- **Tools**: Claude Code, Rovo Dev, Cursor, Warp
 
-## Best Practices
+### DevOps Engineer
+- **Primary**: Infrastructure, CI/CD, monitoring, deployment
+- **Secondary**: Testing automation, security, performance optimization
+- **Tools**: GitHub Actions, Docker, Kubernetes, Gemini CLI, Claude Code
 
-### Role Design
-- Clear role boundaries and responsibilities
-- Maintain balance between roles
-- Consider dependencies between roles
-- Design clear communication mechanisms
+## Notes
 
-### Technical Implementation
-- Use containerized deployment
-- Implement automated configuration
-- Establish monitoring and alerts
-- Keep code and documentation synchronized
-
-### Operations Management
-- Regular updates and maintenance
-- Monitor system performance
-- Address issues promptly
-- Continuous process improvement
-
----
-
-*This document is an overview of the Bee Swarm AI role system. For detailed role specifications, please refer to each role's prompt.md file.* 
+- **Core Roles**: The 4 core roles (Product Manager, Backend Developer, Frontend Developer, DevOps Engineer) are sufficient for most projects
+- **Extended Roles**: Additional roles can be added based on project requirements
+- **Role Merging**: QA Engineer responsibilities have been merged into DevOps Engineer
+- **Project Manager**: Project management responsibilities have been merged into Product Manager 

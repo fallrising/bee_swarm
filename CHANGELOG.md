@@ -8,6 +8,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- 配置驗證腳本 (`scripts/validate_config.py`)
+- 環境切換腳本 (`scripts/switch_env.sh`)
+- 測試環境配置 (`docker-compose.test.yml`)
+- 自動化配置驗證機制
+- 環境分離管理功能
+- 資源使用監控功能
+
+### Changed
+- 大幅簡化 docker-compose.yml，移除所有基礎設施服務
+- 優化容器資源配置，根據角色需求調整
+- 簡化環境變量配置，從 254 行減少到 50 行
+- 重新定義角色職責，從 5 個角色簡化為 4 個核心角色
+- 更新 README.md，反映新的架構和使用方式
+- 改進角色定義文檔，明確職責邊界
+
+### Removed
+- Redis 服務（狀態管理改用 GitHub API）
+- PostgreSQL 服務（數據存儲改用 GitHub Issues/Projects）
+- Prometheus 服務（監控改用 GitHub Actions）
+- Grafana 服務（可視化改用 GitHub Projects）
+- QA Engineer 角色（職責合併到 DevOps Engineer）
+- 所有第三方服務配置（Notion、Figma、Jira、Slack 等）
+- 複雜的監控和備份配置
+
+### Fixed
+- 架構設計矛盾問題
+- 配置複雜度過高問題
+- 角色職責重疊問題
+- 資源配置不合理問題
+- 安全配置問題
+
+### Security
+- 實現配置驗證機制
+- 支持 GitHub Secrets 集成
+- 環境分離管理
+- 密碼強度檢查
+
+## [0.4.0] - 2024-01-20
+
+### Added
 - GitHub-Centric 架構設計
 - 簡化的文檔結構
 - 基於 GitHub Actions 的觸發機制
@@ -99,22 +139,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MINOR: Backward-compatible functional additions
 - PATCH: Backward-compatible bug fixes
 
-### Change Types
-- **Added**: New features
-- **Changed**: Changes to existing functionality
-- **Deprecated**: Features that will be removed
-- **Removed**: Removed features
-- **Fixed**: Bug fixes
-- **Security**: Security-related changes
-
-### Release Plan
-- **v0.1.0**: Basic architecture and documentation
-- **v0.2.0**: Role pool architecture refactor ✅
-- **v0.3.0**: Single VPS single role architecture ✅
-- **v0.4.0**: GitHub-Centric architecture refactor ✅
-- **v0.5.0**: Product Manager role implementation
-- **v0.6.0**: Backend Developer role implementation
-- **v0.7.0**: Frontend Developer role implementation
-- **v0.8.0**: QA Engineer role implementation
-- **v0.9.0**: DevOps Engineer role implementation
-- **v1.0.0**: Production-ready version 
+### Recent Major Changes (v0.4.0+)
+- **架構簡化**: 移除複雜的基礎設施組件，真正實現 GitHub-Centric
+- **配置優化**: 大幅簡化環境變量配置，提高易用性
+- **角色重構**: 重新定義角色職責，避免重疊
+- **安全加固**: 實現配置驗證和環境分離
+- **性能提升**: 優化資源配置，提高系統效率 

@@ -1,33 +1,71 @@
 version: '3.8'
 
 services:
-  # AI 角色容器 - 基於 VNC Lab
-  # 每個 VPS 只運行一個角色容器
+  # AI 角色容器 - 測試環境
+  # 簡化配置，專注於功能測試
   
-  # 產品經理角色 (VPS-01)
+  # 產品經理角色 (測試)
   pm-01:
     build: 
       context: ./roles/product_manager
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=product_manager_01
-      - ROLE_ID=pm-01
+      - ROLE_NAME=product_manager_01_test
+      - ROLE_ID=pm-01-test
       - GITHUB_USERNAME=${GITHUB_USERNAME_PM_01}
       - GITHUB_TOKEN=${GITHUB_TOKEN_PM_01}
       - VNC_PASSWORD=${VNC_PASSWORD_PM_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_PM_01}
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - GITHUB_OWNER=${GITHUB_OWNER}
-      - AI_TOOLS=gemini-cli,claude-code
+      - AI_TOOLS=gemini-cli
+      - TEST_MODE=true
+      - DEBUG=true
     ports:
       - "6080:6080"  # noVNC
       - "7680:7681"  # ttyd
     volumes:
-      - pm_01_data:/app/data
-      - pm_01_logs:/app/logs
-      - pm_01_config:/app/config
-      - shared_workspace:/workspace
-      - firefox_profile_pm_01:/home/firefox-profile
+      - pm_test_data:/app/data
+      - pm_test_logs:/app/logs
+      - pm_test_config:/app/config
+      - shared_test_workspace:/workspace
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+        reservations:
+          memory: 256M
+          cpus: '0.125'
+    networks:
+      - bee-swarm-test-network
+
+  # 後端開發角色 (測試)
+  backend-01:
+    build: 
+      context: ./roles/backend_developer
+      dockerfile: Dockerfile
+    environment:
+      - ROLE_NAME=backend_developer_01_test
+      - ROLE_ID=backend-01-test
+      - GITHUB_USERNAME=${GITHUB_USERNAME_BACKEND_01}
+      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND_01}
+      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND_01}
+      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND_01}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_OWNER=${GITHUB_OWNER}
+      - AI_TOOLS=claude-code
+      - TEST_MODE=true
+      - DEBUG=true
+    ports:
+      - "6081:6080"  # noVNC
+      - "7681:7681"  # ttyd
+    volumes:
+      - backend_test_data:/app/data
+      - backend_test_logs:/app/logs
+      - backend_test_config:/app/config
+      - shared_test_workspace:/workspace
     restart: unless-stopped
     deploy:
       resources:
@@ -38,143 +76,103 @@ services:
           memory: 512M
           cpus: '0.25'
     networks:
-      - bee-swarm-network
+      - bee-swarm-test-network
 
-  # 後端開發角色 (VPS-02)
-  backend-01:
-    build: 
-      context: ./roles/backend_developer
-      dockerfile: Dockerfile
-    environment:
-      - ROLE_NAME=backend_developer_01
-      - ROLE_ID=backend-01
-      - GITHUB_USERNAME=${GITHUB_USERNAME_BACKEND_01}
-      - GITHUB_TOKEN=${GITHUB_TOKEN_BACKEND_01}
-      - VNC_PASSWORD=${VNC_PASSWORD_BACKEND_01}
-      - TTYD_PASSWORD=${TTYD_PASSWORD_BACKEND_01}
-      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-      - GITHUB_OWNER=${GITHUB_OWNER}
-      - AI_TOOLS=claude-code,rovo-dev,cursor
-    ports:
-      - "6081:6080"  # noVNC
-      - "7681:7681"  # ttyd
-    volumes:
-      - backend_01_data:/app/data
-      - backend_01_logs:/app/logs
-      - backend_01_config:/app/config
-      - shared_workspace:/workspace
-      - firefox_profile_backend_01:/home/firefox-profile
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
-    networks:
-      - bee-swarm-network
-
-  # 前端開發角色 (VPS-03)
+  # 前端開發角色 (測試)
   frontend-01:
     build: 
       context: ./roles/frontend_developer
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=frontend_developer_01
-      - ROLE_ID=frontend-01
+      - ROLE_NAME=frontend_developer_01_test
+      - ROLE_ID=frontend-01-test
       - GITHUB_USERNAME=${GITHUB_USERNAME_FRONTEND_01}
       - GITHUB_TOKEN=${GITHUB_TOKEN_FRONTEND_01}
       - VNC_PASSWORD=${VNC_PASSWORD_FRONTEND_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_FRONTEND_01}
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - GITHUB_OWNER=${GITHUB_OWNER}
-      - AI_TOOLS=claude-code,rovo-dev,cursor,warp
+      - AI_TOOLS=claude-code
+      - TEST_MODE=true
+      - DEBUG=true
     ports:
       - "6082:6080"  # noVNC
       - "7682:7681"  # ttyd
     volumes:
-      - frontend_01_data:/app/data
-      - frontend_01_logs:/app/logs
-      - frontend_01_config:/app/config
-      - shared_workspace:/workspace
-      - firefox_profile_frontend_01:/home/firefox-profile
+      - frontend_test_data:/app/data
+      - frontend_test_logs:/app/logs
+      - frontend_test_config:/app/config
+      - shared_test_workspace:/workspace
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
           memory: 1G
           cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
     networks:
-      - bee-swarm-network
+      - bee-swarm-test-network
 
-  # DevOps工程師角色 (VPS-04)
+  # DevOps工程師角色 (測試)
   devops-01:
     build: 
       context: ./roles/devops_engineer
       dockerfile: Dockerfile
     environment:
-      - ROLE_NAME=devops_engineer_01
-      - ROLE_ID=devops-01
+      - ROLE_NAME=devops_engineer_01_test
+      - ROLE_ID=devops-01-test
       - GITHUB_USERNAME=${GITHUB_USERNAME_DEVOPS_01}
       - GITHUB_TOKEN=${GITHUB_TOKEN_DEVOPS_01}
       - VNC_PASSWORD=${VNC_PASSWORD_DEVOPS_01}
       - TTYD_PASSWORD=${TTYD_PASSWORD_DEVOPS_01}
       - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
       - GITHUB_OWNER=${GITHUB_OWNER}
-      - AI_TOOLS=gemini-cli,claude-code,rovo-dev,cursor
+      - AI_TOOLS=gemini-cli
+      - TEST_MODE=true
+      - DEBUG=true
     ports:
       - "6083:6080"  # noVNC
       - "7683:7681"  # ttyd
     volumes:
-      - devops_01_data:/app/data
-      - devops_01_logs:/app/logs
-      - devops_01_config:/app/config
-      - shared_workspace:/workspace
-      - firefox_profile_devops_01:/home/firefox-profile
+      - devops_test_data:/app/data
+      - devops_test_logs:/app/logs
+      - devops_test_config:/app/config
+      - shared_test_workspace:/workspace
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          memory: 1.5G
-          cpus: '0.75'
-        reservations:
           memory: 768M
           cpus: '0.375'
+        reservations:
+          memory: 384M
+          cpus: '0.1875'
     networks:
-      - bee-swarm-network
+      - bee-swarm-test-network
 
 volumes:
-  # 角色數據卷
-  pm_01_data:
-  pm_01_logs:
-  pm_01_config:
-  backend_01_data:
-  backend_01_logs:
-  backend_01_config:
-  frontend_01_data:
-  frontend_01_logs:
-  frontend_01_config:
-  devops_01_data:
-  devops_01_logs:
-  devops_01_config:
+  # 測試環境數據卷
+  pm_test_data:
+  pm_test_logs:
+  pm_test_config:
+  backend_test_data:
+  backend_test_logs:
+  backend_test_config:
+  frontend_test_data:
+  frontend_test_logs:
+  frontend_test_config:
+  devops_test_data:
+  devops_test_logs:
+  devops_test_config:
   
-  # Firefox配置文件
-  firefox_profile_pm_01:
-  firefox_profile_backend_01:
-  firefox_profile_frontend_01:
-  firefox_profile_devops_01:
-  
-  # 共享工作空間
-  shared_workspace:
+  # 共享測試工作空間
+  shared_test_workspace:
 
 networks:
-  bee-swarm-network:
+  bee-swarm-test-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16 
+        - subnet: 172.21.0.0/16 
