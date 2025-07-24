@@ -37,7 +37,8 @@ def test_script(script_name: str, env_vars: dict = None) -> bool:
             'SLACK_WEBHOOK_URL': 'https://hooks.slack.com/test',
             'BACKUP_S3_BUCKET': 'test-bucket',
             'AWS_ACCESS_KEY_ID': 'test_key',
-            'AWS_SECRET_ACCESS_KEY': 'test_secret'
+            'AWS_SECRET_ACCESS_KEY': 'test_secret',
+            'CI_ENVIRONMENT': 'true'
         })
         
         # 運行腳本（只測試語法，不實際執行）
