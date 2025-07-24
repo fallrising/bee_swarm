@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- 新增教育遊戲項目增強版蜂群模擬系統 (`enhanced-bee-swarm-simulation.py`)
+- 新增 GitHub 敏捷開發工作流指南 (`github-agile-methodology.md`, `github-agile-advanced.md`)
+- 新增蜂群模擬系統整合指南 (`integration-guide.md`)
+- 新增項目上下文文檔 (`bee-swarm-context.md`)
+- 新增統一版本蜂群模擬程序 (`bee-swarm-unified-simulation.py`)
+- 新增 MCP Server 架構文檔 (`mcp-architecture.md`)
+- 新增 Dockerfile 遷移總結文檔 (`dockerfile-migration-summary.md`)
+- 新增基礎映像構建腳本 (`build_base_image.sh`)
+- 新增 Dockerfile 模板 (`Dockerfile.template`)
+- 新增 CI 環境配置驗證
 - 配置驗證腳本 (`scripts/validate_config.py`)
 - 環境切換腳本 (`scripts/switch_env.sh`)
 - 測試環境配置 (`docker-compose.test.yml`)
@@ -16,14 +26,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 資源使用監控功能
 
 ### Changed
+- 🎯 重新定位項目：從生產系統改為概念設計框架，專注 AI 角色協作概念設計與模擬
+- ✨ 強化多角色多帳號容器化架構說明，新增視覺化系統架構圖和協作流程圖
+- 統一蜂群模擬程序，實現產品經理優先機制，符合 GitHub-Centric 架構設計
+- 遷移所有 Dockerfiles 到 MCP Server 架構，使用 `fallrising/novnc_llm_cli:latest` 基礎映像
+- 精簡仿真文件，保留核心事件驅動仿真
+- 修復 GitHub Actions workflow，確保所有 workflow 都能正常運行
+- 重構項目架構和文檔結構
+- 翻譯所有文檔從中文到英文，提升國際化無障礙性
 - 大幅簡化 docker-compose.yml，移除所有基礎設施服務
 - 優化容器資源配置，根據角色需求調整
 - 簡化環境變量配置，從 254 行減少到 50 行
 - 重新定義角色職責，從 5 個角色簡化為 4 個核心角色
 - 更新 README.md，反映新的架構和使用方式
 - 改進角色定義文檔，明確職責邊界
+- 更新 DockerHub 用戶名配置
 
 ### Removed
+- 刪除所有部署相關文件：scripts/ 資料夾（13個部署腳本）、docker-compose.yml、monitoring/ 配置文件
+- 刪除 `.github/workflows` 目錄及所有 workflow 文件
+- 刪除舊版本模擬文件，保持代碼庫整潔
+- 移除 coordinator 模組和舊文檔結構
+- 移除複雜的監控和備份配置
 - Redis 服務（狀態管理改用 GitHub API）
 - PostgreSQL 服務（數據存儲改用 GitHub Issues/Projects）
 - Prometheus 服務（監控改用 GitHub Actions）
@@ -33,6 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 複雜的監控和備份配置
 
 ### Fixed
+- 修復 GitHub Actions workflow 失敗問題，添加 CI_ENVIRONMENT 環境變量標記
+- 修復 docker-compose 命令在 GitHub Actions 中找不到的錯誤
 - 架構設計矛盾問題
 - 配置複雜度過高問題
 - 角色職責重疊問題
