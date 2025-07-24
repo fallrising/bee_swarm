@@ -1,94 +1,215 @@
 #!/usr/bin/env python3
 """
-檢查系統健康狀態的腳本 (Mock 版本)
-用於 GitHub Actions 工作流程中檢查系統健康狀態
+系統健康檢查腳本
+檢查 Bee Swarm 系統各組件的健康狀態
 """
 
 import os
 import sys
-import logging
 import time
+import logging
+import subprocess
+from typing import Dict, List, Tuple
 from datetime import datetime
 
-# 設置日誌
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# 配置日誌
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-def main():
-    """主函數 - Mock 版本"""
-    try:
-        logger.info("🏥 開始系統健康檢查 (Mock 模式)...")
+class HealthChecker:
+    """健康檢查器"""
+    
+    def __init__(self):
+        self.results = {}
+        self.start_time = time.time()
+    
+    def check_docker_status(self) -> Tuple[bool, str, float]:
+        """檢查 Docker 服務狀態"""
+        start_time = time.time()
+        try:
+            result = subprocess.run(
+                ['docker', 'info'],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            response_time = time.time() - start_time
+            
+            if result.returncode == 0:
+                return True, "healthy", response_time
+            else:
+                return False, "unhealthy", response_time
+        except subprocess.TimeoutExpired:
+            return False, "timeout", time.time() - start_time
+        except FileNotFoundError:
+            return False, "docker not found", time.time() - start_time
+        except Exception as e:
+            return False, f"error: {str(e)}", time.time() - start_time
+    
+    def check_github_api(self) -> Tuple[bool, str, float]:
+        """檢查 GitHub API 連接"""
+        start_time = time.time()
+        try:
+            # 檢查 GitHub Token 是否設置
+            github_token = os.getenv('GITHUB_TOKEN_PM_01') or os.getenv('GITHUB_TOKEN')
+            if not github_token:
+                return False, "no token configured", time.time() - start_time
+            
+            # 使用 curl 測試 GitHub API
+            result = subprocess.run([
+                'curl', '-s', '-H', f'Authorization: token {github_token}',
+                'https://api.github.com/user'
+            ], capture_output=True, text=True, timeout=10)
+            
+            response_time = time.time() - start_time
+            
+            if result.returncode == 0 and result.stdout:
+                return True, "healthy", response_time
+            else:
+                return False, "api error", response_time
+        except subprocess.TimeoutExpired:
+            return False, "timeout", time.time() - start_time
+        except Exception as e:
+            return False, f"error: {str(e)}", time.time() - start_time
+    
+    def check_containers_status(self) -> Tuple[bool, str, float]:
+        """檢查容器狀態"""
+        start_time = time.time()
+        try:
+            result = subprocess.run([
+                'docker-compose', 'ps', '--format', 'json'
+            ], capture_output=True, text=True, timeout=10)
+            
+            response_time = time.time() - start_time
+            
+            if result.returncode == 0:
+                # 簡單檢查是否有容器在運行
+                if 'pm-01' in result.stdout or 'backend-01' in result.stdout:
+                    return True, "containers running", response_time
+                else:
+                    return False, "no containers running", response_time
+            else:
+                return False, "docker-compose error", response_time
+        except subprocess.TimeoutExpired:
+            return False, "timeout", time.time() - start_time
+        except FileNotFoundError:
+            return False, "docker-compose not found", time.time() - start_time
+        except Exception as e:
+            return False, f"error: {str(e)}", time.time() - start_time
+    
+    def check_network_connectivity(self) -> Tuple[bool, str, float]:
+        """檢查網絡連接"""
+        start_time = time.time()
+        try:
+            result = subprocess.run([
+                'ping', '-c', '1', '8.8.8.8'
+            ], capture_output=True, text=True, timeout=10)
+            
+            response_time = time.time() - start_time
+            
+            if result.returncode == 0:
+                return True, "connected", response_time
+            else:
+                return False, "no connection", response_time
+        except subprocess.TimeoutExpired:
+            return False, "timeout", time.time() - start_time
+        except Exception as e:
+            return False, f"error: {str(e)}", time.time() - start_time
+    
+    def check_disk_space(self) -> Tuple[bool, str, float]:
+        """檢查磁盤空間"""
+        start_time = time.time()
+        try:
+            result = subprocess.run([
+                'df', '-h', '.'
+            ], capture_output=True, text=True, timeout=5)
+            
+            response_time = time.time() - start_time
+            
+            if result.returncode == 0:
+                lines = result.stdout.strip().split('\n')
+                if len(lines) >= 2:
+                    parts = lines[1].split()
+                    if len(parts) >= 5:
+                        usage = parts[4].replace('%', '')
+                        try:
+                            usage_int = int(usage)
+                            if usage_int < 90:
+                                return True, f"{usage}% used", response_time
+                            else:
+                                return False, f"{usage}% used (high)", response_time
+                        except ValueError:
+                            return True, "unknown usage", response_time
+            
+            return True, "check passed", response_time
+        except subprocess.TimeoutExpired:
+            return False, "timeout", time.time() - start_time
+        except Exception as e:
+            return False, f"error: {str(e)}", time.time() - start_time
+    
+    def run_all_checks(self) -> Dict[str, Tuple[bool, str, float]]:
+        """運行所有健康檢查"""
+        logger.info("🏥 開始系統健康檢查...")
         
-        # 模擬檢查各個服務
-        health_report = {}
-        
-        # 檢查 Prometheus
-        logger.info("📊 檢查 Prometheus 健康狀態...")
-        time.sleep(1)  # 模擬檢查時間
-        health_report['prometheus'] = {
-            'status': 'healthy',
-            'response_time': 0.8,
-            'metrics': {
-                'containers_running': 5,
-                'total_memory_bytes': 2147483648  # 2GB
-            }
+        checks = {
+            'docker': self.check_docker_status,
+            'github_api': self.check_github_api,
+            'containers': self.check_containers_status,
+            'network': self.check_network_connectivity,
+            'disk_space': self.check_disk_space
         }
         
-        # 檢查 Grafana
-        logger.info("📈 檢查 Grafana 健康狀態...")
-        time.sleep(1)
-        health_report['grafana'] = {
-            'status': 'healthy',
-            'version': '10.0.0',
-            'database': 'postgres',
-            'response_time': 0.5
-        }
+        for check_name, check_func in checks.items():
+            logger.info(f"📊 檢查 {check_name} 健康狀態...")
+            is_healthy, status, response_time = check_func()
+            self.results[check_name] = (is_healthy, status, response_time)
+            time.sleep(1)  # 避免請求過於頻繁
         
-        # 檢查 GitHub API
-        logger.info("🐙 檢查 GitHub API 健康狀態...")
-        time.sleep(1)
-        health_report['github_api'] = {
-            'status': 'healthy',
-            'rate_limit': {
-                'limit': 5000,
-                'remaining': 4850,
-                'reset_time': int(time.time()) + 3600
-            },
-            'response_time': 0.3
-        }
-        
-        # 記錄檢查結果
+        return self.results
+    
+    def print_results(self):
+        """打印檢查結果"""
         logger.info("📋 健康檢查結果:")
-        for service, status in health_report.items():
-            logger.info(f"  {service}: {status['status']} ✅")
-            if 'response_time' in status:
-                logger.info(f"    響應時間: {status['response_time']}s")
         
-        # 模擬 Slack 通知
+        all_healthy = True
+        for check_name, (is_healthy, status, response_time) in self.results.items():
+            status_icon = "✅" if is_healthy else "❌"
+            logger.info(f"  {check_name}: {status} {status_icon}")
+            logger.info(f"     響應時間: {response_time:.1f}s")
+            if not is_healthy:
+                all_healthy = False
+        
+        # 發送通知（模擬）
         logger.info("📢 發送健康檢查通知...")
         time.sleep(1)
         
-        # 檢查總體健康狀態
-        overall_healthy = all(
-            status.get('status') == 'healthy' 
-            for status in health_report.values()
-        )
-        
-        if overall_healthy:
+        if all_healthy:
             logger.info("✅ 所有服務運行正常")
         else:
-            logger.warning("⚠️ 發現服務問題")
+            logger.info("⚠️ 發現健康問題，請檢查上述服務")
         
-        # 設置環境變量
-        with open(os.environ.get('GITHUB_ENV', '/dev/null'), 'a') as f:
-            f.write(f"SYSTEM_HEALTHY={'true' if overall_healthy else 'false'}\n")
-            f.write(f"HEALTH_CHECK_TIME={datetime.now().isoformat()}\n")
-            f.write(f"SERVICES_CHECKED={len(health_report)}\n")
+        total_time = time.time() - self.start_time
+        logger.info(f"🎉 系統健康檢查完成 (耗時: {total_time:.1f}s)")
+
+def main():
+    """主函數"""
+    try:
+        checker = HealthChecker()
+        results = checker.run_all_checks()
+        checker.print_results()
         
-        logger.info("🎉 系統健康檢查完成 (Mock 模式)")
-        
+        # 如果有任何服務不健康，返回非零退出碼
+        if not all(is_healthy for is_healthy, _, _ in results.values()):
+            sys.exit(1)
+            
+    except KeyboardInterrupt:
+        logger.info("🛑 健康檢查被用戶中斷")
+        sys.exit(1)
     except Exception as e:
-        logger.error(f"❌ 系統健康檢查時發生錯誤: {e}")
+        logger.error(f"💥 健康檢查過程中發生錯誤: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

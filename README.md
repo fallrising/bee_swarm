@@ -20,11 +20,10 @@ GitHub Platform (協調中心)
     ↓
 
 AI Containers (角色容器)
-├── Product Manager
-├── Backend Developer
-├── Frontend Developer
-├── QA Engineer
-└── DevOps Engineer
+├── Product Manager (產品經理)
+├── Backend Developer (後端開發者)
+├── Frontend Developer (前端開發者)
+└── DevOps Engineer (運維工程師)
 ```
 
 ## 🚀 快速開始
@@ -49,9 +48,18 @@ cp env.example .env
 # 編輯 .env 文件，配置 GitHub Token 和 AI 工具 API Key
 ```
 
-3. 構建和啟動容器：
+3. 驗證配置：
 ```bash
-docker-compose up -d
+python3 scripts/validate_config.py
+```
+
+4. 啟動系統：
+```bash
+# 生產環境
+./scripts/switch_env.sh production
+
+# 或測試環境
+./scripts/switch_env.sh test
 ```
 
 ## 📋 核心功能
@@ -60,16 +68,19 @@ docker-compose up -d
 - 基於 GitHub Issues 的任務分配
 - 智能工作流管理
 - 異步協作通信
+- 明確的角色職責邊界
 
 ### 🔄 自動化工作流
 - GitHub Actions 集成
 - 定時任務觸發
 - 事件驅動響應
+- 配置驗證機制
 
 ### 📊 透明化管理
 - 所有協調過程在 GitHub 上可見
 - 完整的版本控制歷史
 - 清晰的審計軌跡
+- 簡化的架構設計
 
 ## 🏗️ 項目結構
 
@@ -78,6 +89,8 @@ bee_swarm/
 ├── roles/               # AI 角色定義
 ├── scripts/             # 工作流腳本
 ├── docs/                # 項目文檔
+├── docker-compose.yml   # 生產環境配置
+├── docker-compose.test.yml # 測試環境配置
 └── .github/workflows/   # GitHub Actions
 ```
 
@@ -89,17 +102,16 @@ bee_swarm/
 
 ```bash
 # GitHub 配置
-GITHUB_TOKEN_PM=ghp_xxxxxxxxxxxxxxxxxxxx
-GITHUB_TOKEN_BACKEND=ghp_xxxxxxxxxxxxxxxxxxxx
-GITHUB_TOKEN_FRONTEND=ghp_xxxxxxxxxxxxxxxxxxxx
-GITHUB_TOKEN_QA=ghp_xxxxxxxxxxxxxxxxxxxx
-GITHUB_TOKEN_DEVOPS=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_REPOSITORY=your-org/your-repo
+GITHUB_OWNER=your-org
 
-# GitHub 倉庫配置
-GITHUB_REPOSITORY=your-username/bee_swarm
-GITHUB_OWNER=your-username
+# AI 角色 GitHub Token
+GITHUB_TOKEN_PM_01=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_BACKEND_01=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_FRONTEND_01=ghp_xxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN_DEVOPS_01=ghp_xxxxxxxxxxxxxxxxxxxx
 
-# AI 工具配置
+# AI 工具 API 密鑰
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxx
 ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxxxxxxxxxx
 GEMINI_API_KEY=xxxxxxxxxxxxxxxxxxxx
@@ -109,39 +121,35 @@ GEMINI_API_KEY=xxxxxxxxxxxxxxxxxxxx
 
 在 GitHub 倉庫設置中添加以下 secrets：
 
-- `GITHUB_TOKEN_PM`: Product Manager 的 GitHub Token
-- `GITHUB_TOKEN_BACKEND`: Backend Developer 的 GitHub Token
-- `GITHUB_TOKEN_FRONTEND`: Frontend Developer 的 GitHub Token
-- `GITHUB_TOKEN_QA`: QA Engineer 的 GitHub Token
-- `GITHUB_TOKEN_DEVOPS`: DevOps Engineer 的 GitHub Token
+- `GITHUB_TOKEN_PM_01`: 產品經理的 GitHub Token
+- `GITHUB_TOKEN_BACKEND_01`: 後端開發者的 GitHub Token
+- `GITHUB_TOKEN_FRONTEND_01`: 前端開發者的 GitHub Token
+- `GITHUB_TOKEN_DEVOPS_01`: DevOps 工程師的 GitHub Token
+- `OPENAI_API_KEY`: OpenAI API 密鑰
+- `ANTHROPIC_API_KEY`: Anthropic API 密鑰
+- `GEMINI_API_KEY`: Gemini API 密鑰
 
-## 🧪 測試模式
+## �� 環境管理
 
-目前所有腳本運行在 **測試模式** 下：
-
-- ✅ 無需配置複雜的外部服務
-- ✅ 工作流可立即運行
-- ✅ 所有數據都是預設的測試數據
-- ✅ 便於開發和測試
-
-### 測試腳本列表
-
-- `check_pending_tasks.py` - 檢查待處理任務
-- `trigger_ai_containers.py` - 觸發 AI 容器
-- `notify_role_assignment.py` - 通知角色分配
-- `handle_pr_events.py` - 處理 PR 事件
-- `check_system_health.py` - 檢查系統健康狀態
-- `create_backup.py` - 創建系統備份
-- `update_documentation.py` - 更新項目文檔
-
-### 運行測試
-
+### 生產環境
 ```bash
-# 測試所有腳本
-python3 scripts/test_scripts.py
+# 啟動生產環境
+./scripts/switch_env.sh production
 
-# 測試單個腳本
-python3 scripts/check_pending_tasks.py
+# 檢查狀態
+./scripts/switch_env.sh status
+
+# 驗證配置
+./scripts/switch_env.sh validate
+```
+
+### 測試環境
+```bash
+# 啟動測試環境
+./scripts/switch_env.sh test
+
+# 清理環境
+./scripts/switch_env.sh cleanup
 ```
 
 ## 📖 文檔
@@ -153,7 +161,20 @@ python3 scripts/check_pending_tasks.py
 - [工作流程](docs/workflows.md) - 工作流程和協作模式
 - [部署指南](docs/deployment.md) - 部署和配置說明
 - [執行計劃](docs/execution-plan.md) - 項目執行計劃
-- [工作流修復記錄](docs/workflow-fixes.md) - 工作流修復歷史
+
+## 🔒 安全特性
+
+- **配置驗證**: 自動驗證環境變量配置
+- **GitHub Secrets**: 使用 GitHub Secrets 管理敏感信息
+- **環境分離**: 測試和生產環境完全分離
+- **資源限制**: 合理的容器資源配置
+
+## 📈 性能優化
+
+- **簡化架構**: 移除不必要的基礎設施組件
+- **資源優化**: 根據角色需求調整資源配置
+- **快速啟動**: 優化容器啟動時間
+- **配置簡化**: 大幅減少配置複雜度
 
 ## 🤝 貢獻
 

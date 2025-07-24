@@ -1,147 +1,152 @@
 #!/usr/bin/env python3
 """
-Docker Compose Validation Script
-用于在GitHub Actions中验证docker-compose.yml文件，替代docker-compose命令
+Docker Compose 配置文件驗證腳本
+驗證 docker-compose.yml 的配置正確性
 """
 
 import yaml
 import sys
 import os
-from typing import Dict, Any, List
+from typing import Dict, List, Any
 
-def load_yaml_file(file_path: str) -> Dict[str, Any]:
-    """加载YAML文件"""
+def load_docker_compose(file_path: str) -> Dict[str, Any]:
+    """加載 docker-compose.yml 文件"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            return yaml.safe_load(file)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
     except FileNotFoundError:
-        print(f"❌ 文件未找到: {file_path}")
+        print(f"❌ 找不到文件: {file_path}")
         sys.exit(1)
     except yaml.YAMLError as e:
-        print(f"❌ YAML语法错误: {e}")
+        print(f"❌ YAML 解析錯誤: {e}")
         sys.exit(1)
 
-def validate_docker_compose(compose_data: Dict[str, Any]) -> bool:
-    """验证docker-compose.yml内容"""
-    print("🔍 验证docker-compose.yml内容...")
+def validate_services(compose_data: Dict[str, Any]) -> bool:
+    """驗證服務配置"""
+    print("🔍 驗證 docker-compose.yml 內容...")
     
-    # 检查基本结构
-    if not isinstance(compose_data, dict):
-        print("❌ docker-compose.yml应该是字典格式")
-        return False
-    
-    # 检查version字段
-    if 'version' not in compose_data:
-        print("⚠️  未找到version字段（可选）")
-    
-    # 检查services字段
     if 'services' not in compose_data:
-        print("❌ 未找到services字段")
+        print("❌ 缺少 services 配置")
         return False
     
     services = compose_data['services']
-    if not isinstance(services, dict):
-        print("❌ services应该是字典格式")
-        return False
+    print(f"✅ 找到 {len(services)} 個服務")
     
-    print(f"✅ 找到 {len(services)} 个服务")
+    # 檢查核心服務
+    core_services = ['pm-01', 'backend-01', 'frontend-01', 'devops-01']
+    missing_services = []
     
-    # 检查必需的服务
-    required_services = ['postgres', 'grafana', 'prometheus']
-    found_services = []
-    
-    for service_name, service_config in services.items():
-        print(f"  - {service_name}")
-        found_services.append(service_name)
-        
-        # 检查服务配置
-        if not isinstance(service_config, dict):
-            print(f"    ❌ 服务 {service_name} 配置格式错误")
-            continue
-        
-        # 检查image或build字段
-        if 'image' not in service_config and 'build' not in service_config:
-            print(f"    ⚠️  服务 {service_name} 缺少image或build字段")
-        
-        # 检查ports字段
-        if 'ports' in service_config:
-            ports = service_config['ports']
-            if isinstance(ports, list):
+    for service in core_services:
+        if service not in services:
+            missing_services.append(service)
+        else:
+            # 檢查端口配置
+            service_config = services[service]
+            if 'ports' in service_config:
+                ports = service_config['ports']
+                print(f"  - {service}")
                 print(f"    ✅ 端口配置: {ports}")
             else:
-                print(f"    ⚠️  端口配置格式可能有问题: {ports}")
+                print(f"  - {service}")
+                print(f"    ⚠️ 缺少端口配置")
     
-    # 检查必需服务是否存在
-    missing_services = [s for s in required_services if s not in found_services]
     if missing_services:
-        print(f"❌ 缺少必需的服务: {missing_services}")
+        print(f"❌ 缺少核心服務: {missing_services}")
         return False
-    
-    print("✅ 所有必需的服务都已找到")
-    
-    # 检查networks配置
-    if 'networks' in compose_data:
-        networks = compose_data['networks']
-        print(f"✅ 网络配置: {list(networks.keys())}")
-    
-    # 检查volumes配置
-    if 'volumes' in compose_data:
-        volumes = compose_data['volumes']
-        print(f"✅ 卷配置: {list(volumes.keys())}")
     
     return True
 
-def validate_environment_variables():
-    """验证环境变量"""
-    print("\n🔍 验证环境变量...")
+def validate_networks(compose_data: Dict[str, Any]) -> bool:
+    """驗證網絡配置"""
+    if 'networks' not in compose_data:
+        print("⚠️ 缺少 networks 配置")
+        return False
     
-    required_env_vars = [
-        'POSTGRES_DB',
-        'POSTGRES_USER', 
-        'POSTGRES_PASSWORD'
+    networks = compose_data['networks']
+    if 'bee-swarm-network' not in networks:
+        print("⚠️ 缺少 bee-swarm-network 配置")
+        return False
+    
+    print("✅ 網絡配置正確")
+    return True
+
+def validate_volumes(compose_data: Dict[str, Any]) -> bool:
+    """驗證數據卷配置"""
+    if 'volumes' not in compose_data:
+        print("⚠️ 缺少 volumes 配置")
+        return False
+    
+    volumes = compose_data['volumes']
+    expected_volumes = [
+        'pm_01_data', 'pm_01_logs', 'pm_01_config',
+        'backend_01_data', 'backend_01_logs', 'backend_01_config',
+        'frontend_01_data', 'frontend_01_logs', 'frontend_01_config',
+        'devops_01_data', 'devops_01_logs', 'devops_01_config',
+        'shared_workspace'
     ]
     
-    missing_vars = []
-    for var in required_env_vars:
-        if var in os.environ:
-            print(f"✅ {var} = {os.environ[var][:3]}***")
-        else:
-            print(f"❌ {var} 未设置")
-            missing_vars.append(var)
+    missing_volumes = []
+    for volume in expected_volumes:
+        if volume not in volumes:
+            missing_volumes.append(volume)
     
-    if missing_vars:
-        print(f"⚠️  缺少环境变量: {missing_vars}")
+    if missing_volumes:
+        print(f"⚠️ 缺少數據卷: {missing_volumes}")
         return False
+    
+    print("✅ 數據卷配置正確")
+    return True
+
+def validate_resource_limits(compose_data: Dict[str, Any]) -> bool:
+    """驗證資源限制配置"""
+    services = compose_data.get('services', {})
+    
+    for service_name, service_config in services.items():
+        if 'deploy' in service_config and 'resources' in service_config['deploy']:
+            resources = service_config['deploy']['resources']
+            if 'limits' in resources:
+                limits = resources['limits']
+                memory = limits.get('memory', '')
+                cpus = limits.get('cpus', '')
+                print(f"  - {service_name}: 內存={memory}, CPU={cpus}")
+            else:
+                print(f"  - {service_name}: ⚠️ 缺少資源限制")
+        else:
+            print(f"  - {service_name}: ⚠️ 缺少資源配置")
     
     return True
 
 def main():
-    """主函数"""
-    print("🚀 开始验证docker-compose.yml...")
+    """主函數"""
+    print("🚀 開始驗證 docker-compose.yml...")
     
-    # 检查文件是否存在
+    # 檢查文件是否存在
     compose_file = "docker-compose.yml"
     if not os.path.exists(compose_file):
-        print(f"❌ {compose_file} 文件不存在")
+        print(f"❌ 找不到 {compose_file}")
         sys.exit(1)
     
-    # 加载并验证YAML
-    compose_data = load_yaml_file(compose_file)
+    # 加載配置
+    compose_data = load_docker_compose(compose_file)
     
-    # 验证docker-compose内容
-    if not validate_docker_compose(compose_data):
-        print("❌ docker-compose.yml验证失败")
+    # 驗證各個部分
+    services_valid = validate_services(compose_data)
+    networks_valid = validate_networks(compose_data)
+    volumes_valid = validate_volumes(compose_data)
+    
+    print("\n📊 驗證資源配置...")
+    validate_resource_limits(compose_data)
+    
+    # 總結
+    print("\n" + "="*50)
+    if services_valid and networks_valid and volumes_valid:
+        print("✅ docker-compose.yml 驗證成功")
+        print("🎉 配置正確，可以正常部署")
+        sys.exit(0)
+    else:
+        print("❌ docker-compose.yml 驗證失敗")
+        print("🔧 請修復上述問題後重試")
         sys.exit(1)
-    
-    # 验证环境变量
-    validate_environment_variables()
-    
-    print("\n✅ docker-compose.yml验证通过！")
-    print("📋 验证摘要:")
-    print("  - YAML语法正确")
-    print("  - 服务配置完整")
-    print("  - 必需服务存在")
-    print("  - 环境变量已设置")
 
 if __name__ == "__main__":
     main() 

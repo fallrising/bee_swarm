@@ -18,11 +18,10 @@ GitHub Platform (協調中心)
     ↓
 
 AI Containers (角色容器)
-├── Product Manager
-├── Backend Developer
-├── Frontend Developer
-├── QA Engineer
-└── DevOps Engineer
+├── Product Manager (產品經理)
+├── Backend Developer (後端開發者)
+├── Frontend Developer (前端開發者)
+└── DevOps Engineer (運維工程師)
 ```
 
 ## 設計原則
@@ -55,8 +54,8 @@ AI Containers (角色容器)
 1. **任務分解**：Product Manager 將大任務分解為小任務
 2. **開發協作**：Backend/Frontend 開發者並行開發
 3. **代碼審查**：通過 Pull Requests 進行代碼審查
-4. **測試驗證**：QA Engineer 執行測試
-5. **部署上線**：DevOps Engineer 處理部署
+4. **測試驗證**：DevOps Engineer 執行測試和部署
+5. **部署上線**：DevOps Engineer 處理部署和監控
 
 ## 技術實現
 
