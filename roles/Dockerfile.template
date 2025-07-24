@@ -1,5 +1,5 @@
 # 基於VNC Lab的角色容器模板 - MCP Server架構
-FROM fallrising/novnc_llm_cli:latest
+FROM u80250docker/novnc_llm_cli:latest
 
 # 設置工作目錄
 WORKDIR /app
