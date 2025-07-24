@@ -159,6 +159,8 @@ GEMINI_API_KEY=xxxxxxxxxxxxxxxxxxxx
 - [架構設計](docs/architecture.md) - 系統架構和設計原則
 - [角色定義](docs/roles.md) - AI 角色定義和職責
 - [工作流程](docs/workflows.md) - 工作流程和協作模式
+- [GitHub 敏捷開發指南](docs/github-agile-methodology.md) - GitHub 敏捷開發工作流方法論
+- [GitHub 進階自動化](docs/github-agile-advanced.md) - GitHub 全功能敏捷開發工作流擴展
 - [部署指南](docs/deployment.md) - 部署和配置說明
 - [執行計劃](docs/execution-plan.md) - 項目執行計劃
 
