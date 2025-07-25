@@ -158,7 +158,7 @@ scripts/quality-metrics.sh      # 質量指標
 ## 🚀 快速開始行動計劃
 
 ### 本週行動（管理層）
-1. **閱讀核心文檔**：[CONTEXT.md](../../CONTEXT.md) + [混合架構設計](../混合架構設計.md)
+1. **閱讀核心文檔**：[CONTEXT.md](../../CONTEXT.md) + [混合架構設計](../02-architecture/hybrid-architecture.md)
 2. **評估團隊準備度**：技術能力、接受度調查
 3. **制定初步預算**：基於團隊規模和需求
 
@@ -193,7 +193,7 @@ A: 所有代碼在企業 GitHub 環境中，AI 處理通過加密 API，符合�
 ### 內部資源
 - **技術文檔**：[PROJECT_INDEX.md](../../PROJECT_INDEX.md)
 - **實施指南**：[QUICK_START.md](../../QUICK_START.md)
-- **最佳實踐**：[Gemini CLI 最佳實踐](../../Gemini-CLI-最佳實踐.md)
+- **最佳實踐**：[Gemini CLI 最佳實踐](../03-implementation/gemini-cli-best-practices.md)
 
 ### 外部支持
 - **技術支持**：[GitHub Issues](https://github.com/fallrising/bee_swarm/issues)

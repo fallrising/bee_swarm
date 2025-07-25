@@ -40,18 +40,16 @@
 - [4.6 角色間協作模式](docs/04-角色定義/角色協作模式.md)
 
 #### 第5章 模擬工具
-- [5.1 SimPy 協作模擬器](docs/05-模擬工具/SimPy模擬器.md)
-- [5.2 支持的模擬場景](docs/05-模擬工具/模擬場景.md)
-- [5.3 模擬結果分析方法](docs/05-模擬工具/效果分析.md)
-- [5.4 模擬工具使用指南](docs/05-模擬工具/使用指南.md)
+- [5.1 SimPy 協作模擬器](docs/05-simulation/simulator-guide.md)
+- [5.2 模擬結果分析方法](docs/05-simulation/analysis-guide.md)
 
 ### 🚀 第三部分：實踐指南
 
 #### 第6章 快速開始
-- [6.1 5分鐘快速體驗](docs/06-使用指南/快速開始.md)
-- [6.2 環境配置指南](docs/06-使用指南/配置指南.md)
-- [6.3 使用最佳實踐](docs/06-使用指南/最佳實踐.md)
-- [6.4 常見問題與故障排除](docs/06-使用指南/故障排除.md)
+- [6.1 快速開始體驗](QUICK_START.md)
+- [6.2 環境配置指南](docs/03-implementation/configuration-guide.md)
+- [6.3 部署指南](docs/03-implementation/deployment-guide.md)
+- [6.4 Gemini CLI 最佳實踐](docs/03-implementation/gemini-cli-best-practices.md)
 
 #### 第7章 部署與運維
 - [7.1 環境準備要求](docs/07-部署運維/環境準備.md)
@@ -62,9 +60,7 @@
 ### 📝 第四部分：應用案例
 
 #### 第8章 實際應用案例
-- [8.1 教育遊戲項目開發案例](docs/08-應用案例/教育遊戲項目.md)
-- [8.2 其他應用場景](docs/08-應用案例/其他案例.md)
-- [8.3 案例分析與經驗總結](docs/08-應用案例/案例分析.md)
+- [8.1 教育遊戲項目開發案例](docs/04-use-cases/education-game-project.md)
 
 ### 📚 附錄
 

@@ -102,7 +102,7 @@
 - `roles/Dockerfile.template`：通用的 Dockerfile 模板
 
 ### 3. 文檔
-- `docs/mcp-architecture.md`：MCP Server 架構說明
+- `docs/02-architecture/hybrid-architecture.md`：MCP Server 架構說明
 - `docs/dockerfile-migration-summary.md`：本遷移總結
 
 ## 使用方式
