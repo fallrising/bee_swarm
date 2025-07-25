@@ -233,4 +233,4 @@ Task: [TASK] 維護/支援任務描述
 - **Task**: 系統維護、文檔更新等獨立任務
 
 ### **與現有工作流的協調**
-請參考 [`docs/workflows.md`](./workflows.md) 了解專案特定的技術工作流程，本文檔提供的是更高層級的專案管理方法論。 
+請參考 [`docs/02-architecture/communication-patterns.md`](./02-architecture/communication-patterns.md) 了解專案特定的技術工作流程，本文檔提供的是更高層級的專案管理方法論。 
