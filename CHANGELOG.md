@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新增統一版本蜂群模擬程序 (`bee-swarm-unified-simulation.py`)
 - 新增綜合角色系統，包含11個專業AI角色
 - 新增工作流程模擬腳本，支持 GitHub Actions 工作流
-- 新增 MCP Server 架構文檔 (`mcp-architecture.md`)
+- 新增 MCP Server 架構文檔 (`docs/02-architecture/hybrid-architecture.md`)
 - 新增 Dockerfile 遷移總結文檔 (`dockerfile-migration-summary.md`)
 - 新增基礎映像構建腳本 (`build_base_image.sh`)
 - 新增 Dockerfile 模板 (`Dockerfile.template`)

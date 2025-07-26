@@ -121,8 +121,8 @@ bee_swarm/
 │   │   ├── 02-requirements/            # 需求分析
 │   │   ├── 03-architecture/            # 系統架構設計
 │   │   └── 04-development/             # 開發工作流
-│   ├── architecture.md                 # AI 角色協作架構
-│   ├── workflows.md                   # 異步協作流程
+│   ├── 02-architecture/               # AI 角色協作架構
+│   ├── 02-architecture/               # 異步協作流程
 │   └── github-agile-methodology.md    # GitHub 敏捷開發方法論
 ├── roles/                             # 🤖 AI 角色定義
 │   ├── product_manager/prompt.md      # 產品經理角色設計
@@ -150,23 +150,23 @@ bee_swarm/
 
 ### 🚀 快速入口
 
-- **🆕 新手用戶**：[核心理念](docs/01-項目背景/核心理念.md) → [CONTEXT.md](CONTEXT.md)
-- **🛠️ 技術實施**：[官方快速開始指南.md](官方快速開始指南.md) → [混合架構設計](docs/混合架構設計.md)
-- **📊 項目管理**：[文件檢查計劃.md](文件檢查計劃.md)
-- **🔬 研究學習**：[模擬工具](docs/05-模擬工具/) → [應用案例](docs/08-應用案例/)
+- **🆕 新手用戶**：[PROJECT_INDEX.md](PROJECT_INDEX.md) → [CONTEXT.md](CONTEXT.md)
+- **🛠️ 技術實施**：[QUICK_START.md](QUICK_START.md) → [混合架構設計](docs/02-architecture/hybrid-architecture.md)
+- **📊 項目管理**：[PROJECT_INDEX.md](PROJECT_INDEX.md)
+- **🔬 研究學習**：[模擬工具](docs/05-simulation/) → [應用案例](docs/04-use-cases/)
 
 ---
 
 ## 🚀 快速開始
 
-**⚡ 推薦路徑**：[官方快速開始指南.md](官方快速開始指南.md)（基於 Google Gemini CLI）
+**⚡ 推薦路徑**：[QUICK_START.md](QUICK_START.md)（基於 Google Gemini CLI）
 
 ### 1. 了解概念
 ```bash
 # 閱讀核心概念文檔
 docs/education-game-project/bee-swarm-context.md
-docs/architecture.md
-docs/workflows.md
+docs/02-architecture/
+docs/02-architecture/communication-patterns.md
 ```
 
 ### 2. 體驗模擬
@@ -227,11 +227,11 @@ docs/github-agile-advanced.md
 
 ## 📖 深入了解
 
-- [項目上下文](docs/education-game-project/bee-swarm-context.md) - 了解項目背景與約束
-- [架構設計](docs/architecture.md) - AI 角色協作架構詳解  
-- [工作流程](docs/workflows.md) - 異步協作流程設計
-- [模擬指南](docs/education-game-project/09-process-simulation/integration-guide.md) - 模擬工具使用說明
-- [角色設計](docs/roles.md) - AI 角色定義與職責邊界
+- [項目上下文](CONTEXT.md) - 了解項目背景與約束
+- [架構設計](docs/02-architecture/) - AI 角色協作架構詳解  
+- [工作流程](docs/02-architecture/communication-patterns.md) - 異步協作流程設計
+- [模擬指南](docs/05-simulation/scripts/integration-guide.md) - 模擬工具使用說明
+- [角色設計](docs/02-architecture/role-design.md) - AI 角色定義與職責邊界
 
 ## 🤝 貢獻
 
