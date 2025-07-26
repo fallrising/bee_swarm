@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- 移除 `scripts/` 目錄及所有部署運維相關腳本，專注於概念設計
+- 清理 README.md 和 README.en.md 中不準確的"可移除文件"說明章節
+
+### Changed
+- 完成所有 Git commit 消息的英文化，提升項目國際化水平
+- 優化項目結構說明，更準確反映當前專注於概念設計的定位
+
 ## [0.5.0] - 2025-07-26
 
 ### Added

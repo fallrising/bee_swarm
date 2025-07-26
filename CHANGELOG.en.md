@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- Removed `scripts/` directory and all deployment/operations related scripts to focus on concept design
+- Cleaned up inaccurate "removable files" description sections in README.md and README.en.md
+
+### Changed
+- Completed English translation of all Git commit messages, improving project internationalization
+- Optimized project structure description to better reflect current concept design focus
+
 ## [0.5.0] - 2025-07-26
 
 ### Added

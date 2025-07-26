@@ -168,16 +168,7 @@ bee_swarm/
 └── LICENSE                            # 📄 開源許可證
 ```
 
-### 🗑️ 可以移除的資料夾/文件
-```
-# 以下為實際部署相關，概念設計項目不需要
-├── scripts/                  ❌ 部署運維腳本
-├── docker-compose.yml        ❌ 容器編排配置  
-├── docker-compose.test.yml   ❌ 測試環境配置
-├── monitoring/               ❌ 監控配置
-├── env.example              ❌ 環境變量範例
-└── .venv/                   ❌ Python 虛擬環境
-```
+
 
 ## 📚 文檔導航
 

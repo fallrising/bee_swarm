@@ -168,16 +168,7 @@ bee_swarm/
 └── LICENSE                            # 📄 Open source license
 ```
 
-### 🗑️ Removable Folders/Files
-```
-# The following are deployment-related, not needed for concept design projects
-├── scripts/                  ❌ Deployment and operations scripts
-├── docker-compose.yml        ❌ Container orchestration configuration  
-├── docker-compose.test.yml   ❌ Testing environment configuration
-├── monitoring/               ❌ Monitoring configuration
-├── env.example              ❌ Environment variables template
-└── .venv/                   ❌ Python virtual environment
-```
+
 
 ## 📚 Documentation Navigation
 
