@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-07-26
+
+### Added
+- Complete description of 10 AI roles, including core roles and extended roles
+- Android Developer, iOS Developer, Unity Developer, Visual Designer, Data Engineer roles
+- Internationalized complete guide file (`bee-swarm-complete-guide.md`)
+- Internationalized appendix file system (`docs/09-appendix/`)
+
+### Changed
+- 🌐 **Filename Internationalization**: Changed all Chinese filenames to English filenames to enhance international support
+- 📁 **Directory Restructuring**: `docs/09-附錄/` → `docs/09-appendix/`
+- 📋 **Role System Expansion**: Expanded from 4 core roles to 10 roles (4 core + 6 extended)
+- 🔗 **Reference Fixes**: Fixed all Chinese filename references to English filenames in all files
+- 📖 **README Updates**: Updated README.md and README.en.md with complete role descriptions
+
+### Removed
+- Cleaned up staging files: `health-check.md`, `PR-DESCRIPTION.md`
+- All Chinese filenames, unified to use English filenames
+- Incorrect references to non-existent files
+
+### Fixed
+- Fixed path reference errors in all documentation
+- Ensured all links point to actually existing files
+- Consistency issues between Chinese and English version files
+
+## [0.4.1] - 2025-07-20
+
 ### Added
 - Enhanced Bee Swarm documentation system and feature expansion
 - Added enhanced bee swarm simulation system for educational game project (`enhanced-bee-swarm-simulation.py`)
@@ -76,7 +103,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Environment separation management
 - Password strength checking
 
-## [0.4.0] - 2024-01-20
+## [0.4.1] - 2025-07-20
+
+### Added
+- Complete description of 10 AI roles, including core roles and extended roles
+- Android Developer, iOS Developer, Unity Developer, Visual Designer, Data Engineer roles
+- Internationalized complete guide file (`bee-swarm-complete-guide.md`)
+- Internationalized appendix file system (`docs/09-appendix/`)
+
+### Changed
+- 🌐 **Filename Internationalization**: Changed all Chinese filenames to English filenames to enhance international support
+- 📁 **Directory Restructuring**: `docs/09-附錄/` → `docs/09-appendix/`
+- 📋 **Role System Expansion**: Expanded from 4 core roles to 10 roles (4 core + 6 extended)
+- 🔗 **Reference Fixes**: Fixed all Chinese filename references to English filenames in all files
+- 📖 **README Updates**: Updated README.md and README.en.md with complete role descriptions
+
+### Removed
+- Cleaned up staging files: `health-check.md`, `PR-DESCRIPTION.md`
+- All Chinese filenames, unified to use English filenames
+- Incorrect references to non-existent files
+
+### Fixed
+- Fixed path reference errors in all documentation
+- Ensured all links point to actually existing files
+- Consistency issues between Chinese and English version files
+
+## [0.4.0] - 2025-07-15
 
 ### Added
 - GitHub-Centric architecture design
@@ -114,7 +166,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Leveraged GitHub native security mechanisms
 - Reduced attack surface
 
-## [0.3.0] - 2024-01-15
+## [0.3.0] - 2025-01-15
 
 ### Added
 - Single VPS single role architecture design
@@ -130,7 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized environment variable configuration
 - Adjusted port allocation strategy
 
-## [0.2.0] - 2024-01-15
+## [0.2.0] - 2025-01-10
 
 ### Added
 - Role persistent container architecture design
@@ -149,7 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Redesigned documentation structure
 - Optimized README.md architecture description
 
-## [0.1.0] - 2024-01-10
+## [0.1.0] - 2025-01-05
 
 ### Added
 - Project initialization
