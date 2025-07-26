@@ -6,19 +6,19 @@ This chapter provides comprehensive reference materials for the Bee Swarm projec
 
 ## 📖 Chapter Contents
 
-### 9.1 [API Reference](./API參考.en.md)
+### 9.1 [API Reference](./api-reference.en.md)
 - **RESTful API**: Complete HTTP API interface documentation
 - **GraphQL API**: GraphQL query and mutation interfaces
 - **WebSocket API**: Real-time communication interface specifications
 - **SDK Documentation**: Multi-language SDK usage guides
 
-### 9.2 [Glossary](./名詞解釋.en.md)
+### 9.2 [Glossary](./glossary.en.md)
 - **Core Concepts**: Explanations of key terms used in the project
 - **Technical Terminology**: Related technical concepts and abbreviation explanations
 - **Business Terms**: Professional terminology in the business domain
 - **Comparison Table**: Chinese-English terminology comparison and definitions
 
-### 9.3 [Change Log](./變更日誌.en.md)
+### 9.3 [Change Log](./changelog.en.md)
 - **Version History**: Detailed version update records
 - **Feature Changes**: Added, modified, and removed features
 - **Bug Fixes**: Important defect fix records
@@ -30,7 +30,7 @@ This chapter provides comprehensive reference materials for the Bee Swarm projec
 - **Troubleshooting**: Diagnosis and solutions for common failures
 - **Performance Optimization**: Performance issue analysis and optimization
 
-### 9.5 [Contributing Guide](./貢獻指南.en.md)
+### 9.5 [Contributing Guide](./contributing-guide.en.md)
 - **Participation Methods**: How to contribute to the project
 - **Development Standards**: Code style and development standards
 - **Submission Process**: Pull Request and Issue processes
@@ -39,10 +39,10 @@ This chapter provides comprehensive reference materials for the Bee Swarm projec
 ## 🔍 Quick Reference
 
 ### 🎯 Search by Function
-- **System Configuration**: [Configuration Guide](../03-implementation/configuration-guide.en.md) + [API Reference](./API參考.en.md#configuration-api)
-- **Role Management**: [Role Definition](../roles/) + [API Reference](./API參考.en.md#role-api)
-- **Project Management**: [Workflow](../02-architecture/) + [API Reference](./API參考.en.md#project-api)
-- **Monitoring & Operations**: [Monitoring Guide](../03-implementation/) + [API Reference](./API參考.en.md#monitoring-api)
+- **System Configuration**: [Configuration Guide](../03-implementation/configuration-guide.en.md) + [API Reference](./api-reference.en.md#configuration-api)
+- **Role Management**: [Role Definition](../roles/) + [API Reference](./api-reference.en.md#role-api)
+- **Project Management**: [Workflow](../02-architecture/) + [API Reference](./api-reference.en.md#project-api)
+- **Monitoring & Operations**: [Monitoring Guide](../03-implementation/) + [API Reference](./api-reference.en.md#monitoring-api)
 
 ### 🐛 Search by Problem Type
 - **Installation Issues**: [Quick Start](../01-getting-started/) + [FAQ](./FAQ.en.md#installation-deployment)
@@ -51,10 +51,10 @@ This chapter provides comprehensive reference materials for the Bee Swarm projec
 - **Integration Issues**: [GitHub Best Practices](../03-implementation/) + [FAQ](./FAQ.en.md#integration-issues)
 
 ### 📚 Search by Role
-- **Product Manager**: [Product Manager](../roles/product_manager/) + [API Reference](./API參考.en.md#product-management-api)
-- **Developers**: [Developer Roles](../roles/) + [API Reference](./API參考.en.md#development-api)
-- **Operations**: [Deployment Operations](../03-implementation/) + [API Reference](./API參考.en.md#operations-api)
-- **System Administrator**: [Monitoring Guide](../03-implementation/) + [API Reference](./API參考.en.md#admin-api)
+- **Product Manager**: [Product Manager](../roles/product_manager/) + [API Reference](./api-reference.en.md#product-management-api)
+- **Developers**: [Developer Roles](../roles/) + [API Reference](./api-reference.en.md#development-api)
+- **Operations**: [Deployment Operations](../03-implementation/) + [API Reference](./api-reference.en.md#operations-api)
+- **System Administrator**: [Monitoring Guide](../03-implementation/) + [API Reference](./api-reference.en.md#admin-api)
 
 ## 📋 Resource Directory
 

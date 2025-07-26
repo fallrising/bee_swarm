@@ -6,31 +6,31 @@
 
 ## 📖 章節目錄
 
-### 9.1 [API 參考](./API參考.md)
+### 9.1 [API 參考](./api-reference.md)
 - **RESTful API**: 完整的 HTTP API 接口文檔
 - **GraphQL API**: GraphQL 查詢和變更接口
 - **WebSocket API**: 實時通信接口說明
 - **SDK 文檔**: 各語言 SDK 使用指南
 
-### 9.2 [名詞索引](./名詞索引.md)
+### 9.2 [名詞索引](./glossary.md)
 - **核心概念**: 項目中使用的關鍵術語解釋
 - **技術術語**: 相關技術概念和縮寫說明
 - **業務術語**: 業務領域專業名詞解釋
 - **對照表**: 中英文術語對照和釋義
 
-### 9.3 [變更日誌](./變更日誌.md)
+### 9.3 [變更日誌](./changelog.md)
 - **版本歷史**: 詳細的版本更新記錄
 - **功能變更**: 新增、修改和移除的功能
 - **Bug 修復**: 重要缺陷修復記錄
 - **升級指南**: 版本升級的詳細步驟
 
-### 9.4 [FAQ](./FAQ.md)
+### 9.4 [FAQ](../../QUICK_START.md#故障排除)
 - **安裝部署**: 常見安裝和部署問題
-- **配置使用**: 配置和使用相關問題
+- **配置使用**: 配置和使用相關問題  
 - **故障排查**: 常見故障的診斷和解決
 - **性能優化**: 性能問題的分析和優化
 
-### 9.5 [貢獻指南](./貢獻指南.md)
+### 9.5 [貢獻指南](../../README.md#貢獻)
 - **參與方式**: 如何為項目做出貢獻
 - **開發規範**: 代碼風格和開發標準
 - **提交流程**: Pull Request 和 Issue 流程
@@ -39,22 +39,22 @@
 ## 🔍 快速查找
 
 ### 🎯 按功能查找
-- **系統配置**: [配置指南](../06-使用指南/配置指南.md) + [API 參考](./API參考.md#配置API)
-- **角色管理**: [角色定義](../04-角色定義/) + [API 參考](./API參考.md#角色API)
-- **項目管理**: [工作流程](../03-工作流程/) + [API 參考](./API參考.md#項目API)
-- **監控運維**: [監控指南](../06-使用指南/監控指南.md) + [API 參考](./API參考.md#監控API)
+- **系統配置**: [配置指南](../03-implementation/configuration-guide.md) + [API 參考](./api-reference.md#配置API)
+- **角色管理**: [角色定義](../../roles/) + [API 參考](./api-reference.md#角色API)
+- **項目管理**: [工作流程](../02-architecture/) + [API 參考](./api-reference.md#項目API)
+- **監控運維**: [部署指南](../03-implementation/deployment-guide.md) + [API 參考](./api-reference.md#監控API)
 
 ### 🐛 按問題類型查找
-- **安裝問題**: [快速開始](../06-使用指南/快速開始.md) + [FAQ](./FAQ.md#安裝部署)
-- **配置問題**: [配置指南](../06-使用指南/配置指南.md) + [FAQ](./FAQ.md#配置使用)
-- **性能問題**: [性能指標](../05-模擬工具/性能指標評估.md) + [FAQ](./FAQ.md#性能優化)
-- **集成問題**: [GitHub 最佳實踐](../06-使用指南/GitHub最佳實踐.md) + [FAQ](./FAQ.md#集成問題)
+- **安裝問題**: [快速開始](../01-getting-started/) + [故障排除](../../QUICK_START.md#故障排除)
+- **配置問題**: [配置指南](../03-implementation/configuration-guide.md) + [配置說明](../03-implementation/configuration-guide.md)
+- **性能問題**: [模擬分析](../05-simulation/) + [性能分析](../05-simulation/analysis-guide.md)
+- **集成問題**: [GitHub 最佳實踐](../03-implementation/github-agile-methodology.md) + [集成指南](../05-simulation/scripts/integration-guide.md)
 
 ### 📚 按角色查找
-- **產品經理**: [產品經理](../04-角色定義/產品經理.md) + [API 參考](./API參考.md#產品管理API)
-- **開發人員**: [開發者角色](../04-角色定義/) + [API 參考](./API參考.md#開發API)
-- **運維人員**: [部署運維](../07-部署運維/) + [API 參考](./API參考.md#運維API)
-- **系統管理員**: [監控指南](../06-使用指南/監控指南.md) + [API 參考](./API參考.md#管理API)
+- **產品經理**: [產品經理](../../roles/product_manager/) + [API 參考](./api-reference.md#產品管理API)
+- **開發人員**: [開發者角色](../../roles/) + [API 參考](./api-reference.md#開發API)
+- **運維人員**: [部署運維](../03-implementation/deployment-guide.md) + [API 參考](./api-reference.md#運維API)
+- **系統管理員**: [部署指南](../03-implementation/) + [API 參考](./api-reference.md#管理API)
 
 ## 📋 資源目錄
 

@@ -104,7 +104,7 @@
 #### 實驗設置
 ```python
 # 運行協作模式對比實驗
-cd docs/05-模擬工具/scripts
+cd docs/05-simulation/scripts
 python scenario_comparison.py --mode collaboration_patterns
 
 # 期望輸出：
@@ -163,7 +163,7 @@ class CollaborationExperiment:
 #### 實驗腳本
 ```bash
 # 運行混合架構評估
-cd docs/05-模擬工具/scripts
+cd docs/05-simulation/scripts
 python enhanced-bee-swarm-simulation.py --architecture hybrid
 
 # 比較結果

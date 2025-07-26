@@ -130,9 +130,9 @@ class CustomAnalyzer:
 
 ## 🔗 相關文檔
 
-- [SimPy 模擬器](../SimPy模擬器.md) - 了解模擬器架構
-- [模擬場景](../模擬場景.md) - 詳細的場景配置說明
-- [效果分析](../效果分析.md) - 深入的結果分析方法
+- [SimPy 模擬器](../simulator-guide.md) - 了解模擬器架構
+- [模擬場景](../simulator-guide.md) - 詳細的場景配置說明
+- [效果分析](../analysis-guide.md) - 深入的結果分析方法
 
 ## 📝 貢獻指南
 

@@ -15,29 +15,29 @@
 ### 📖 第一部分：項目概覽
 
 #### 第1章 項目背景
-- [1.1 核心理念與價值主張](docs/01-項目背景/核心理念.md)
-- [1.2 項目發展歷程](docs/01-項目背景/發展歷程.md)
-- [1.3 技術約束與設計原則](docs/01-項目背景/設計約束.md)
+- [1.1 項目上下文與約束](CONTEXT.md)
+- [1.2 項目指南索引](PROJECT_INDEX.md)
+- [1.3 快速開始體驗](QUICK_START.md)
 
 #### 第2章 系統架構
-- [2.1 GitHub-Centric 整體架構](docs/02-系統架構/整體架構.md)
-- [2.2 AI 角色系統設計](docs/02-系統架構/AI角色設計.md)
-- [2.3 通信與協調機制](docs/02-系統架構/通信協調.md)
+- [2.1 混合架構設計](docs/02-architecture/hybrid-architecture.md)
+- [2.2 AI 角色系統設計](docs/02-architecture/role-design.md)
+- [2.3 通信與協調機制](docs/02-architecture/communication-patterns.md)
 
 #### 第3章 工作流程
-- [3.1 異步協作流程設計](docs/03-工作流程/異步協作流程.md)
-- [3.2 基於 GitHub 的任務管理](docs/03-工作流程/任務管理.md)
-- [3.3 狀態同步與事件驅動](docs/03-工作流程/狀態同步.md)
+- [3.1 配置指南](docs/03-implementation/configuration-guide.md)
+- [3.2 部署指南](docs/03-implementation/deployment-guide.md)
+- [3.3 執行計劃](docs/03-implementation/execution-plan.md)
 
 ### 🤖 第二部分：角色與工具
 
 #### 第4章 AI 角色定義
-- [4.1 角色系統概覽](docs/04-角色定義/角色概覽.md)
-- [4.2 產品經理 (Product Manager)](docs/04-角色定義/產品經理.md)
-- [4.3 後端開發者 (Backend Developer)](docs/04-角色定義/後端開發者.md)
-- [4.4 前端開發者 (Frontend Developer)](docs/04-角色定義/前端開發者.md)
-- [4.5 DevOps 工程師 (DevOps Engineer)](docs/04-角色定義/DevOps工程師.md)
-- [4.6 角色間協作模式](docs/04-角色定義/角色協作模式.md)
+- [4.1 角色系統概覽](roles/README.md)
+- [4.2 產品經理 (Product Manager)](roles/product_manager/prompt.md)
+- [4.3 後端開發者 (Backend Developer)](roles/backend_developer/prompt.md)
+- [4.4 前端開發者 (Frontend Developer)](roles/frontend_developer/prompt.md)
+- [4.5 DevOps 工程師 (DevOps Engineer)](roles/devops_engineer/prompt.md)
+- [4.6 更多角色](roles/)
 
 #### 第5章 模擬工具
 - [5.1 SimPy 協作模擬器](docs/05-simulation/simulator-guide.md)
@@ -52,23 +52,24 @@
 - [6.4 Gemini CLI 最佳實踐](docs/03-implementation/gemini-cli-best-practices.md)
 
 #### 第7章 部署與運維
-- [7.1 環境準備要求](docs/07-部署運維/環境準備.md)
-- [7.2 Docker 容器部署](docs/07-部署運維/容器部署.md)
-- [7.3 監控與運維指南](docs/07-部署運維/監控運維.md)
+- [7.1 入門指南](docs/01-getting-started/)
+- [7.2 配置指南](docs/03-implementation/configuration-guide.md)
+- [7.3 部署指南](docs/03-implementation/deployment-guide.md)
 - [7.4 輔助腳本使用](scripts/README.md)
 
 ### 📝 第四部分：應用案例
 
 #### 第8章 實際應用案例
 - [8.1 教育遊戲項目開發案例](docs/04-use-cases/education-game-project.md)
+- [8.2 完整項目案例](docs/education-game-project/)
 
 ### 📚 附錄
 
 #### 第9章 參考資料
-- [9.1 GitHub API 使用參考](docs/09-附錄/API參考.md)
-- [9.2 專業名詞解釋](docs/09-附錄/名詞解釋.md)
-- [9.3 項目變更歷史](docs/09-附錄/變更日誌.md)
-- [9.4 相關參考資料](docs/09-附錄/參考資料.md)
+- [9.1 GitHub API 使用參考](docs/09-appendix/api-reference.md)
+- [9.2 專業名詞解釋](docs/09-appendix/glossary.md)
+- [9.3 項目變更歷史](docs/09-appendix/changelog.md)
+- [9.4 相關參考資料](docs/09-appendix/references.md)
 
 ---
 

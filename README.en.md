@@ -14,30 +14,65 @@ Bee Swarm is a **concept design and simulation tool** for:
 ## 🏗️ Core Concepts
 
 ### AI Agent Design
+
+#### 🎯 Core Roles (4 roles)
 ```
 Product Manager (PM)
 ├── Requirements analysis and breakdown
 ├── Task assignment and prioritization
 ├── Cross-role communication coordination
-└── Project progress management
+├── Project progress management
+└── Quality control
 
 Frontend Developer
 ├── UI/UX implementation
 ├── User interaction design
 ├── Frontend architecture design
+├── Frontend testing
 └── Performance optimization
 
 Backend Developer  
 ├── API design and implementation
 ├── Database design
 ├── Business logic development
+├── Unit testing
 └── System architecture design
 
 DevOps Engineer
 ├── Deployment workflow design
 ├── Monitoring and alerting
 ├── Infrastructure management
-└── CI/CD processes
+├── CI/CD processes
+├── Testing automation
+└── Security management
+```
+
+#### 🔧 Extended Roles (6 roles)
+```
+Android Developer
+├── Android app development
+├── Mobile architecture design
+└── Android SDK integration
+
+iOS Developer
+├── iOS app development
+├── Mobile architecture design
+└── iOS SDK integration
+
+Unity Developer
+├── Game development
+├── 3D application development
+└── Interactive experience design
+
+Visual Designer
+├── UI/UX design
+├── Brand design
+└── Design systems
+
+Data Engineer
+├── Data infrastructure
+├── Data pipeline construction
+└── Data quality management
 ```
 
 ### GitHub-Centric Collaboration Workflow
