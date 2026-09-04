@@ -1,3 +1,12 @@
+> ## ⚠️ 此 repository 已退役（2026-09-04）
+>
+> 內容已遷移至 [`newclear`](https://github.com/fallrising/newclear) 的 [`labs/bee-swarm`](https://github.com/fallrising/newclear/tree/main/labs/bee-swarm)。
+>
+> 本 repository 保留為**唯讀歷史存放地**——完整 git 歷史仍在此處,
+> 但新的開發請至後繼者。
+
+---
+
 # Bee Swarm - AI 角色異步協作設計框架
 
 一個基於 GitHub 的 AI 團隊協作概念設計與模擬框架，專注於探索 AI 角色如何透過異步分工實現高效協作。
